@@ -17,7 +17,7 @@ export const layoutsCSS = css`
         grid-template-areas:
             "header"
             "body";
-        grid-template-rows: 1.5fr 8.5fr;
+        grid-template-rows: 20vh 80vh;
         grid-template-columns: 1fr;
         grid-gap: 0rem;
     }

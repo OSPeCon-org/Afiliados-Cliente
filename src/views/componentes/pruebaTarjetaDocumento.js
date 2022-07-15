@@ -9,6 +9,7 @@ import { gridLayout } from "@brunomon/template-lit/src/views/css/gridLayout";
 import { isInLayout } from "../../redux/screens/screenLayouts";
 import { tarjetaDocumento } from "../css/tarjetaDocumento";
 import { button } from "@brunomon/template-lit/src/views/css/button";
+import { RutaControl } from "./ruta";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -37,37 +38,38 @@ export class pruebaTarjetaDocumento extends connect(store, SCREEN, MEDIA_CHANGE)
             ${button}
             :host {
                 display: grid;
-                align-content: start;
-                justify-content: center;
+                grid-template-rows: auto 1fr;
+            }
+            .grilla {
                 overflow-y: auto;
-                gap: 1rem;
-                padding: 1rem;
-                height: 70vh;
             }
         `;
     }
 
     render() {
         return html`
-            ${this.items.map((item) => {
-                return html`
-                    <div class="tarjeta" tipo=${item.imagen}>
-                        <div titulo>
-                            <div>${item.titulo}</div>
-                            <div>${HELP}</div>
+            <ruta-control></ruta-control>
+            <div class="grid row grilla itemsCenter">
+                ${this.items.map((item) => {
+                    return html`
+                        <div class="tarjeta" tipo=${item.imagen}>
+                            <div titulo>
+                                <div>${item.titulo}</div>
+                                <div help>${HELP}</div>
+                            </div>
+                            <div estado>
+                                <div>${item.estado}</div>
+                                <div copete>${item.copete}</div>
+                            </div>
+                            ${this.svgs[item.imagen]}
+                            <div acciones>
+                                <button link disabled>${item.accion2}</button>
+                                <button link action>${item.accion1}</button>
+                            </div>
                         </div>
-                        <div estado>
-                            <div>${item.estado}</div>
-                            <div copete>${item.copete}</div>
-                        </div>
-                        ${this.svgs[item.imagen]}
-                        <div acciones>
-                            <button link disabled>${item.accion2}</button>
-                            <button link action>${item.accion1}</button>
-                        </div>
-                    </div>
-                `;
-            })}
+                    `;
+                })}
+            </div>
         `;
     }
 

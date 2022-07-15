@@ -68,12 +68,14 @@ export const tarjetaDocumento = css`
     .accion[secundaria] {
         color: var(--secundario);
     }
-
+    .tarjeta div[help] svg {
+        width: 1.5rem !important;
+    }
     .tarjeta svg:not(:first-child) {
         height: auto;
         display: block;
         margin: auto;
-        width: 50%;
+        width: 70%;
         overflow: hidden;
     }
 
@@ -92,7 +94,6 @@ export const tarjetaDocumento = css`
     .tarjeta[tipo="UPLOAD"] svg {
         color: rgba(28, 59, 120, 0.15);
         fill: rgba(28, 59, 120, 0.15);
-        width: 60%;
     }
 
     .tarjeta[dark] {
