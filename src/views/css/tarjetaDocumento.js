@@ -46,7 +46,7 @@ export const tarjetaDocumento = css`
         color: var(--on-formulario-disabled);
         grid-auto-flow: row;
     }
-    .copete {
+    .tarjeta div[copete] {
         font-size: 1rem;
         text-align: center;
     }
@@ -77,19 +77,19 @@ export const tarjetaDocumento = css`
         overflow: hidden;
     }
 
-    .tarjeta[ok] svg {
+    .tarjeta[tipo="OK"] svg {
         color: rgba(89, 166, 13, 0.21);
         fill: rgba(89, 166, 13, 0.21);
     }
-    .tarjeta[cancel] svg {
+    .tarjeta[tipo="CANCEL"] svg {
         color: rgba(255, 0, 0, 0.14);
         fill: rgba(255, 0, 0, 0.14);
     }
-    .tarjeta[settings] svg {
+    .tarjeta[tipo="SETTINGS"] svg {
         color: rgba(213, 217, 30, 0.36);
         fill: rgba(213, 217, 30, 0.36);
     }
-    .tarjeta[upload] svg {
+    .tarjeta[tipo="UPLOAD"] svg {
         color: rgba(28, 59, 120, 0.15);
         fill: rgba(28, 59, 120, 0.15);
         width: 60%;

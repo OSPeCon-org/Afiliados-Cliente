@@ -21,13 +21,13 @@ export class pruebaTarjetaDocumento extends connect(store, SCREEN, MEDIA_CHANGE)
         this.benef = {};
         this.nombre = "";
         this.items = [
-            { nombre: "F572", imagen: "http://localhost/AfiliadosWebImagenes/pdf.jpg", info: "24-01-2019" },
-            { nombre: "DDJJ", imagen: "http://localhost/AfiliadosWebImagenes/doc.jpg", info: "30-09-2020" },
-            { nombre: "Monotributo", imagen: "http://localhost/AfiliadosWebImagenes/2463730.png", info: "01-04-2021" },
-            { nombre: "F152", imagen: "http://localhost/AfiliadosWebImagenes/docs.jpg", info: "12-01-2022" },
-            { nombre: "DNI (familiar a cargo)", imagen: "http://localhost/AfiliadosWebImagenes/dni.jpg", info: "21-05-2022" },
+            { titulo: "Documento frente", imagen: "OK", estado: "ACEPTADO", copete: "Aprobado", accion1: "VER DOCUMENTO", accion2: "" },
+            { titulo: "Documento dorso", imagen: "CANCEL", estado: "RECHAZADO", copete: "Motivo del rechazo", accion1: "NUEVO DOCUMENTO", accion2: "VER DOCUMENTO" },
+            { titulo: "Constancia de CUIL", imagen: "SETTINGS", estado: "EN PROCESO", copete: "A la espera de aprobación", accion1: "VER DOCUMENTO", accion2: "" },
+            { titulo: "Formulario F154", imagen: "UPLOAD", estado: "PENDIENTE", copete: "Debe subir el documento", accion1: "NUEVO DOCUMENTO", accion2: "" },
         ];
         this.area = "body";
+        this.svgs = { OK: OK, CANCEL: CANCEL, SETTINGS: SETTINGS, UPLOAD: UPLOAD };
     }
 
     static get styles() {
@@ -49,69 +49,25 @@ export class pruebaTarjetaDocumento extends connect(store, SCREEN, MEDIA_CHANGE)
 
     render() {
         return html`
-            <div class="tarjeta" ok>
-                <div titulo>
-                    <div>Documento frente</div>
-                    <div>${HELP}</div>
-                </div>
-                <div estado>
-                    <div>ACEPTADO</div>
-                    <div class="copete">Aprobado</div>
-                </div>
-                ${OK}
-                <div acciones>
-                    <button link disabled></button>
-                    <button link action>VER DOCUMENTO</button>
-                </div>
-            </div>
-
-            <div class="tarjeta" cancel>
-                <div titulo>
-                    <div>Documento frente</div>
-                    <div>${HELP}</div>
-                </div>
-                <div estado>
-                    <div>RECHAZADO</div>
-                    <div class="copete">Motivo Rechazo</div>
-                </div>
-                ${CANCEL}
-                <div acciones>
-                    <button link>VER DOCUMENTO</button>
-                    <button link action>NUEVO DOCUMENTO</button>
-                </div>
-            </div>
-
-            <div class="tarjeta" settings>
-                <div titulo>
-                    <div>Documento frente</div>
-                    <div>${HELP}</div>
-                </div>
-                <div estado>
-                    <div>EN PROCESO</div>
-                    <div class="copete">A la espera de aprobación</div>
-                </div>
-                ${SETTINGS}
-                <div acciones>
-                    <button link disabled></button>
-                    <button link action>VER DOCUMENTO</button>
-                </div>
-            </div>
-
-            <div class="tarjeta" upload>
-                <div titulo>
-                    <div>Documento frente</div>
-                    <div>${HELP}</div>
-                </div>
-                <div estado>
-                    <div>PENDIENTE</div>
-                    <div class="copete">Debe subir el documento</div>
-                </div>
-                ${UPLOAD}
-                <div acciones>
-                    <button link disabled></button>
-                    <button link action>NUEVO DOCUMENTO</button>
-                </div>
-            </div>
+            ${this.items.map((item) => {
+                return html`
+                    <div class="tarjeta" tipo=${item.imagen}>
+                        <div titulo>
+                            <div>${item.titulo}</div>
+                            <div>${HELP}</div>
+                        </div>
+                        <div estado>
+                            <div>${item.estado}</div>
+                            <div copete>${item.copete}</div>
+                        </div>
+                        ${this.svgs[item.imagen]}
+                        <div acciones>
+                            <button link disabled>${item.accion2}</button>
+                            <button link action>${item.accion1}</button>
+                        </div>
+                    </div>
+                `;
+            })}
         `;
     }
 
