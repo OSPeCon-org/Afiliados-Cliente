@@ -1,5 +1,5 @@
 /* 
-<div class="tarjeta-familia" tipo=${item.imagen}>
+<div class="tarjeta-familia" >
 <div titulo>
 	<div help>${this.svgs[item.icono]}</div>
 	<div>${item.parentesco}</div>

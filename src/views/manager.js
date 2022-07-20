@@ -11,9 +11,14 @@ import { menuPrincipal } from "./headers/menu";
 import { spinner } from "@brunomon/template-lit/src/views/css/spinner";
 import { gridLayout } from "@brunomon/template-lit/src/views/css/gridLayout";
 
+import { splashScreen } from "./splash/splash";
+import { mainScreen } from "./mian";
+
 import { pruebaTarjeta } from "./componentes/pruebaTarjeta";
 import { pruebaTarjetaDocumento } from "./componentes/pruebaTarjetaDocumento";
 import { pruebaTarjetaFamilia } from "./prueba/pruebaTarjetaFamilia";
+
+import { afiliadoMostrarScreen } from "./sistema/afiliadoAlta/afiliadoMostrar";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -61,6 +66,12 @@ export class viewManager extends connect(store, MEDIA_CHANGE, SCREEN, SELECTION)
 		return html`
 			<div class="spinner" anillo fixed hidden></div>
 			<menu-principal area="header"></menu-principal>
+
+			<splash-screen id="splash" area="body"></splash-screen>
+			<main-screen id="main" area="body"></main-screen>
+
+			<afiliado-mostrar-screen id="afiliadoMostrar" area="body"></afiliado-mostrar-screen>
+
 			<!--
             <form-test area="body"></form-test>>
             <prueba-tarjeta></prueba-tarjeta>
@@ -68,7 +79,9 @@ export class viewManager extends connect(store, MEDIA_CHANGE, SCREEN, SELECTION)
 			<!--
 				<prueba-tarjetadocumento></prueba-tarjetadocumento>
             -->
+			<!--
 			<prueba-tarjeta-familia id="pruebaTarjetaFamilia" area="body"></prueba-tarjeta-familia>
+            -->
 		`;
 	}
 
