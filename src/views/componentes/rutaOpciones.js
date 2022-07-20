@@ -7,13 +7,24 @@ import { dialog } from "@brunomon/template-lit/src/views/css/dialog";
 import { button } from "@brunomon/template-lit/src/views/css/button";
 import { gridLayout } from "@brunomon/template-lit/src/views/css/gridLayout";
 
-const SHOW = "ui.alert.timeStamp";
+import { cambioOpcioRuta } from "../../redux/ruta/actions";
 
-export class RutaControl extends connect(store, SHOW)(LitElement) {
+const SHOW = "ui.alert.timeStamp";
+const MEDIA_CHANGE = "ui.media.timeStamp";
+const SCREEN = "screen.timeStamp";
+const RUTA = "ruta.timeStamp";
+
+const OPCION_DATOS = "Datos";
+const OPCION_DOMICILIO = "Domicilio";
+const OPCION_CONTACTO = "Contacto";
+const OPCION_DOCUM = "Documentacion";
+
+export class RutaOpcionesControl extends connect(store, SCREEN, MEDIA_CHANGE, SHOW, RUTA)(LitElement) {
     constructor() {
         super();
         this.hidden = false;
-        this.pasoActual = 1;
+        this.pasoActual = null;
+        store.dispatch(cambioOpcioRuta(OPCION_DATOS));
     }
     static get styles() {
         return css`
@@ -23,6 +34,16 @@ export class RutaControl extends connect(store, SHOW)(LitElement) {
             :host[hidden] {
                 display: none;
             }
+            :host([media-Size="small"]) .number {
+                font-size: 1rem;
+                height: 0.5rem;
+                width: 0.5rem;
+                align-content: center;
+            }
+            :host([media-Size="small"]) label {
+                font-size: 0.8rem;
+            }
+
             .cuerpo {
                 background-color: var(--secundario);
                 color: var(--on-primario);
@@ -67,22 +88,22 @@ export class RutaControl extends connect(store, SHOW)(LitElement) {
         return html` <div class="cuerpo grid align-center">
             <div class="pasos inner-grid column">
                 <div class="paso inner-grid itemsCenter">
-                    <div class="number grid" ?selected=${this.pasoActual == 1}>1</div>
+                    <div class="number grid" @click=${this.seleccionarOpcionRuta} .option=${OPCION_DATOS} ?selected=${this.pasoActual == OPCION_DATOS}>1</div>
                     <div class="linea justify-self-stretch"></div>
                     <label>Datos Personales</label>
                 </div>
                 <div class="paso inner-grid itemsCenter">
-                    <div class="number grid" ?selected=${this.pasoActual == 2}>2</div>
+                    <div class="number grid" @click=${this.seleccionarOpcionRuta} .option=${OPCION_DOMICILIO} ?selected=${this.pasoActual == OPCION_DOMICILIO}>2</div>
                     <label>Domicilio</label>
                     <div class="linea justify-self-stretch"></div>
                 </div>
                 <div class="paso inner-grid itemsCenter">
-                    <div class="number grid" ?selected=${this.pasoActual == 3}>3</div>
+                    <div class="number grid" @click=${this.seleccionarOpcionRuta} .option=${OPCION_CONTACTO} ?selected=${this.pasoActual == OPCION_CONTACTO}>3</div>
                     <label>Contacto</label>
                     <div class="linea justify-self-stretch"></div>
                 </div>
                 <div class="paso inner-grid itemsCenter">
-                    <div class="number grid" ?selected=${this.pasoActual == 4}>4</div>
+                    <div class="number grid" @click=${this.seleccionarOpcionRuta} .option=${OPCION_DOCUM} ?selected=${this.pasoActual == OPCION_DOCUM}>4</div>
                     <label>Documentacion</label>
                     <div class="linea justify-self-stretch"></div>
                 </div>
@@ -91,22 +112,37 @@ export class RutaControl extends connect(store, SHOW)(LitElement) {
     }
 
     stateChanged(state, name) {
+        if (name == MEDIA_CHANGE) {
+            this.mediaSize = state.ui.media.size;
+        }
         if (name == SHOW) {
             this.hidden = false;
         }
+        if (name == RUTA) {
+            this.pasoActual = state.ruta.current;
+        }
+    }
+
+    seleccionarOpcionRuta(e) {
+        store.dispatch(cambioOpcioRuta(e.currentTarget.option));
     }
 
     static get properties() {
         return {
+            mediaSize: {
+                type: String,
+                reflect: true,
+                attribute: "media-Size",
+            },
             hidden: {
                 type: Boolean,
                 reflect: true,
             },
             pasoActual: {
-                type: Number,
+                type: String,
                 reflect: true,
             },
         };
     }
 }
-window.customElements.define("ruta-control", RutaControl);
+window.customElements.define("ruta-opcionescontrol", RutaOpcionesControl);

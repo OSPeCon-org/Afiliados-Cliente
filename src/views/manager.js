@@ -13,6 +13,7 @@ import { gridLayout } from "@brunomon/template-lit/src/views/css/gridLayout";
 
 import { pruebaTarjeta } from "./componentes/pruebaTarjeta";
 import { pruebaTarjetaDocumento } from "./componentes/pruebaTarjetaDocumento";
+import { RutaOpcionesControl } from "./componentes/rutaOpciones";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -65,6 +66,7 @@ export class viewManager extends connect(store, MEDIA_CHANGE, SCREEN, SELECTION)
             <prueba-tarjeta></prueba-tarjeta>
             -->
             <prueba-tarjetadocumento></prueba-tarjetadocumento>
+            <ruta-opcionescontrol area="body"></ruta-opcionescontrol>
         `;
     }
 
