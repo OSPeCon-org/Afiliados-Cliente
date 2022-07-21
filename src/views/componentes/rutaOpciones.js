@@ -91,7 +91,7 @@ export class RutaOpcionesControl extends connect(store, SCREEN, MEDIA_CHANGE, SH
             .number[selected] {
                 background-color: var(--terciario);
                 color: var(--on-aplicacion);
-                border: 3px solid var(--terciario);
+                border: 0.2px solid var(--on-primario);
                 font-weight: bold;
             }
             .linea {
