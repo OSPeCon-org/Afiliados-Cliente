@@ -34,27 +34,52 @@ export class RutaOpcionesControl extends connect(store, SCREEN, MEDIA_CHANGE, SH
             :host[hidden] {
                 display: none;
             }
+            /*:host([media-Size="small"]) *[no-small] {
+                display: none;
+            }
+            :host(:not([media-Size="small"])) *[only-small] {
+                display: none;
+            }*/
             :host([media-Size="small"]) .number {
                 font-size: 1rem;
                 height: 0.5rem;
                 width: 0.5rem;
                 align-content: center;
             }
+            :host([media-Size="small"]) .linea,
+            .number {
+                border-top: 1px solid var(--on-primario);
+            }
+            :host([media-Size="small"]) .number {
+                border: 1px solid var(--on-primario);
+            }
             :host([media-Size="small"]) label {
                 font-size: 0.8rem;
             }
-
+            :host([media-Size="small"]) #datosPersonales::after {
+                content: "Datos";
+            }
+            :host(:not([media-Size="small"])) #datosPersonales::after {
+                content: "Datos Personales";
+            }
+            :host([media-Size="small"]) #documentacion::after {
+                content: "Documentos";
+            }
+            :host(:not([media-Size="small"])) #documentacion::after {
+                content: "Documentacion";
+            }
             .cuerpo {
                 background-color: var(--secundario);
                 color: var(--on-primario);
             }
             .pasos {
+                grid-template-columns: 1fr 1fr 1fr 1fr;
                 background-color: var(--secundario);
                 gap: 0;
             }
             .number {
                 background-color: var(--secundario);
-                border: 3px solid var(--on-primario);
+                border: 0.2rem solid var(--on-primario);
                 text-align: center;
                 border-radius: 50%;
                 height: 2rem;
@@ -71,7 +96,7 @@ export class RutaOpcionesControl extends connect(store, SCREEN, MEDIA_CHANGE, SH
             }
             .linea {
                 border: none;
-                border-top: 3px solid var(--on-primario);
+                border-top: 0.2rem solid var(--on-primario);
                 grid-column: 1;
                 grid-row: 1;
                 z-index: 1;
@@ -90,7 +115,7 @@ export class RutaOpcionesControl extends connect(store, SCREEN, MEDIA_CHANGE, SH
                 <div class="paso inner-grid itemsCenter">
                     <div class="number grid" @click=${this.seleccionarOpcionRuta} .option=${OPCION_DATOS} ?selected=${this.pasoActual == OPCION_DATOS}>1</div>
                     <div class="linea justify-self-stretch"></div>
-                    <label>Datos Personales</label>
+                    <label id="datosPersonales"></label>
                 </div>
                 <div class="paso inner-grid itemsCenter">
                     <div class="number grid" @click=${this.seleccionarOpcionRuta} .option=${OPCION_DOMICILIO} ?selected=${this.pasoActual == OPCION_DOMICILIO}>2</div>
@@ -104,7 +129,7 @@ export class RutaOpcionesControl extends connect(store, SCREEN, MEDIA_CHANGE, SH
                 </div>
                 <div class="paso inner-grid itemsCenter">
                     <div class="number grid" @click=${this.seleccionarOpcionRuta} .option=${OPCION_DOCUM} ?selected=${this.pasoActual == OPCION_DOCUM}>4</div>
-                    <label>Documentacion</label>
+                    <label id="documentacion"></label>
                     <div class="linea justify-self-stretch"></div>
                 </div>
             </div>
@@ -124,7 +149,7 @@ export class RutaOpcionesControl extends connect(store, SCREEN, MEDIA_CHANGE, SH
     }
 
     seleccionarOpcionRuta(e) {
-        store.dispatch(cambioOpcioRuta(e.currentTarget.option));
+        //store.dispatch(cambioOpcioRuta(e.currentTarget.option));
     }
 
     static get properties() {
