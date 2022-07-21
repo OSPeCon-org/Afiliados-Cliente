@@ -25,6 +25,7 @@ import { afiliadoAltaFinScreen } from "./sistema/afiliadoAlta/afiliadoAltaFin";
 
 import { pruebaDaniel } from "./prueba/pruebaDaniel";
 import { pruebaFlor } from "./prueba/pruebaFlor";
+import { pruebaCristian } from "./prueba/pruebaCristian";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -85,6 +86,7 @@ export class viewManager extends connect(store, MEDIA_CHANGE, SCREEN, SELECTION)
 
             <prueba-daniel></prueba-daniel>
             <prueba-flor></prueba-flor>
+            <prueba-cristian></prueba-cristian>
         `;
     }
 
