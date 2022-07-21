@@ -16,7 +16,7 @@ import { mainScreen } from "./mian";
 
 import { pruebaTarjeta } from "./componentes/pruebaTarjeta";
 import { pruebaTarjetaDocumento } from "./componentes/pruebaTarjetaDocumento";
-import { pruebaTarjetaFamilia } from "./prueba/pruebaTarjetaFamilia";
+import { RutaOpcionesControl } from "./componentes/rutaOpciones";
 
 import { afiliadoMostrarScreen } from "./sistema/afiliadoAlta/afiliadoMostrar";
 
@@ -25,43 +25,44 @@ const SCREEN = "screen.timeStamp";
 const SELECTION = "ui.menu.timeStamp";
 
 export class viewManager extends connect(store, MEDIA_CHANGE, SCREEN, SELECTION)(LitElement) {
-	constructor() {
-		super();
-		window.onpopstate = (event) => {
-			if (event.state) {
-				store.dispatch(goTo(event.state.option, true));
-			} else {
-				window.history.back();
-			}
-		};
-	}
+    constructor() {
+        super();
+        window.onpopstate = (event) => {
+            if (event.state) {
+                store.dispatch(goTo(event.state.option, true));
+            } else {
+                window.history.back();
+            }
+        };
+    }
 
-	static get styles() {
-		return css`
-			${layoutsCSS}
-			${gridLayout}
+    static get styles() {
+        return css`
+            ${layoutsCSS}
+            ${gridLayout}
             ${spinner}
             :host {
-				display: grid;
-				padding: 0;
-				background-color: var(--aplicacion);
-				overflow: hidden;
-			}
+                display: grid;
+                padding: 0;
+                background-color: var(--aplicacion);
+                overflow: hidden;
+            }
 
-			:host::-webkit-scrollbar {
-				width: 0.5vw;
-				cursor: pointer;
-			}
-			:host::-webkit-scrollbar([media-size="small"]) {
-				display: none;
-			}
-			:host::-webkit-scrollbar-thumb {
-				background: var(--secundario);
-				border-radius: 5px;
-			}
-		`;
-	}
+            :host::-webkit-scrollbar {
+                width: 0.5vw;
+                cursor: pointer;
+            }
+            :host::-webkit-scrollbar([media-size="small"]) {
+                display: none;
+            }
+            :host::-webkit-scrollbar-thumb {
+                background: var(--secundario);
+                border-radius: 5px;
+            }
+        `;
+    }
 
+<<<<<<< HEAD
 	render() {
 		return html`
 			<div class="spinner" anillo fixed hidden></div>
@@ -84,44 +85,58 @@ export class viewManager extends connect(store, MEDIA_CHANGE, SCREEN, SELECTION)
             -->
 		`;
 	}
+=======
+    render() {
+        return html`
+            <div class="spinner" anillo fixed hidden></div>
+            <menu-principal area="header"></menu-principal>
+            <!--
+            <form-test area="body"></form-test>>
+            <prueba-tarjeta></prueba-tarjeta>
+            -->
+            <prueba-tarjetadocumento></prueba-tarjetadocumento>
+            <ruta-opcionescontrol area="body"></ruta-opcionescontrol>
+        `;
+    }
+>>>>>>> 703b93bc50f4b64fa872cfeab1eb68aad096641a
 
-	stateChanged(state, name) {
-		if (name == MEDIA_CHANGE || name == SCREEN) {
-			this.mediaSize = state.ui.media.size;
-			this.orientation = state.ui.media.orientation;
-			this.layout = getLayout(state).name;
-			if (!window.MSStream && /iPad|iPhone|iPod/.test(navigator.userAgent)) {
-				if ("standalone" in window.navigator && window.navigator.standalone) {
-					this.style.height = document.documentElement.offsetHeight ? document.documentElement.offsetHeight : window.innerHeight + "px";
-				} else {
-					if (state.ui.media.orientation == "portrait") {
-						this.style.height = window.innerHeight < window.innerWidth ? window.innerWidth : window.innerHeight + "px";
-					} else {
-						this.style.height = window.innerHeight > window.innerWidth ? window.innerWidth : window.innerHeight + "px";
-					}
-				}
-			}
-		}
-		this.update();
-	}
+    stateChanged(state, name) {
+        if (name == MEDIA_CHANGE || name == SCREEN) {
+            this.mediaSize = state.ui.media.size;
+            this.orientation = state.ui.media.orientation;
+            this.layout = getLayout(state).name;
+            if (!window.MSStream && /iPad|iPhone|iPod/.test(navigator.userAgent)) {
+                if ("standalone" in window.navigator && window.navigator.standalone) {
+                    this.style.height = document.documentElement.offsetHeight ? document.documentElement.offsetHeight : window.innerHeight + "px";
+                } else {
+                    if (state.ui.media.orientation == "portrait") {
+                        this.style.height = window.innerHeight < window.innerWidth ? window.innerWidth : window.innerHeight + "px";
+                    } else {
+                        this.style.height = window.innerHeight > window.innerWidth ? window.innerWidth : window.innerHeight + "px";
+                    }
+                }
+            }
+        }
+        this.update();
+    }
 
-	static get properties() {
-		return {
-			mediaSize: {
-				type: String,
-				reflect: true,
-				attribute: "media-size",
-			},
-			layout: {
-				type: String,
-				reflect: true,
-			},
-			orientation: {
-				type: String,
-				reflect: true,
-			},
-		};
-	}
+    static get properties() {
+        return {
+            mediaSize: {
+                type: String,
+                reflect: true,
+                attribute: "media-size",
+            },
+            layout: {
+                type: String,
+                reflect: true,
+            },
+            orientation: {
+                type: String,
+                reflect: true,
+            },
+        };
+    }
 }
 
 window.customElements.define("view-manager", viewManager);
