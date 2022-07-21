@@ -11,6 +11,7 @@ import { button } from "@brunomon/template-lit/src/views/css/button";
 
 import { tarjetaFamilia } from "../../css/tarjetaFamilia";
 import { tarjetaPersona } from "../../css/tarjetaPersona";
+import { goTo } from "@brunomon/template-lit/src/redux/routing/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -43,20 +44,33 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE)(
 				display: grid;
 				position: relative;
 				width: 100vw;
-				overflow-y: auto;
-				align-items: flex-start;
+				grid-template-rows: 3rem 1fr;
+				background-color: var(--aplicacion);
 			}
 			:host([hidden]) {
 				display: none;
 			}
+			#subtitulo {
+				display: grid;
+				font-family: var(--font-header-h1-family);
+				font-size: var(--font-header-h1-size);
+				font-weight: 400;
+				background-color: var(--secundario);
+				color: var(--on-secundario);
+			}
+			#subtitulo div {
+				margin: auto;
+			}
 			#cuerpo {
-				overflow-y: auto;
-				padding-top: 1rem;
 				display: grid;
 				grid-template-columns: repeat(auto-fill, minmax(12rem, 14rem));
 				grid-gap: 1rem;
+				padding: 1rem 0;
+				overflow-y: auto;
 				justify-content: center;
 				justify-items: center;
+				align-content: flex-start;
+				background-color: var(--aplicacion);
 			}
 		`;
 	}
@@ -64,6 +78,7 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE)(
 	render() {
 		if (!this.item) {
 			return html`
+				<div id="subtitulo"><div>Nueva solicitud de afiliacion</div></div>
 				<div id="cuerpo">
 					<div class="tarjeta-familia">
 						<div titulo>
@@ -71,12 +86,13 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE)(
 							<div>Titular</div>
 						</div>
 						<div cuerpo>Dar de alta al titular del grupo familiar</div>
-						<button raised>AGREGAR</button>
+						<button raised @click="${this.nuevo}">AGREGAR</button>
 					</div>
 				</div>
 			`;
 		} else {
 			return html`
+				<div id="subtitulo"><div>Nueva solicitud de afiliacion</div></div>
 				<div id="cuerpo">
 					${this.item.map((item, index) => {
 						return html` <div class="tarjeta-persona">
@@ -95,11 +111,15 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE)(
 							<div>Grupo Familiar</div>
 						</div>
 						<div cuerpo>Dar de alta un nuevo integante del grupo familiar</div>
-						<button raised>AGREGAR</button>
+						<button raised @click="${this.nuevo}">AGREGAR</button>
 					</div>
 				</div>
 			`;
 		}
+	}
+
+	nuevo() {
+		store.dispatch(goTo("afiliadoDatos"));
 	}
 
 	firstUpdated(changedProperties) {}

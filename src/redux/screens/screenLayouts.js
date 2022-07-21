@@ -18,6 +18,31 @@ export const screenLayuts = {
 		medium: HEADER_BODY,
 		large: HEADER_BODY,
 	},
+	afiliadoDatos: {
+		small: HEADER_BODY,
+		medium: HEADER_BODY,
+		large: HEADER_BODY,
+	},
+	afiliadoDireccion: {
+		small: HEADER_BODY,
+		medium: HEADER_BODY,
+		large: HEADER_BODY,
+	},
+	afiliadoContacto: {
+		small: HEADER_BODY,
+		medium: HEADER_BODY,
+		large: HEADER_BODY,
+	},
+	afiliadoDocumentacion: {
+		small: HEADER_BODY,
+		medium: HEADER_BODY,
+		large: HEADER_BODY,
+	},
+	afiliadoAltaFin: {
+		small: HEADER_BODY,
+		medium: HEADER_BODY,
+		large: HEADER_BODY,
+	},
 };
 
 export const getLayout = (state) => {

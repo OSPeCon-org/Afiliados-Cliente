@@ -14,7 +14,7 @@ import { tarjetaPersona } from "../css/tarjetaPersona";
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
 
-export class pruebaTarjetaFamilia extends connect(store, SCREEN, MEDIA_CHANGE)(LitElement) {
+export class pruebaDaniel extends connect(store, SCREEN, MEDIA_CHANGE)(LitElement) {
 	constructor() {
 		super();
 		this.items = [
@@ -111,4 +111,4 @@ export class pruebaTarjetaFamilia extends connect(store, SCREEN, MEDIA_CHANGE)(L
 	}
 }
 
-window.customElements.define("prueba-tarjeta-familia", pruebaTarjetaFamilia);
+window.customElements.define("prueba-daniel", pruebaDaniel);

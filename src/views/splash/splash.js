@@ -12,7 +12,7 @@ const SCREEN = "screen.timeStamp";
 
 const timeOut = setTimeout(() => {
 	store.dispatch(goTo("main"));
-	//store.dispatch(goTo("foto"));
+	//store.dispatch(goTo("afiliadoDocumentacion"));
 }, 4000);
 
 export class splashScreen extends connect(store, MEDIA_CHANGE, SCREEN)(LitElement) {
@@ -20,7 +20,6 @@ export class splashScreen extends connect(store, MEDIA_CHANGE, SCREEN)(LitElemen
 		super();
 		this.hidden = true;
 		this.area = "body";
-		this.timeOut = 0;
 	}
 
 	static get styles() {
@@ -88,7 +87,7 @@ export class splashScreen extends connect(store, MEDIA_CHANGE, SCREEN)(LitElemen
 	}
 
 	pasar() {
-		clearTimeout(this.timeOut);
+		clearTimeout(timeOut);
 		store.dispatch(goTo("main"));
 	}
 
