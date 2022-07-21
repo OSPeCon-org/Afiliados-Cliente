@@ -9,7 +9,6 @@ import { gridLayout } from "@brunomon/template-lit/src/views/css/gridLayout";
 import { isInLayout } from "../../redux/screens/screenLayouts";
 import { tarjetaDocumento } from "../css/tarjetaDocumento";
 import { button } from "@brunomon/template-lit/src/views/css/button";
-import { RutaOpcionesControl } from "./rutaOpciones";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -48,7 +47,6 @@ export class pruebaTarjetaDocumento extends connect(store, SCREEN, MEDIA_CHANGE)
 
     render() {
         return html`
-            <ruta-opcionescontrol></ruta-opcionescontrol>
             <div class="grid row grilla itemsCenter">
                 ${this.items.map((item) => {
                     return html`

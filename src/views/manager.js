@@ -84,9 +84,9 @@ export class viewManager extends connect(store, MEDIA_CHANGE, SCREEN, SELECTION)
             <afiliado-documentacion-screen id="afiliadoDocumentacion" area="body"></afiliado-documentacion-screen>
             <afiliado-alta-fin-screen id="afiliadoAltaFin" area="body"></afiliado-alta-fin-screen>
 
-            <prueba-daniel></prueba-daniel>
-            <prueba-flor></prueba-flor>
-            <prueba-cristian></prueba-cristian>
+            <prueba-daniel id="pruebaDaniel" area="body"></prueba-daniel>
+            <prueba-flor id="pruebaFlor" area="body"></prueba-flor>
+            <prueba-cristian id="pruebaCristian" area="body"></prueba-cristian>
         `;
     }
 

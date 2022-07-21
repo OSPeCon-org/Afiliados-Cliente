@@ -11,7 +11,7 @@ const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
 
 const timeOut = setTimeout(() => {
-    store.dispatch(goTo("main"));
+    //store.dispatch(goTo("main"));
     //store.dispatch(goTo("pruebaDaniel"));
 }, 40000);
 
@@ -102,7 +102,8 @@ export class splashScreen extends connect(store, MEDIA_CHANGE, SCREEN)(LitElemen
             return;
         }*/
 
-        store.dispatch(goTo("main"));
+        //store.dispatch(goTo("main"));
+        store.dispatch(goTo("pruebaFlor"));
     }
 
     static get properties() {
