@@ -89,7 +89,7 @@ export class splashScreen extends connect(store, MEDIA_CHANGE, SCREEN)(LitElemen
     pasar() {
         clearTimeout(timeOut);
 
-        if (process.env.usuario == "daniel") {
+        /*if (process.env.usuario == "daniel") {
             store.dispatch(goTo("puebaDaniel"));
             return;
         }
@@ -100,7 +100,7 @@ export class splashScreen extends connect(store, MEDIA_CHANGE, SCREEN)(LitElemen
         if (process.env.usuario == "cristian") {
             store.dispatch(goTo("pruebaCristian"));
             return;
-        }
+        }*/
 
         store.dispatch(goTo("main"));
     }
