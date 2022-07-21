@@ -80,7 +80,7 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
 				<div id="datos">
 					${this.items.map((item) => {
 						return html`
-							<div class="tarjeta" tipo=${item.imagen}>
+							<div class="tarjeta-documento" tipo=${item.imagen}>
 								<div titulo>
 									<div>${item.titulo}</div>
 									<div help>${HELP}</div>
