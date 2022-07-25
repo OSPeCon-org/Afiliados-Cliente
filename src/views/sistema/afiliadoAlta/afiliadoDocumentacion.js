@@ -62,7 +62,7 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
 			#datos {
 				display: grid;
 				width: 90vw;
-				grid-template-columns: repeat(auto-fill, minmax(24rem, 25rem));
+				grid-template-columns: repeat(auto-fill, minmax(26rem, 28rem));
 				grid-gap: 1rem;
 				padding: 1rem 0;
 				justify-content: center;
