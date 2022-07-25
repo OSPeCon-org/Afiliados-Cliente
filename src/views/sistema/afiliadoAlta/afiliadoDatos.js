@@ -15,18 +15,31 @@ import { OPCION_DATOS, RutaOpcionesControl } from "../../componentes/rutaOpcione
 import { goHistoryPrev, goTo } from "@brunomon/template-lit/src/redux/routing/actions";
 
 import { cambioOpcioRuta } from "../../../redux/ruta/actions";
-import { Store } from "@material-ui/icons";
+import { getAll as getAllNacionalidades } from "../../../redux/nacionalidades/actions";
+import { SentimentVeryDissatisfiedOutlined, Sort, Store } from "@material-ui/icons";
+import { state } from "lit-element";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
-const RUTA = "ruta.timeStamp";
 
-export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, RUTA)(LitElement) {
+const PARENTESCO = "parentesco.timeStamp";
+const PLAN = "plan.timeStamp";
+const TIPO_DOCUMENTO = "tipoDocumento.timeStamp";
+const ESTADOS_CIVILES = "estadosCiviles.timeStamp";
+const NACIONALIDADES = "nacionalidades.timeStamp";
+
+export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, PARENTESCO, PLAN, TIPO_DOCUMENTO, ESTADOS_CIVILES, NACIONALIDADES)(LitElement) {
     constructor() {
         super();
         this.hidden = true;
         this.area = "body";
         this.current = "";
+        this.parentescos = [];
+        this.planes = [];
+        this.tipoDocumento = [];
+        this.estadoCivil = [];
+        this.nacionalidades = [];
+
         this.svgs = { BENEF: BENEF, GRPFAM: GRPFAM };
     }
 
@@ -83,126 +96,128 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, RU
     }
 
     render() {
-        return html`
-            <ruta-opcionescontrol></ruta-opcionescontrol>
-            <div id="cuerpo" class="grid row">
-                <div class="grupo">
-                    <div class="select">
-                        <select id="parentesco" required>
-                            <option value="" disabled selected>Selecciona una opción</option>
-                            <option value="1">Titular</option>
-                            <option value="2">Conyuge</option>
-                            <option value="3">Hija</option>
-                            <option value="4">Madre</option>
-                        </select>
-                        <label for="parentesco">Parentesco</label>
-                        <label error>No puede ser vacio</label>
-                        <label subtext>Requerido</label>
+        if (this.verEstados()) {
+            return html`
+                <ruta-opcionescontrol></ruta-opcionescontrol>
+                <div id="cuerpo" class="grid row">
+                    <div class="grupo">
+                        <div class="select">
+                            <select id="parentesco" required>
+                                <option value="" disabled selected>Selecciona una opción</option>
+                                ${this.parentescos.map((item) => {
+                                    return html` <option>${item.descripcion}</option> `;
+                                })}
+                            </select>
+                            <label for="parentesco">Parentesco</label>
+                            <label error>No puede ser vacio</label>
+                            <label subtext>Requerido</label>
+                        </div>
+                        <div class="input">
+                            <input id="cuil" />
+                            <label for="cuil">CUIL</label>
+                            <label error>No puede ser vacio</label>
+                            <label subtext>Requerido</label>
+                        </div>
+                        <div class="select">
+                            <select id="plan" required>
+                                <option value="" disabled selected>Selecciona una opción</option>
+                                ${this.planes.map((item) => {
+                                    return html` <option>${item.descripcion}</option> `;
+                                })}
+                            </select>
+                            <label for="plan">Plan</label>
+                            <label error>No puede ser vacio</label>
+                            <label subtext>Requerido</label>
+                        </div>
                     </div>
-                    <div class="input">
-                        <input id="cuil" />
-                        <label for="cuil">CUIL</label>
-                        <label error>No puede ser vacio</label>
-                        <label subtext>Requerido</label>
+                    <div class="linea"></div>
+                    <div class="grupo">
+                        <div class="input">
+                            <input id="apellido" />
+                            <label for="apellido">Apellido</label>
+                            <label error>No puede ser vacio</label>
+                            <label subtext>Requerido</label>
+                        </div>
+                        <div class="input">
+                            <input id="nombre" />
+                            <label for="nombre">Nombre</label>
+                            <label error>No puede ser vacio</label>
+                            <label subtext>Requerido</label>
+                        </div>
+                        <div class="select">
+                            <select id="sexo" required>
+                                <option value="" disabled selected>Selecciona una opción</option>
+                                <option value="1">Femenino</option>
+                                <option value="2">Masculino</option>
+                            </select>
+                            <label for="sexo">Sexo</label>
+                            <label error>No puede ser vacio</label>
+                            <label subtext>Requerido</label>
+                        </div>
+                        <div class="input">
+                            <input id="nacimiento" type="date" />
+                            <label for="nacimiento">Fecha de nacimiento</label>
+                            <label error>No puede ser vacio</label>
+                            <label subtext>Requerido</label>
+                        </div>
+                        <div class="select">
+                            <select id="documentoTipo" required>
+                                <option value="" disabled selected>Selecciona una opción</option>
+                                <option value="1">DNI</option>
+                                <option value="2">Cedula</option>
+                            </select>
+                            <label for="DocumentoTipo">Tipo de Documento</label>
+                            <label error>No puede ser vacio</label>
+                            <label subtext>Requerido</label>
+                        </div>
+                        <div class="input">
+                            <input id="documentoNumero" type="number" />
+                            <label for="documentoNumero">Numero de documento</label>
+                            <label error>No puede ser vacio</label>
+                            <label subtext>Requerido</label>
+                        </div>
                     </div>
-                    <div class="select">
-                        <select id="plan" required>
-                            <option value="" disabled selected>Selecciona una opción</option>
-                            <option value="1">Obligatorio</option>
-                            <option value="2">Monotributisca</option>
-                            <option value="3">Domestica</option>
-                        </select>
-                        <label for="plan">Plan</label>
-                        <label error>No puede ser vacio</label>
-                        <label subtext>Requerido</label>
+                    <div class="linea"></div>
+                    <div class="grupo">
+                        <div class="select">
+                            <select id="estadoCivil" required>
+                                <option value="" disabled selected>Selecciona una opción</option>
+                                <option value="1">Casado</option>
+                                <option value="2">Soltero</option>
+                            </select>
+                            <label for="estadoCivil">Estado civil</label>
+                            <label error>No puede ser vacio</label>
+                            <label subtext>Requerido</label>
+                        </div>
+                        <div class="select">
+                            <select id="nacionalidad" required>
+                                <option value="" disabled selected>Selecciona una opción</option>
+                                ${this.nacionalidades.map((item) => {
+                                    return html` <option>${item.descripcion}</option> `;
+                                })}
+                            </select>
+                            <label for="nacionalidad">Nacionalidad</label>
+                            <label error>No puede ser vacio</label>
+                            <label subtext>Requerido</label>
+                        </div>
+                        <div class="select">
+                            <select id="discapacidad" required>
+                                <option value="" disabled selected>Selecciona una opción</option>
+                                <option value="1">Si</option>
+                                <option value="2">No</option>
+                            </select>
+                            <label for="discapacidad">Discapacidad</label>
+                            <label error>No puede ser vacio</label>
+                            <label subtext>Requerido</label>
+                        </div>
+                    </div>
+                    <div class="grid column" style="padding-bottom:5rem">
+                        <button flat @click="${this.atras}">CANCELAR</button>
+                        <button raised @click="${this.siguiente}">SIGUIENTE</button>
                     </div>
                 </div>
-                <div class="linea"></div>
-                <div class="grupo">
-                    <div class="input">
-                        <input id="apellido" />
-                        <label for="apellido">Apellido</label>
-                        <label error>No puede ser vacio</label>
-                        <label subtext>Requerido</label>
-                    </div>
-                    <div class="input">
-                        <input id="nombre" />
-                        <label for="nombre">Nombre</label>
-                        <label error>No puede ser vacio</label>
-                        <label subtext>Requerido</label>
-                    </div>
-                    <div class="select">
-                        <select id="sexo" required>
-                            <option value="" disabled selected>Selecciona una opción</option>
-                            <option value="1">Femenino</option>
-                            <option value="2">Masculino</option>
-                        </select>
-                        <label for="sexo">Sexo</label>
-                        <label error>No puede ser vacio</label>
-                        <label subtext>Requerido</label>
-                    </div>
-                    <div class="input">
-                        <input id="nacimiento" type="date" />
-                        <label for="nacimiento">Fecha de nacimiento</label>
-                        <label error>No puede ser vacio</label>
-                        <label subtext>Requerido</label>
-                    </div>
-                    <div class="select">
-                        <select id="documentoTipo" required>
-                            <option value="" disabled selected>Selecciona una opción</option>
-                            <option value="1">DNI</option>
-                            <option value="2">Cedula</option>
-                        </select>
-                        <label for="DocumentoTipo">Tipo de Documento</label>
-                        <label error>No puede ser vacio</label>
-                        <label subtext>Requerido</label>
-                    </div>
-                    <div class="input">
-                        <input id="documentoNumero" type="number" />
-                        <label for="documentoNumero">Numero de documento</label>
-                        <label error>No puede ser vacio</label>
-                        <label subtext>Requerido</label>
-                    </div>
-                </div>
-                <div class="linea"></div>
-                <div class="grupo">
-                    <div class="select">
-                        <select id="estadoCivil" required>
-                            <option value="" disabled selected>Selecciona una opción</option>
-                            <option value="1">Casado</option>
-                            <option value="2">Soltero</option>
-                        </select>
-                        <label for="estadoCivil">Estado civil</label>
-                        <label error>No puede ser vacio</label>
-                        <label subtext>Requerido</label>
-                    </div>
-                    <div class="select">
-                        <select id="nacionalidad" required>
-                            <option value="" disabled selected>Selecciona una opción</option>
-                            <option value="1">Argentino</option>
-                            <option value="2">Extranjero</option>
-                        </select>
-                        <label for="nacionalidad">Nacionalidad</label>
-                        <label error>No puede ser vacio</label>
-                        <label subtext>Requerido</label>
-                    </div>
-                    <div class="select">
-                        <select id="discapacidad" required>
-                            <option value="" disabled selected>Selecciona una opción</option>
-                            <option value="1">Si</option>
-                            <option value="2">No</option>
-                        </select>
-                        <label for="discapacidad">Discapacidad</label>
-                        <label error>No puede ser vacio</label>
-                        <label subtext>Requerido</label>
-                    </div>
-                </div>
-                <div class="grid column" style="padding-bottom:5rem">
-                    <button flat @click="${this.atras}">CANCELAR</button>
-                    <button raised @click="${this.siguiente}">SIGUIENTE</button>
-                </div>
-            </div>
-        `;
+            `;
+        }
     }
 
     atras() {
@@ -210,6 +225,14 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, RU
     }
     siguiente() {
         store.dispatch(goTo("afiliadoDireccion"));
+    }
+
+    verEstados() {
+        if (store.getState().nacionalidades.entities) {
+            this.nacionalidades = store.getState().nacionalidades.entities; //.Sort(); //ordenar
+            return true;
+        }
+        return false;
     }
 
     firstUpdated(changedProperties) {}
@@ -222,9 +245,34 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, RU
             this.hidden = true;
             const isCurrentScreen = ["afiliadoDatos"].includes(state.screen.name);
             if (isInLayout(state, this.area) && isCurrentScreen) {
+                if (!state.nacionalidades.entities) {
+                    store.dispatch(getAllNacionalidades());
+                } else {
+                    //ver estados
+                    this.nacionalidades = state.nacionalidades.entities;
+                }
                 this.hidden = false;
                 store.dispatch(cambioOpcioRuta(OPCION_DATOS));
             }
+        }
+
+        if (name == PARENTESCO) {
+            this.parentescos = state.parentesco.entities;
+        }
+
+        if (name == PLAN) {
+            this.planes = state.plan.entities;
+        }
+
+        if (name == TIPO_DOCUMENTO) {
+            this.tipoDocumento = state.tipoDocumento.entities;
+        }
+
+        if (name == ESTADOS_CIVILES) {
+            this.estadoCivil = state.estadosCiviles.entities;
+        }
+        if (name == NACIONALIDADES) {
+            this.update();
         }
     }
     static get properties() {

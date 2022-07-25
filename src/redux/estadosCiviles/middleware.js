@@ -15,10 +15,10 @@ export const get =
                 payload: {
                     receive: [
                         {
-                            descripcion: "Argentina",
+                            descripcion: "Casado",
                         },
                         {
-                            descripcion: "Extranjero",
+                            descripcion: "Soltero",
                         },
                     ],
                 },
