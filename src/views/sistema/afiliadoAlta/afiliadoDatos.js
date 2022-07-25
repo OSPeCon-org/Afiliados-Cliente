@@ -16,8 +16,6 @@ import { goHistoryPrev, goTo } from "@brunomon/template-lit/src/redux/routing/ac
 
 import { cambioOpcioRuta } from "../../../redux/ruta/actions";
 import { getAll as getAllNacionalidades } from "../../../redux/nacionalidades/actions";
-import { SentimentVeryDissatisfiedOutlined, Sort, Store } from "@material-ui/icons";
-import { state } from "lit-element";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
