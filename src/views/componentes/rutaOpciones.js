@@ -14,10 +14,10 @@ const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
 const RUTA = "ruta.timeStamp";
 
-const OPCION_DATOS = "Datos";
-const OPCION_DOMICILIO = "Domicilio";
-const OPCION_CONTACTO = "Contacto";
-const OPCION_DOCUM = "Documentacion";
+export const OPCION_DATOS = "Datos";
+export const OPCION_DOMICILIO = "Domicilio";
+export const OPCION_CONTACTO = "Contacto";
+export const OPCION_DOCUM = "Documentacion";
 
 export class RutaOpcionesControl extends connect(store, SCREEN, MEDIA_CHANGE, SHOW, RUTA)(LitElement) {
     constructor() {
@@ -149,7 +149,7 @@ export class RutaOpcionesControl extends connect(store, SCREEN, MEDIA_CHANGE, SH
     }
 
     seleccionarOpcionRuta(e) {
-        //store.dispatch(cambioOpcioRuta(e.currentTarget.option));
+        store.dispatch(cambioOpcioRuta(e.currentTarget.option));
     }
 
     static get properties() {
