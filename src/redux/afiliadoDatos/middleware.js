@@ -5,8 +5,8 @@ import { c } from "../fetchs";
 import { getAll as GetAllParentesco, GET_SUCCESS as GET_SUCCESS_PARENTESCO } from "../parentesco/actions";
 import { getAll as GetAllPlan, GET_SUCCESS as GET_SUCCESS_PLAN } from "../plan/actions";
 import { getAll as GetAllTipoDocumento, GET_SUCCESS as GET_SUCCESS_TIPO_DOCUMENTO } from "../tipoDocumento/actions";
-import { getAll as GetAllEstadosCiviles } from "../estadosCiviles/middleware";
-import { getAll as GetAllNacionalidades } from "../nacionalidades/actions";
+import { getAll as GetAllEstadosCiviles, GET_SUCCESS as GET_SUCCESS_ESTADOS_CIVILES } from "../estadosCiviles/actions";
+import { getAll as GetAllNacionalidades, GET_SUCCESS as GET_SUCCESS_NACIONALIDADES } from "../nacionalidades/actions";
 import { store } from "../store";
 
 export const get =
@@ -18,6 +18,8 @@ export const get =
             dispatch(GetAllParentesco());
             dispatch(GetAllPlan());
             dispatch(GetAllTipoDocumento());
+            dispatch(GetAllEstadosCiviles());
+            dispatch(GetAllNacionalidades());
         }
     };
 
@@ -26,7 +28,13 @@ export const processGet =
     (next) =>
     (action) => {
         next(action);
-        if (action.type === GET_SUCCESS_PARENTESCO || action.type === GET_SUCCESS_PLAN || action.type === GET_SUCCESS_TIPO_DOCUMENTO) {
+        if (
+            action.type === GET_SUCCESS_PARENTESCO ||
+            action.type === GET_SUCCESS_PLAN ||
+            action.type === GET_SUCCESS_TIPO_DOCUMENTO ||
+            action.type == GET_SUCCESS_ESTADOS_CIVILES ||
+            action.type == GET_SUCCESS_NACIONALIDADES
+        ) {
             dispatch(success());
         }
     };

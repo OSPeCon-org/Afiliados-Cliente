@@ -31,17 +31,17 @@ const NACIONALIDADES = "nacionalidades.timeStamp";
 
 const AFILIADO_DATOS_SUCCESS = "afiliadoDatos.timeStamp";
 
-export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AFILIADO_DATOS_SUCCESS, PARENTESCO)(LitElement) {
+export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AFILIADO_DATOS_SUCCESS, PARENTESCO, PLAN, TIPO_DOCUMENTO, ESTADOS_CIVILES, NACIONALIDADES)(LitElement) {
     constructor() {
         super();
         this.hidden = true;
         this.area = "body";
         this.current = "";
         this.parentescos = null;
-        this.planes = [];
-        this.tipoDocumento = [];
-        this.estadoCivil = [];
-        this.nacionalidades = [];
+        this.planes = null;
+        this.tipoDocumento = null;
+        this.estadoCivil = null;
+        this.nacionalidades = null;
 
         this.svgs = { BENEF: BENEF, GRPFAM: GRPFAM };
     }
@@ -123,7 +123,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                     <div class="select">
                         <select id="plan" required>
                             <option value="" disabled selected>Selecciona una opción</option>
-                            ${this.planes.map((item) => {
+                            ${this.planes?.map((item) => {
                                 return html` <option>${item.descripcion}</option> `;
                             })}
                         </select>
@@ -165,8 +165,9 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                     <div class="select">
                         <select id="documentoTipo" required>
                             <option value="" disabled selected>Selecciona una opción</option>
-                            <option value="1">DNI</option>
-                            <option value="2">Cedula</option>
+                            ${this.tipoDocumento?.map((item) => {
+                                return html` <option>${item.descripcion}</option> `;
+                            })}
                         </select>
                         <label for="DocumentoTipo">Tipo de Documento</label>
                         <label error>No puede ser vacio</label>
@@ -184,8 +185,9 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                     <div class="select">
                         <select id="estadoCivil" required>
                             <option value="" disabled selected>Selecciona una opción</option>
-                            <option value="1">Casado</option>
-                            <option value="2">Soltero</option>
+                            ${this.estadoCivil?.map((item) => {
+                                return html` <option>${item.descripcion}</option> `;
+                            })}
                         </select>
                         <label for="estadoCivil">Estado civil</label>
                         <label error>No puede ser vacio</label>
@@ -194,7 +196,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                     <div class="select">
                         <select id="nacionalidad" required>
                             <option value="" disabled selected>Selecciona una opción</option>
-                            ${this.nacionalidades.map((item) => {
+                            ${this.nacionalidades?.map((item) => {
                                 return html` <option>${item.descripcion}</option> `;
                             })}
                         </select>
@@ -228,20 +230,6 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
         store.dispatch(goTo("afiliadoDireccion"));
     }
 
-    /*verEstados() {
-        if (store.getState().nacionalidades.entities) {
-            this.nacionalidades = store.getState().nacionalidades.entities; //.Sort(); //ordenar
-            return true;
-        }
-
-        if (store.getState().parentesco.entities) {
-            this.parentescos = store.getState().parentesco.entities;
-            //console.log(this.parentescos.descripcion);
-            return true;
-        }
-        return false;
-    }*/
-
     firstUpdated(changedProperties) {}
 
     stateChanged(state, name, e) {
@@ -266,6 +254,26 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
 
         if (name == PARENTESCO) {
             this.parentescos = state.parentesco.entities;
+            this.update();
+        }
+
+        if (name == PLAN) {
+            this.planes = state.plan.entities;
+            this.update();
+        }
+
+        if (name == TIPO_DOCUMENTO) {
+            this.tipoDocumento = state.tipoDocumento.entities;
+            this.update();
+        }
+
+        if (name == ESTADOS_CIVILES) {
+            this.estadoCivil = state.estadosCiviles.entities;
+            this.update();
+        }
+
+        if (name == NACIONALIDADES) {
+            this.nacionalidades = state.nacionalidades.entities;
             this.update();
         }
     }

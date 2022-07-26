@@ -4,28 +4,37 @@ import { RESTRequest } from "../rest/actions";
 import { c } from "../fetchs";
 
 export const get =
-    ({ dispatch }) =>
+    ({ dispatch, getState }) =>
     (next) =>
     (action) => {
         next(action);
         if (action.type === GET) {
-            //dispatch(RESTRequest(webApiAfiliados, "", GET_SUCCESS, GET_ERROR, ""));
-            dispatch({
-                type: GET_SUCCESS,
-                payload: {
-                    receive: [
-                        {
-                            descripcion: "Obligatorio",
-                        },
-                        {
-                            descripcion: "Monotributista",
-                        },
-                        {
-                            descripcion: "Adhrente",
-                        },
-                    ],
-                },
-            });
+            if (!getState().plan.entities) {
+                //dispatch(RESTRequest(webApiAfiliados, "", GET_SUCCESS, GET_ERROR, ""));
+                dispatch({
+                    type: GET_SUCCESS,
+                    payload: {
+                        receive: [
+                            {
+                                descripcion: "Obligatorio",
+                            },
+                            {
+                                descripcion: "Monotributista",
+                            },
+                            {
+                                descripcion: "Adhrente",
+                            },
+                        ],
+                    },
+                });
+            } else {
+                dispatch({
+                    type: GET_SUCCESS,
+                    payload: {
+                        receive: getState().plan.entities,
+                    },
+                });
+            }
         }
     };
 
