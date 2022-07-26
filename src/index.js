@@ -29,10 +29,6 @@ viewMode("main");
 store.dispatch(captureMedia());
 store.dispatch(goTo("splash"));
 
-/**
- * Carga de options del formulario
- */
-
 console.log("Sirviendo datos de :" + SERVICE_URL);
 /* if ("credentials" in navigator) {
     navigator.credentials

@@ -14,10 +14,11 @@ import { middleware as plan } from "./plan/middleware";
 import { middleware as tipoDocumento } from "./tipoDocumento/middleware";
 import { middleware as estadosCiviles } from "./estadosCiviles/middleware";
 import { middleware as nacionalidades } from "./nacionalidades/middleware";
+import { middleware as afiliadoDatos } from "./afiliadoDatos/middleware";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-let mdw = [api, rest, ...ui, ...route, ...autorizacion, ...parentesco, ...plan, ...tipoDocumento, ...estadosCiviles, ...nacionalidades];
+let mdw = [api, rest, ...ui, ...route, ...autorizacion, ...afiliadoDatos, ...parentesco, ...plan, ...tipoDocumento, ...estadosCiviles, ...nacionalidades];
 
 if (process.env.NODE_ENV !== "production") {
     mdw = [...mdw, logger];
