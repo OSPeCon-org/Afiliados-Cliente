@@ -4,34 +4,25 @@ import { RESTRequest } from "../rest/actions";
 import { c } from "../fetchs";
 
 export const get =
-    ({ dispatch, getState }) =>
+    ({ dispatch }) =>
     (next) =>
     (action) => {
         next(action);
         if (action.type === GET) {
-            if (!getState().tipoDocumento.entities) {
-                //dispatch(RESTRequest(webApiAfiliados, "", GET_SUCCESS, GET_ERROR, ""));
-                dispatch({
-                    type: GET_SUCCESS,
-                    payload: {
-                        receive: [
-                            {
-                                descripcion: "DNI",
-                            },
-                            {
-                                descripcion: "Cedula",
-                            },
-                        ],
-                    },
-                });
-            } else {
-                dispatch({
-                    type: GET_SUCCESS,
-                    payload: {
-                        receive: getState().tipoDocumento.entities,
-                    },
-                });
-            }
+            //dispatch(RESTRequest(webApiAfiliados, "", GET_SUCCESS, GET_ERROR, ""));
+            dispatch({
+                type: GET_SUCCESS,
+                payload: {
+                    receive: [
+                        {
+                            descripcion: "DNI",
+                        },
+                        {
+                            descripcion: "Cedula",
+                        },
+                    ],
+                },
+            });
         }
     };
 

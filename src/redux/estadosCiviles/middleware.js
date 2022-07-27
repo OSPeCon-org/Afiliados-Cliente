@@ -4,34 +4,25 @@ import { RESTRequest } from "../rest/actions";
 import { c } from "../fetchs";
 
 export const get =
-    ({ dispatch, getState }) =>
+    ({ dispatch }) =>
     (next) =>
     (action) => {
         next(action);
         if (action.type === GET) {
-            if (!getState().estadosCiviles.entities) {
-                //dispatch(RESTRequest(webApiAfiliados, "", GET_SUCCESS, GET_ERROR, ""));
-                dispatch({
-                    type: GET_SUCCESS,
-                    payload: {
-                        receive: [
-                            {
-                                descripcion: "Casado",
-                            },
-                            {
-                                descripcion: "Soltero",
-                            },
-                        ],
-                    },
-                });
-            } else {
-                dispatch({
-                    type: GET_SUCCESS,
-                    payload: {
-                        receive: getState().estadosCiviles.entities,
-                    },
-                });
-            }
+            //dispatch(RESTRequest(webApiAfiliados, "", GET_SUCCESS, GET_ERROR, ""));
+            dispatch({
+                type: GET_SUCCESS,
+                payload: {
+                    receive: [
+                        {
+                            descripcion: "Casado",
+                        },
+                        {
+                            descripcion: "Soltero",
+                        },
+                    ],
+                },
+            });
         }
     };
 

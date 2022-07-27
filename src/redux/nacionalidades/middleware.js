@@ -4,34 +4,25 @@ import { RESTRequest } from "../rest/actions";
 import { c } from "../fetchs";
 
 export const get =
-    ({ dispatch, getState }) =>
+    ({ dispatch }) =>
     (next) =>
     (action) => {
         next(action);
         if (action.type === GET) {
-            if (!getState().nacionalidades.entities) {
-                //dispatch(RESTRequest(webApiAfiliados, "", GET_SUCCESS, GET_ERROR, ""));
-                dispatch({
-                    type: GET_SUCCESS,
-                    payload: {
-                        receive: [
-                            {
-                                descripcion: "Argentina",
-                            },
-                            {
-                                descripcion: "Extranjero",
-                            },
-                        ],
-                    },
-                });
-            } else {
-                dispatch({
-                    type: GET_SUCCESS,
-                    payload: {
-                        receive: getState().nacionalidades.entities,
-                    },
-                });
-            }
+            //dispatch(RESTRequest(webApiAfiliados, "", GET_SUCCESS, GET_ERROR, ""));
+            dispatch({
+                type: GET_SUCCESS,
+                payload: {
+                    receive: [
+                        {
+                            descripcion: "Argentina",
+                        },
+                        {
+                            descripcion: "Extranjero",
+                        },
+                    ],
+                },
+            });
         }
     };
 
