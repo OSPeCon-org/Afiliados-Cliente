@@ -14,7 +14,7 @@ export const reducer = (state = initialState, action) => {
 
     switch (action.type) {
         case GET:
-            newState.entitiesCountOk = 5;
+            newState.entitiesCountOk = 7;
             break;
         case SUCCESS:
             newState.entitiesCountOk -= 1;

@@ -13,19 +13,23 @@ import { select } from "@brunomon/template-lit/src/views/css/select";
 
 import { OPCION_DOMICILIO, RutaOpcionesControl } from "../../componentes/rutaOpciones";
 import { goTo, goHistoryPrev } from "@brunomon/template-lit/src/redux/routing/actions";
+import { get as GetAfiliadosDatos } from "../../../redux/afiliadoDatos/actions";
 import { cambioOpcioRuta } from "../../../redux/ruta/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
 const RUTA = "ruta.timeStamp";
 
-export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE)(LitElement) {
+const PROVINCIAS = "provincias.timeStamp";
+const LOCALIDADES = "localidades.timeStamp";
+
+export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE, PROVINCIAS, LOCALIDADES)(LitElement) {
     constructor() {
         super();
         this.hidden = true;
         this.area = "body";
         this.current = "";
-        this.svgs = { BENEF: BENEF, GRPFAM: GRPFAM };
+        (this.provincias = null), (this.localidades = null), (this.svgs = { BENEF: BENEF, GRPFAM: GRPFAM });
     }
 
     static get styles() {
@@ -115,8 +119,9 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                     <div class="select">
                         <select id="provincia" required>
                             <option value="" disabled selected>Selecciona una opción</option>
-                            <option value="1">Buenos Aires</option>
-                            <option value="2">CABA</option>
+                            ${this.provincias?.map((item) => {
+                                return html` <option>${item.descripcion}</option> `;
+                            })}
                         </select>
                         <label for="provincia">Provincia</label>
                         <label error>No puede ser vacio</label>
@@ -125,8 +130,9 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                     <div class="select">
                         <select id="localidad" required>
                             <option value="" disabled selected>Selecciona una opción</option>
-                            <option value="1">Dolores</option>
-                            <option value="2">Chascomus</option>
+                            ${this.localidades?.map((item) => {
+                                return html` <option>${item.descripcion}</option> `;
+                            })}
                         </select>
                         <label for="localidad">Localidad</label>
                         <label error>No puede ser vacio</label>
@@ -159,16 +165,28 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
     firstUpdated(changedProperties) {}
 
     stateChanged(state, name) {
-        if (name == MEDIA_CHANGE) {
+        let hiddenAnterior = this.hidden;
+        this.hidden = true;
+        if (name == SCREEN || name == MEDIA_CHANGE) {
             this.mediaSize = state.ui.media.size;
-        }
-        if (name == SCREEN) {
-            this.hidden = true;
             const isCurrentScreen = ["afiliadoDireccion"].includes(state.screen.name);
             if (isInLayout(state, this.area) && isCurrentScreen) {
+                if (hiddenAnterior) {
+                    store.dispatch(GetAfiliadosDatos());
+                    store.dispatch(cambioOpcioRuta(OPCION_DOMICILIO));
+                }
                 this.hidden = false;
-                store.dispatch(cambioOpcioRuta(OPCION_DOMICILIO));
             }
+        }
+
+        if (name == PROVINCIAS) {
+            this.provincias = state.provincias.entities;
+            this.update();
+        }
+
+        if (name == LOCALIDADES) {
+            this.localidades = state.localidades.entities;
+            this.update();
         }
     }
     static get properties() {

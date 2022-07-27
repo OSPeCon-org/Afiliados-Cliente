@@ -12,6 +12,8 @@ import { reducer as tipoDocumentoReducer } from "./tipoDocumento/reducer";
 import { reducer as estadosCivilesReducer } from "./estadosCiviles/reducer";
 import { reducer as nacionalidadesReducer } from "./nacionalidades/reducer";
 import { reducer as afiliadoDatosREducer } from "./afiliadoDatos/reducer";
+import { reducer as provinciasREducer } from "./provincias/reducer";
+import { reducer as localidadesREducer } from "./localidades/reducer";
 
 export const rootReducer = (state = {}, action) => {
     const presentacionesEstadosRed = state.presentacionesEstados;
@@ -27,5 +29,7 @@ export const rootReducer = (state = {}, action) => {
         tipoDocumento: tipoDocumentoReducer(state.tipoDocumento, action),
         estadosCiviles: estadosCivilesReducer(state.estadosCiviles, action),
         nacionalidades: nacionalidadesReducer(state.nacionalidades, action),
+        provincias: provinciasREducer(state.provincias, action),
+        localidades: localidadesREducer(state.localidades, action),
     };
 };
