@@ -16,6 +16,8 @@ import { goTo, goHistoryPrev } from "@brunomon/template-lit/src/redux/routing/ac
 import { get as GetAfiliadosDatos } from "../../../redux/afiliadoDatos/actions";
 import { cambioOpcioRuta } from "../../../redux/ruta/actions";
 
+import { isEmpty } from "../../../libs/funciones";
+
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
 const RUTA = "ruta.timeStamp";
@@ -29,7 +31,18 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
         this.hidden = true;
         this.area = "body";
         this.current = "";
+        this.item = {};
         (this.provincias = null), (this.localidades = null), (this.svgs = { BENEF: BENEF, GRPFAM: GRPFAM });
+
+        this.validaciones = {
+            calle: { invalid: false, isInvalid: isEmpty },
+            altura: { invalid: false, isInvalid: isEmpty },
+            piso: { invalid: false, isInvalid: isEmpty },
+            departamento: { invalid: false, isInvalid: isEmpty },
+            provincia: { invalid: false, isInvalid: isEmpty },
+            localidad: { invalid: false, isInvalid: isEmpty },
+            codigoPostal: { invalid: false, isInvalid: isEmpty },
+        };
     }
 
     static get styles() {
@@ -89,26 +102,26 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
             <ruta-opcionescontrol></ruta-opcionescontrol>
             <div id="cuerpo" class="grid row">
                 <div class="grupo">
-                    <div class="input">
-                        <input id="calle" />
+                    <div class="input" ?error=${this.validaciones.calle.invalid}>
+                        <input id="calle" .value=${this.item.calle} @blur="${this.enlace("calle")}" />
                         <label for="calle">Calle</label>
                         <label error>No puede ser vacio</label>
                         <label subtext>Requerido</label>
                     </div>
-                    <div class="input">
-                        <input id="altura" />
+                    <div class="input" ?error=${this.validaciones.altura.invalid}>
+                        <input id="altura" .value=${this.item.altura} @blur="${this.enlace("altura")}" />
                         <label for="altura">Altura</label>
                         <label error>No puede ser vacio</label>
                         <label subtext>Requerido</label>
                     </div>
-                    <div class="input">
-                        <input id="piso" />
+                    <div class="input" ?error=${this.validaciones.piso.invalid}>
+                        <input id="piso" .value=${this.item.piso} @blur="${this.enlace("piso")}" />
                         <label for="piso">Piso</label>
                         <label error>No puede ser vacio</label>
                         <label subtext>Requerido</label>
                     </div>
-                    <div class="input">
-                        <input id="departamento" />
+                    <div class="input" ?error=${this.validaciones.departamento.invalid}>
+                        <input id="departamento" .value=${this.item.departamento} @blur="${this.enlace("departamento")}" />
                         <label for="departamento">Departamento</label>
                         <label error>No puede ser vacio</label>
                         <label subtext>Requerido</label>
@@ -116,8 +129,8 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                 </div>
                 <div class="linea"></div>
                 <div class="grupo">
-                    <div class="select">
-                        <select id="provincia" required>
+                    <div class="select" ?error=${this.validaciones.provincia.invalid}>
+                        <select id="provincia" required .value=${this.item.provincia} @blur="${this.enlace("provincia")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.provincias?.map((item) => {
                                 return html` <option>${item.descripcion}</option> `;
@@ -127,8 +140,8 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                         <label error>No puede ser vacio</label>
                         <label subtext>Requerido</label>
                     </div>
-                    <div class="select">
-                        <select id="localidad" required>
+                    <div class="select" ?error=${this.validaciones.localidad.invalid}>
+                        <select id="localidad" required .value=${this.item.localidad} @blur="${this.enlace("localidad")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.localidades?.map((item) => {
                                 return html` <option>${item.descripcion}</option> `;
@@ -141,8 +154,8 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                 </div>
                 <div class="linea"></div>
                 <div class="grupo">
-                    <div class="input">
-                        <input id="codigoPostal" />
+                    <div class="input" ?error=${this.validaciones.codigoPostal.invalid}>
+                        <input id="codigoPostal" .value=${this.item.codigoPostal} @blur="${this.enlace("codigoPostal")}" />
                         <label for="codigoPostal">Codigo postal</label>
                         <label error>No puede ser vacio</label>
                         <label subtext>Requerido</label>
@@ -160,8 +173,34 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
         store.dispatch(goHistoryPrev());
     }
     siguiente() {
-        store.dispatch(goTo("afiliadoContacto"));
+        if (this.isValidForm()) {
+            store.dispatch(goTo("afiliadoContacto"));
+        } else {
+            this.requestUpdate();
+        }
     }
+
+    isValidForm() {
+        let isValid = true;
+        Object.entries(this.validaciones).forEach(([field, value]) => {
+            this.validaciones[field].invalid = this.validaciones[field].isInvalid(this.item[field]);
+            isValid = isValid && !this.validaciones[field].invalid;
+        });
+        return isValid;
+    }
+
+    enlace(field) {
+        return (e) => this.updateProperty(e, field);
+    }
+    updateProperty(e, field) {
+        this.item[field] = e.currentTarget.value;
+        if (this.validaciones[field]) {
+            this.validaciones[field].invalid = this.validaciones[field].isInvalid(this.item[field]);
+        }
+
+        this.requestUpdate();
+    }
+
     firstUpdated(changedProperties) {}
 
     stateChanged(state, name) {
@@ -176,6 +215,16 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                     store.dispatch(cambioOpcioRuta(OPCION_DOMICILIO));
                 }
                 this.hidden = false;
+
+                this.item = {
+                    calle: "",
+                    altura: "",
+                    piso: "",
+                    departamento: "",
+                    provincia: "",
+                    localidad: "",
+                    codigoPostal: "",
+                };
             }
         }
 
@@ -189,6 +238,7 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
             this.update();
         }
     }
+
     static get properties() {
         return {
             mediaSize: {

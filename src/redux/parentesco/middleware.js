@@ -16,15 +16,19 @@ export const get =
                     payload: {
                         receive: [
                             {
+                                id: 1,
                                 descripcion: "Titular",
                             },
                             {
+                                id: 2,
                                 descripcion: "Conyuge",
                             },
                             {
+                                id: 3,
                                 descripcion: "Hija",
                             },
                             {
+                                id: 4,
                                 descripcion: "Madre",
                             },
                         ],
