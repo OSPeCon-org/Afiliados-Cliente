@@ -149,7 +149,7 @@ export class RutaOpcionesControl extends connect(store, SCREEN, MEDIA_CHANGE, SH
     }
 
     seleccionarOpcionRuta(e) {
-        store.dispatch(cambioOpcioRuta(e.currentTarget.option));
+        //store.dispatch(cambioOpcioRuta(e.currentTarget.option));
     }
 
     static get properties() {
