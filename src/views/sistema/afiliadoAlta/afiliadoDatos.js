@@ -20,7 +20,6 @@ import { getAll as GetAllParentesco } from "../../../redux/parentesco/actions";
 import { get as GetAfiliadosDatos } from "../../../redux/afiliadoDatos/actions";
 
 import { isEmpty, cuilInvalido, opcionInvalida, dniInvalido } from "../../../libs/funciones";
-import { ThumbUpSharp } from "@material-ui/icons";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
