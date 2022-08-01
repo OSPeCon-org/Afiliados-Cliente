@@ -47,6 +47,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
         this.nacionalidades = null;
 
         this.svgs = { BENEF: BENEF, GRPFAM: GRPFAM };
+
         this.validaciones = {
             parentesco: { invalid: false, isInvalid: isEmpty },
             cuil: { invalid: false, isInvalid: cuilInvalido },
@@ -240,6 +241,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
     atras() {
         store.dispatch(goHistoryPrev());
     }
+
     siguiente() {
         /**TODO: poner alert si irASiguiente == false  */
         if (this.isValidForm()) {
@@ -261,6 +263,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
     enlace(field) {
         return (e) => this.updateProperty(e, field);
     }
+
     updateProperty(e, field) {
         this.item[field] = e.currentTarget.value;
         if (this.validaciones[field]) {
@@ -314,7 +317,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
         }
 
         if (name == PLAN) {
-            this.planes = state.parentesco.entities;
+            this.planes = state.plan.entities;
             this.update();
         }
 

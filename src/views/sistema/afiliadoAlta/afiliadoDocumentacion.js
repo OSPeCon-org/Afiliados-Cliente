@@ -84,7 +84,7 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
                             <div class="tarjeta-documento" tipo=${item.imagen}>
                                 <div titulo>
                                     <div>${item.titulo}</div>
-                                    <div help>${HELP}</div>
+                                    <div help @click="${this.help}">${HELP}</div>
                                 </div>
                                 <div estado>
                                     <div>${item.estado}</div>
@@ -113,6 +113,8 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
     siguiente() {
         store.dispatch(goTo("afiliadoAltaFin"));
     }
+
+    help(titulo) {}
     firstUpdated(changedProperties) {}
 
     stateChanged(state, name) {
