@@ -137,7 +137,7 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                             })}
                         </select>
                         <label for="provincia">Provincia</label>
-                        <label error>No puede ser vacio</label>
+                        <label error>Debe seleccionar una opción</label>
                         <label subtext>Requerido</label>
                     </div>
                     <div class="select" ?error=${this.validaciones.localidad.invalid}>
@@ -148,7 +148,7 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                             })}
                         </select>
                         <label for="localidad">Localidad</label>
-                        <label error>No puede ser vacio</label>
+                        <label error>Debe seleccionar una opción</label>
                         <label subtext>Requerido</label>
                     </div>
                 </div>
