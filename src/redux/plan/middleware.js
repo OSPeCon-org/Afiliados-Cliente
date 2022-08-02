@@ -15,12 +15,15 @@ export const get =
                 payload: {
                     receive: [
                         {
+                            id: 1,
                             descripcion: "Obligatorio",
                         },
                         {
+                            id: 2,
                             descripcion: "Monotributista",
                         },
                         {
+                            id: 3,
                             descripcion: "Adhrente",
                         },
                     ],

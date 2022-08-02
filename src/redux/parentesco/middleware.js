@@ -27,10 +27,6 @@ export const get =
                                 id: 3,
                                 descripcion: "Hija",
                             },
-                            {
-                                id: 4,
-                                descripcion: "Madre",
-                            },
                         ],
                     },
                 });

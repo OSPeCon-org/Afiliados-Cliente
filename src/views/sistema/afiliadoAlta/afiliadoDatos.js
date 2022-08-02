@@ -121,7 +121,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
             <div id="cuerpo" class="grid row">
                 <div class="grupo">
                     <div class="select" ?error=${this.validaciones.parentesco.invalid}>
-                        <select id="parentesco" required .value=${this.item.parentesco} @blur="${this.enlace("parentesco")}">
+                        <select id="parentesco" required @blur="${this.enlace("parentesco")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.parentescos?.map((item) => {
                                 return html` <option value=${item.id}>${item.descripcion}</option> `;
@@ -138,10 +138,10 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                         <label subtext>Requerido</label>
                     </div>
                     <div class="select" ?error=${this.validaciones.plan.invalid}>
-                        <select id="plan" required .value=${this.item.plan} @blur="${this.enlace("plan")}">
+                        <select id="plan" required @blur="${this.enlace("plan")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.planes?.map((item) => {
-                                return html` <option>${item.descripcion}</option> `;
+                                return html` <option value=${item.id}>${item.descripcion}</option> `;
                             })}
                         </select>
                         <label for="plan">Plan</label>
@@ -163,8 +163,8 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                         <label error>Debe ingresar nombre</label>
                         <label subtext>Requerido</label>
                     </div>
-                    <div class="select" required ?error=${this.validaciones.sexo.invalid}>
-                        <select id="sexo" .value=${this.item.sexo} @blur="${this.enlace("sexo")}">
+                    <div class="select" ?error=${this.validaciones.sexo.invalid}>
+                        <select id="sexo" required @blur="${this.enlace("sexo")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             <option value="1">Femenino</option>
                             <option value="2">Masculino</option>
@@ -180,7 +180,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                         <label subtext>Requerido</label>
                     </div>
                     <div class="select" ?error=${this.validaciones.documentoTipo.invalid}>
-                        <select id="documentoTipo" required .value=${this.item.documentoTipo} @blur="${this.enlace("documentoTipo")}">
+                        <select id="documentoTipo" required @blur="${this.enlace("documentoTipo")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             <option value="1">DNI</option>
                             <option value="2">Cedula</option>
@@ -199,7 +199,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                 <div class="linea"></div>
                 <div class="grupo">
                     <div class="select" ?error=${this.validaciones.estadoCivil.invalid}>
-                        <select id="estadoCivil" required .value=${this.item.estadosCiviles} @blur="${this.enlace("estadoCivil")}">
+                        <select id="estadoCivil" required @blur="${this.enlace("estadoCivil")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             <option value="1">Casado</option>
                             <option value="2">Soltero</option>
@@ -209,7 +209,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                         <label subtext>Requerido</label>
                     </div>
                     <div class="select" ?error=${this.validaciones.nacionalidad.invalid}>
-                        <select id="nacionalidad" required .value=${this.item.nacionalidad} @blur="${this.enlace("nacionalidad")}">
+                        <select id="nacionalidad" required @blur="${this.enlace("nacionalidad")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.nacionalidades?.map((item) => {
                                 return html` <option>${item.descripcion}</option> `;
@@ -220,7 +220,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                         <label subtext>Requerido</label>
                     </div>
                     <div class="select" ?error=${this.validaciones.discapacidad.invalid}>
-                        <select id="discapacidad" required .value=${this.item.discapacidad} @blur="${this.enlace("discapacidad")}">
+                        <select id="discapacidad" required @blur="${this.enlace("discapacidad")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             <option value="1">Si</option>
                             <option value="2">No</option>

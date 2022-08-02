@@ -103,7 +103,7 @@ export class splashScreen extends connect(store, MEDIA_CHANGE, SCREEN)(LitElemen
         }*/
 
         //store.dispatch(goTo("main"));
-        store.dispatch(goTo("pruebaFlor"));
+        store.dispatch(goTo("afiliadoDatos"));
     }
 
     static get properties() {

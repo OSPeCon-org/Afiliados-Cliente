@@ -1,7 +1,10 @@
-export const GET = "[estados civiles] GET";
-export const GET_SUCCESS = "[estados civiles] GET success";
-export const GET_ERROR = "[estados civiles] GET error";
+export const GET = "[afiliados documentacion] GET";
+export const GET_SUCCESS = "[afiliados documentacion] GET success";
+export const GET_ERROR = "[afiliados documentacion] GET error";
 
-export const getAll = () => ({
+export const getAll = (planId, parentescoId, discapacidad) => ({
     type: GET,
+    planId: planId,
+    parentescoId: parentescoId,
+    discapacidad: discapacidad,
 });

@@ -15,13 +15,58 @@ export const get =
                 payload: {
                     receive: [
                         {
-                            PlanId: 0, //tabla plan
-                            ParentescoId: 0, //tabla parentesco
+                            PlanId: 1, //tabla plan
+                            ParentescoId: 1, //tabla parentesco
                             Discapacidad: "", //si o no
                             Documentacion: 0, //id documentos
                         },
                         {
-                            descripcion: "Soltero",
+                            PlanId: 1, //tabla plan
+                            ParentescoId: 2, //tabla parentesco
+                            Discapacidad: "", //si o no
+                            Documentacion: 0, //id documentos
+                        },
+                        {
+                            PlanId: 1, //tabla plan
+                            ParentescoId: 3, //tabla parentesco
+                            Discapacidad: "", //si o no
+                            Documentacion: 0, //id documentos
+                        },
+                        {
+                            PlanId: 2, //tabla plan
+                            ParentescoId: 1, //tabla parentesco
+                            Discapacidad: "", //si o no
+                            Documentacion: 0, //id documentos
+                        },
+                        {
+                            PlanId: 2, //tabla plan
+                            ParentescoId: 2, //tabla parentesco
+                            Discapacidad: "", //si o no
+                            Documentacion: 0, //id documentos
+                        },
+                        {
+                            PlanId: 2, //tabla plan
+                            ParentescoId: 3, //tabla parentesco
+                            Discapacidad: "", //si o no
+                            Documentacion: 0, //id documentos
+                        },
+                        {
+                            PlanId: 3, //tabla plan
+                            ParentescoId: 1, //tabla parentesco
+                            Discapacidad: "", //si o no
+                            Documentacion: 0, //id documentos
+                        },
+                        {
+                            PlanId: 3, //tabla plan
+                            ParentescoId: 2, //tabla parentesco
+                            Discapacidad: "", //si o no
+                            Documentacion: 0, //id documentos
+                        },
+                        {
+                            PlanId: 3, //tabla plan
+                            ParentescoId: 3, //tabla parentesco
+                            Discapacidad: "", //si o no
+                            Documentacion: 0, //id documentos
                         },
                     ],
                 },

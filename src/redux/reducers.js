@@ -14,6 +14,7 @@ import { reducer as nacionalidadesReducer } from "./nacionalidades/reducer";
 import { reducer as afiliadoDatosREducer } from "./afiliadoDatos/reducer";
 import { reducer as provinciasREducer } from "./provincias/reducer";
 import { reducer as localidadesREducer } from "./localidades/reducer";
+import { reducer as afiliadoDocumentacionREducer } from "./afiliadoDocumentacion/reducer";
 
 export const rootReducer = (state = {}, action) => {
     const presentacionesEstadosRed = state.presentacionesEstados;
@@ -24,6 +25,7 @@ export const rootReducer = (state = {}, action) => {
         routing: routingReducer(state.routing, action),
         ruta: rutaReducer(state.ruta, action),
         afiliadoDatos: afiliadoDatosREducer(state.afiliadoDatos, action),
+        afiliadoDocumentacion: afiliadoDocumentacionREducer(state.afiliadoDocumentacion, action),
         parentesco: parentescoReducer(state.parentesco, action),
         plan: planReducer(state.plan, action),
         tipoDocumento: tipoDocumentoReducer(state.tipoDocumento, action),

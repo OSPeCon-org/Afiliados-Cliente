@@ -15,16 +15,19 @@ import { OPCION_DOCUM, RutaOpcionesControl } from "../../componentes/rutaOpcione
 import { tarjetaDocumento } from "../../css/tarjetaDocumento";
 import { goHistoryPrev, goTo } from "@brunomon/template-lit/src/redux/routing/actions";
 import { cambioOpcioRuta } from "../../../redux/ruta/actions";
+import { ThreeSixty } from "@material-ui/icons";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
+const AFILIADO_DOCUMENTACION = "afiliadoDocumentacion.timeStamp";
 
-export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CHANGE)(LitElement) {
+export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CHANGE, AFILIADO_DOCUMENTACION)(LitElement) {
     constructor() {
         super();
         this.hidden = true;
         this.area = "body";
         this.current = "";
+        this.documentacion = {};
         this.items = [
             { titulo: "Documento frente", imagen: "UPLOAD", estado: "PENDIENTE", copete: "Debe subir el documento", accion1: "NUEVO DOCUMENTO", accion2: "" },
             { titulo: "Documento dorso", imagen: "UPLOAD", estado: "PENDIENTE", copete: "Debe subir el documento", accion1: "NUEVO DOCUMENTO", accion2: "" },
@@ -128,6 +131,10 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
                 this.hidden = false;
                 store.dispatch(cambioOpcioRuta(OPCION_DOCUM));
             }
+        }
+
+        if (name == AFILIADO_DOCUMENTACION) {
+            this.documentacion = state.afiliadoDocumentacion.entities;
         }
     }
     static get properties() {

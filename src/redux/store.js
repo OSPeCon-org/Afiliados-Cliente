@@ -17,10 +17,26 @@ import { middleware as nacionalidades } from "./nacionalidades/middleware";
 import { middleware as afiliadoDatos } from "./afiliadoDatos/middleware";
 import { middleware as provincias } from "./provincias/middleware";
 import { middleware as localidades } from "./localidades/middleware";
+import { middleware as afiliadoDocumentacion } from "./afiliadoDocumentacion/middleware";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-let mdw = [api, rest, ...ui, ...route, ...autorizacion, ...afiliadoDatos, ...parentesco, ...plan, ...tipoDocumento, ...estadosCiviles, ...nacionalidades, ...provincias, ...localidades];
+let mdw = [
+    api,
+    rest,
+    ...ui,
+    ...route,
+    ...autorizacion,
+    ...afiliadoDatos,
+    ...afiliadoDocumentacion,
+    ...parentesco,
+    ...plan,
+    ...tipoDocumento,
+    ...estadosCiviles,
+    ...nacionalidades,
+    ...provincias,
+    ...localidades,
+];
 
 if (process.env.NODE_ENV !== "production") {
     mdw = [...mdw, logger];
