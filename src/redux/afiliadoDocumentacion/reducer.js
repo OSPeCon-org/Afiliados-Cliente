@@ -2,6 +2,7 @@ import { GET_SUCCESS, GET_ERROR } from "./actions";
 
 const initialState = {
     entities: null,
+
     timeStamp: null,
     errorTimeStamp: null,
 };

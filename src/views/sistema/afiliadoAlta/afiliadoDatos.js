@@ -295,18 +295,18 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
 
                 /**TODO: llenar este item en el stateChange */
                 this.item = {
-                    parentesco: "",
-                    cuil: "",
-                    plan: "",
-                    apellido: "",
-                    nombre: "",
-                    sexo: "",
+                    parentesco: "1",
+                    cuil: "546546",
+                    plan: "1",
+                    apellido: "dfsdf",
+                    nombre: "sdfsdf",
+                    sexo: "1",
                     nacimiento: "",
-                    documentoTipo: "",
-                    documentoNumero: "",
-                    estadoCivil: "",
-                    nacionalidad: "",
-                    discapacidad: "",
+                    documentoTipo: "2",
+                    documentoNumero: "654654",
+                    estadoCivil: "1",
+                    nacionalidad: "1",
+                    discapacidad: "2",
                 };
             }
         }

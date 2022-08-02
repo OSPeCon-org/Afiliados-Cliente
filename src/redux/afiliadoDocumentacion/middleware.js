@@ -15,60 +15,89 @@ export const get =
                 payload: {
                     receive: [
                         {
-                            PlanId: 1, //tabla plan
-                            ParentescoId: 1, //tabla parentesco
-                            Discapacidad: "", //si o no
-                            Documentacion: 0, //id documentos
+                            PlanId: 1,
+                            ParentescoId: 1,
+                            Discapacidad: 2,
+                            titulo: "Documento frente",
+                            imagen: "UPLOAD",
+                            estado: "PENDIENTE",
+                            copete: "Debe subir el documento",
+                            accion1: "NUEVO DOCUMENTO",
+                            accion2: "",
+                        },
+                        {
+                            PlanId: 1,
+                            ParentescoId: 1,
+                            Discapacidad: 2,
+                            titulo: "Documento dorso",
+                            imagen: "UPLOAD",
+                            estado: "PENDIENTE",
+                            copete: "Debe subir el documento",
+                            accion1: "NUEVO DOCUMENTO",
+                            accion2: "",
+                        },
+                        {
+                            PlanId: 1,
+                            ParentescoId: 1,
+                            Discapacidad: 2,
+                            titulo: "Recibo de sueldo o alta temprana",
+                            imagen: "UPLOAD",
+                            estado: "PENDIENTE",
+                            copete: "Debe subir el documento",
+                            accion1: "VER DOCUMENTO",
+                            accion2: "",
                         },
                         {
                             PlanId: 1, //tabla plan
                             ParentescoId: 2, //tabla parentesco
-                            Discapacidad: "", //si o no
+                            Discapacidad: 2, //si o no
                             Documentacion: 0, //id documentos
                         },
                         {
                             PlanId: 1, //tabla plan
                             ParentescoId: 3, //tabla parentesco
-                            Discapacidad: "", //si o no
+                            Discapacidad: 1, //si o no
                             Documentacion: 0, //id documentos
                         },
                         {
                             PlanId: 2, //tabla plan
                             ParentescoId: 1, //tabla parentesco
-                            Discapacidad: "", //si o no
+                            Discapacidad: 2, //si o no
                             Documentacion: 0, //id documentos
                         },
                         {
                             PlanId: 2, //tabla plan
                             ParentescoId: 2, //tabla parentesco
-                            Discapacidad: "", //si o no
+                            Discapacidad: 1, //si o no
                             Documentacion: 0, //id documentos
                         },
                         {
                             PlanId: 2, //tabla plan
                             ParentescoId: 3, //tabla parentesco
-                            Discapacidad: "", //si o no
+                            Discapacidad: 1, //si o no
                             Documentacion: 0, //id documentos
                         },
                         {
                             PlanId: 3, //tabla plan
                             ParentescoId: 1, //tabla parentesco
-                            Discapacidad: "", //si o no
+                            Discapacidad: 2, //si o no
                             Documentacion: 0, //id documentos
                         },
                         {
                             PlanId: 3, //tabla plan
                             ParentescoId: 2, //tabla parentesco
-                            Discapacidad: "", //si o no
+                            Discapacidad: 1, //si o no
                             Documentacion: 0, //id documentos
                         },
                         {
                             PlanId: 3, //tabla plan
                             ParentescoId: 3, //tabla parentesco
-                            Discapacidad: "", //si o no
+                            Discapacidad: 2, //si o no
                             Documentacion: 0, //id documentos
                         },
-                    ],
+                    ].filter((item) => {
+                        return item.PlanId == action.planId && item.ParentescoId == action.parentescoId && item.Discapacidad == action.discapacidad;
+                    }),
                 },
             });
         }

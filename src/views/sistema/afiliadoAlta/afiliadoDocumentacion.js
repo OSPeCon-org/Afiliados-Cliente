@@ -16,6 +16,7 @@ import { tarjetaDocumento } from "../../css/tarjetaDocumento";
 import { goHistoryPrev, goTo } from "@brunomon/template-lit/src/redux/routing/actions";
 import { cambioOpcioRuta } from "../../../redux/ruta/actions";
 import { ThreeSixty } from "@material-ui/icons";
+import { state } from "lit-element";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -28,12 +29,11 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
         this.area = "body";
         this.current = "";
         this.documentacion = {};
-        this.items = [
-            { titulo: "Documento frente", imagen: "UPLOAD", estado: "PENDIENTE", copete: "Debe subir el documento", accion1: "NUEVO DOCUMENTO", accion2: "" },
+        this.items = [];
+        /*  { titulo: "Documento frente", imagen: "UPLOAD", estado: "PENDIENTE", copete: "Debe subir el documento", accion1: "NUEVO DOCUMENTO", accion2: "" },
             { titulo: "Documento dorso", imagen: "UPLOAD", estado: "PENDIENTE", copete: "Debe subir el documento", accion1: "NUEVO DOCUMENTO", accion2: "" },
             { titulo: "Constancia de CUIL", imagen: "UPLOAD", estado: "PENDIENTE", copete: "Debe subir el documento", accion1: "VER DOCUMENTO", accion2: "" },
-            { titulo: "Formulario F154", imagen: "UPLOAD", estado: "PENDIENTE", copete: "Debe subir el documento", accion1: "NUEVO DOCUMENTO", accion2: "" },
-        ];
+            { titulo: "Formulario F154", imagen: "UPLOAD", estado: "PENDIENTE", copete: "Debe subir el documento", accion1: "NUEVO DOCUMENTO", accion2: "" },*/
         this.svgs = { OK: OK, CANCEL: CANCEL, SETTINGS: SETTINGS, UPLOAD: UPLOAD };
     }
 
@@ -82,7 +82,7 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
             <ruta-opcionescontrol></ruta-opcionescontrol>
             <div id="cuerpo">
                 <div id="datos">
-                    ${this.items.map((item) => {
+                    ${this.items?.map((item) => {
                         return html`
                             <div class="tarjeta-documento" tipo=${item.imagen}>
                                 <div titulo>
@@ -130,6 +130,7 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
             if (isInLayout(state, this.area) && isCurrentScreen) {
                 this.hidden = false;
                 store.dispatch(cambioOpcioRuta(OPCION_DOCUM));
+                this.items = store.getState().afiliadoDocumentacion.entities;
             }
         }
 
