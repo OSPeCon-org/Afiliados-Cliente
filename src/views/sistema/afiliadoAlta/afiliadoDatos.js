@@ -18,6 +18,7 @@ import { cambioOpcioRuta } from "../../../redux/ruta/actions";
 import { getAll as GetAllNacionalidades } from "../../../redux/nacionalidades/actions";
 import { getAll as GetAllParentesco } from "../../../redux/parentesco/actions";
 import { get as GetAfiliadosDatos } from "../../../redux/afiliadoDatos/actions";
+import { get as getDocumentacion } from "../../../redux/afiliadoDocumentacion/actions";
 
 import { isEmpty, cuilInvalido, opcionInvalida, dniInvalido } from "../../../libs/funciones";
 
@@ -121,7 +122,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
             <div id="cuerpo" class="grid row">
                 <div class="grupo">
                     <div class="select" ?error=${this.validaciones.parentesco.invalid}>
-                        <select id="parentesco" required @blur="${this.enlace("parentesco")}">
+                        <select id="parentesco" .value="${this.item.parentesco}" required @blur="${this.enlace("parentesco")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.parentescos?.map((item) => {
                                 return html` <option value=${item.id}>${item.descripcion}</option> `;
@@ -138,7 +139,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                         <label subtext>Requerido</label>
                     </div>
                     <div class="select" ?error=${this.validaciones.plan.invalid}>
-                        <select id="plan" required @blur="${this.enlace("plan")}">
+                        <select id="plan" .value="${this.item.plan}" required @blur="${this.enlace("plan")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.planes?.map((item) => {
                                 return html` <option value=${item.id}>${item.descripcion}</option> `;
@@ -164,7 +165,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                         <label subtext>Requerido</label>
                     </div>
                     <div class="select" ?error=${this.validaciones.sexo.invalid}>
-                        <select id="sexo" required @blur="${this.enlace("sexo")}">
+                        <select id="sexo" .value="${this.item.sexo}" required @blur="${this.enlace("sexo")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             <option value="1">Femenino</option>
                             <option value="2">Masculino</option>
@@ -180,7 +181,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                         <label subtext>Requerido</label>
                     </div>
                     <div class="select" ?error=${this.validaciones.documentoTipo.invalid}>
-                        <select id="documentoTipo" required @blur="${this.enlace("documentoTipo")}">
+                        <select id="documentoTipo" .value="${this.item.documentoTipo}" required @blur="${this.enlace("documentoTipo")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             <option value="1">DNI</option>
                             <option value="2">Cedula</option>
@@ -199,7 +200,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                 <div class="linea"></div>
                 <div class="grupo">
                     <div class="select" ?error=${this.validaciones.estadoCivil.invalid}>
-                        <select id="estadoCivil" required @blur="${this.enlace("estadoCivil")}">
+                        <select id="estadoCivil" .value="${this.item.estadoCivil}" required @blur="${this.enlace("estadoCivil")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             <option value="1">Casado</option>
                             <option value="2">Soltero</option>
@@ -209,7 +210,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                         <label subtext>Requerido</label>
                     </div>
                     <div class="select" ?error=${this.validaciones.nacionalidad.invalid}>
-                        <select id="nacionalidad" required @blur="${this.enlace("nacionalidad")}">
+                        <select id="nacionalidad" .value="${this.item.nacionalidad}" required @blur="${this.enlace("nacionalidad")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.nacionalidades?.map((item) => {
                                 return html` <option>${item.descripcion}</option> `;
@@ -220,7 +221,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                         <label subtext>Requerido</label>
                     </div>
                     <div class="select" ?error=${this.validaciones.discapacidad.invalid}>
-                        <select id="discapacidad" required @blur="${this.enlace("discapacidad")}">
+                        <select id="discapacidad" .value="${this.item.discapacidad}" required @blur="${this.enlace("discapacidad")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             <option value="1">Si</option>
                             <option value="2">No</option>
@@ -246,6 +247,9 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
         /**TODO: poner alert si irASiguiente == false  */
         if (this.isValidForm()) {
             store.dispatch(goTo("afiliadoDireccion"));
+
+            console.log(this.item);
+            store.dispatch(getDocumentacion(this.item.plan, this.item.parentesco, this.item.discapacidad));
         } else {
             this.requestUpdate();
         }
@@ -296,13 +300,13 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                     plan: "",
                     apellido: "",
                     nombre: "",
-                    sexo: 0,
+                    sexo: "",
                     nacimiento: "",
-                    documentoTipo: 0,
+                    documentoTipo: "",
                     documentoNumero: "",
-                    estadoCivil: 0,
-                    nacionalidad: 0,
-                    dicapacidad: 0,
+                    estadoCivil: "",
+                    nacionalidad: "",
+                    discapacidad: "",
                 };
             }
         }
