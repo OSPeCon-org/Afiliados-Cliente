@@ -15,6 +15,8 @@ import { OPCION_CONTACTO, RutaOpcionesControl } from "../../componentes/rutaOpci
 import { goHistoryPrev, goTo } from "@brunomon/template-lit/src/redux/routing/actions";
 import { cambioOpcioRuta } from "../../../redux/ruta/actions";
 
+import { isEmpty, opcionInvalida } from "../../../libs/funciones";
+
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
 
@@ -25,6 +27,11 @@ export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE)
         this.area = "body";
         this.current = "";
         this.svgs = { BENEF: BENEF, GRPFAM: GRPFAM };
+
+        this.validaciones = {
+            telefonoCelular: { invalid: false, isInvalid: isEmpty },
+            mail1: { invalid: false, isInvalid: isEmpty },
+        };
     }
 
     static get styles() {
@@ -84,15 +91,15 @@ export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE)
             <ruta-opcionescontrol></ruta-opcionescontrol>
             <div id="cuerpo" class="grid row">
                 <div class="grupo">
-                    <div class="input">
-                        <input id="telefonoCelular" />
-                        <label for="telefonoCelular">Telefono particular</label>
-                        <label error>No puede ser vacio</label>
+                    <div class="input" ?error=${this.validaciones.telefonoCelular.invalid}>
+                        <input id="telefonoCelular" .value=${this.item.telefonoCelular} @blur="${this.enlace("telefonoCelular")}" />
+                        <label for="telefonoCelular">Telefono celular</label>
+                        <label error>Debe ingresar un numero de contacto</label>
                         <label subtext>Requerido</label>
                     </div>
                     <div class="input">
                         <input id="telefonoParticular" />
-                        <label for="alttelefonoCelularura">Telefono celular</label>
+                        <label for="telefonoParticular">Telefono particular</label>
                         <label error>No puede ser vacio</label>
                         <label subtext>Opcional</label>
                     </div>
@@ -105,10 +112,10 @@ export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE)
                 </div>
                 <div class="linea"></div>
                 <div class="grupo">
-                    <div class="input">
-                        <input id="mail1" />
+                    <div class="input" ?error=${this.validaciones.mail1.invalid}>
+                        <input id="mail1" .value=${this.item.mail1} @blur="${this.enlace("mail1")}" />
                         <label for="mail1">Mail 1</label>
-                        <label error>No puede ser vacio</label>
+                        <label error>Debe ingresar una cuenta de correo</label>
                         <label subtext>Requerido</label>
                     </div>
                     <div class="input">
@@ -129,8 +136,35 @@ export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE)
     atras() {
         store.dispatch(goHistoryPrev());
     }
+
     siguiente() {
-        store.dispatch(goTo("afiliadoDocumentacion"));
+        if (this.isValidForm()) {
+            store.dispatch(goTo("afiliadoDocumentacion"));
+        } else {
+            this.requestUpdate();
+        }
+    }
+
+    isValidForm() {
+        let isValid = true;
+        Object.entries(this.validaciones).forEach(([field, value]) => {
+            this.validaciones[field].invalid = this.validaciones[field].isInvalid(this.item[field]);
+            isValid = isValid && !this.validaciones[field].invalid;
+        });
+        return isValid;
+    }
+
+    enlace(field) {
+        return (e) => this.updateProperty(e, field);
+    }
+
+    updateProperty(e, field) {
+        this.item[field] = e.currentTarget.value;
+        if (this.validaciones[field]) {
+            this.validaciones[field].invalid = this.validaciones[field].isInvalid(this.item[field]);
+        }
+
+        this.requestUpdate();
     }
     firstUpdated(changedProperties) {}
 
@@ -146,6 +180,11 @@ export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE)
                 store.dispatch(cambioOpcioRuta(OPCION_CONTACTO));
             }
         }
+
+        this.item = {
+            telefonoCelular: "1121644516",
+            mail1: "fpenaranda@uocra.org",
+        };
     }
     static get properties() {
         return {
