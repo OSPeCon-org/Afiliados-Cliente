@@ -15,7 +15,6 @@ import { OPCION_DOCUM, RutaOpcionesControl } from "../../componentes/rutaOpcione
 import { tarjetaDocumento } from "../../css/tarjetaDocumento";
 import { goHistoryPrev, goTo } from "@brunomon/template-lit/src/redux/routing/actions";
 import { cambioOpcioRuta } from "../../../redux/ruta/actions";
-import { ThreeSixty } from "@material-ui/icons";
 import { state } from "lit-element";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";

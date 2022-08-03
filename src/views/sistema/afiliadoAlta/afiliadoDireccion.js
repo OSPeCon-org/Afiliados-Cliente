@@ -16,7 +16,7 @@ import { goTo, goHistoryPrev } from "@brunomon/template-lit/src/redux/routing/ac
 import { get as GetAfiliadosDatos } from "../../../redux/afiliadoDatos/actions";
 import { cambioOpcioRuta } from "../../../redux/ruta/actions";
 
-import { isEmpty } from "../../../libs/funciones";
+import { isEmpty, opcionInvalida } from "../../../libs/funciones";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -37,10 +37,9 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
         this.validaciones = {
             calle: { invalid: false, isInvalid: isEmpty },
             altura: { invalid: false, isInvalid: isEmpty },
-            piso: { invalid: false, isInvalid: isEmpty },
-            departamento: { invalid: false, isInvalid: isEmpty },
-            provincia: { invalid: false, isInvalid: isEmpty },
-            localidad: { invalid: false, isInvalid: isEmpty },
+
+            provincias: { invalid: false, isInvalid: opcionInvalida },
+            localidades: { invalid: false, isInvalid: opcionInvalida },
             codigoPostal: { invalid: false, isInvalid: isEmpty },
         };
     }
@@ -105,49 +104,49 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                     <div class="input" ?error=${this.validaciones.calle.invalid}>
                         <input id="calle" .value=${this.item.calle} @blur="${this.enlace("calle")}" />
                         <label for="calle">Calle</label>
-                        <label error>No puede ser vacio</label>
+                        <label error>Debe ingresar calle</label>
                         <label subtext>Requerido</label>
                     </div>
                     <div class="input" ?error=${this.validaciones.altura.invalid}>
                         <input id="altura" .value=${this.item.altura} @blur="${this.enlace("altura")}" />
                         <label for="altura">Altura</label>
-                        <label error>No puede ser vacio</label>
+                        <label error>Debe ingresar altura</label>
                         <label subtext>Requerido</label>
                     </div>
-                    <div class="input" ?error=${this.validaciones.piso.invalid}>
+                    <div class="input">
                         <input id="piso" .value=${this.item.piso} @blur="${this.enlace("piso")}" />
                         <label for="piso">Piso</label>
                         <label error>No puede ser vacio</label>
-                        <label subtext>Requerido</label>
+                        <label subtext></label>
                     </div>
-                    <div class="input" ?error=${this.validaciones.departamento.invalid}>
+                    <div class="input">
                         <input id="departamento" .value=${this.item.departamento} @blur="${this.enlace("departamento")}" />
                         <label for="departamento">Departamento</label>
-                        <label error>No puede ser vacio</label>
-                        <label subtext>Requerido</label>
+                        <label error></label>
+                        <label subtext></label>
                     </div>
                 </div>
                 <div class="linea"></div>
                 <div class="grupo">
-                    <div class="select" ?error=${this.validaciones.provincia.invalid}>
-                        <select id="provincia" required .value=${this.item.provincia} @blur="${this.enlace("provincia")}">
+                    <div class="select" ?error=${this.validaciones.provincias.invalid}>
+                        <select id="provincias" required .value=${this.item.provincias} @blur="${this.enlace("provincias")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.provincias?.map((item) => {
-                                return html` <option>${item.descripcion}</option> `;
+                                return html` <option value=${item.id}>${item.descripcion}</option> `;
                             })}
                         </select>
-                        <label for="provincia">Provincia</label>
+                        <label for="provincias">Provincia</label>
                         <label error>Debe seleccionar una opción</label>
                         <label subtext>Requerido</label>
                     </div>
-                    <div class="select" ?error=${this.validaciones.localidad.invalid}>
-                        <select id="localidad" required .value=${this.item.localidad} @blur="${this.enlace("localidad")}">
+                    <div class="select" ?error=${this.validaciones.localidades.invalid}>
+                        <select id="localidades" required .value=${this.item.localidades} @blur="${this.enlace("localidades")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.localidades?.map((item) => {
-                                return html` <option>${item.descripcion}</option> `;
+                                return html` <option value=${item.id}>${item.descripcion}</option> `;
                             })}
                         </select>
-                        <label for="localidad">Localidad</label>
+                        <label for="localidades">Localidad</label>
                         <label error>Debe seleccionar una opción</label>
                         <label subtext>Requerido</label>
                     </div>
@@ -157,7 +156,7 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                     <div class="input" ?error=${this.validaciones.codigoPostal.invalid}>
                         <input id="codigoPostal" .value=${this.item.codigoPostal} @blur="${this.enlace("codigoPostal")}" />
                         <label for="codigoPostal">Codigo postal</label>
-                        <label error>No puede ser vacio</label>
+                        <label error>Debe ingresar Código postal</label>
                         <label subtext>Requerido</label>
                     </div>
                 </div>
@@ -217,13 +216,13 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                 this.hidden = false;
 
                 this.item = {
-                    calle: "",
-                    altura: "",
-                    piso: "",
+                    calle: "Av. Belgrano",
+                    altura: "1870",
+                    piso: "4",
                     departamento: "",
-                    provincia: "",
-                    localidad: "",
-                    codigoPostal: "",
+                    provincias: "2",
+                    localidades: "1",
+                    codigoPostal: "1094",
                 };
             }
         }

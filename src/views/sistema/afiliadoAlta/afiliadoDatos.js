@@ -15,8 +15,6 @@ import { OPCION_DATOS, RutaOpcionesControl } from "../../componentes/rutaOpcione
 import { goHistoryPrev, goTo } from "@brunomon/template-lit/src/redux/routing/actions";
 
 import { cambioOpcioRuta } from "../../../redux/ruta/actions";
-import { getAll as GetAllNacionalidades } from "../../../redux/nacionalidades/actions";
-import { getAll as GetAllParentesco } from "../../../redux/parentesco/actions";
 import { get as GetAfiliadosDatos } from "../../../redux/afiliadoDatos/actions";
 import { get as getDocumentacion } from "../../../redux/afiliadoDocumentacion/actions";
 
@@ -59,7 +57,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
             documentoTipo: { invalid: false, isInvalid: opcionInvalida },
             documentoNumero: { invalid: false, isInvalid: dniInvalido },
             estadoCivil: { invalid: false, isInvalid: opcionInvalida },
-            nacionalidad: { invalid: false, isInvalid: opcionInvalida },
+            nacionalidades: { invalid: false, isInvalid: opcionInvalida },
             discapacidad: { invalid: false, isInvalid: opcionInvalida },
         };
     }
@@ -202,18 +200,19 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                     <div class="select" ?error=${this.validaciones.estadoCivil.invalid}>
                         <select id="estadoCivil" .value="${this.item.estadoCivil}" required @blur="${this.enlace("estadoCivil")}">
                             <option value="" disabled selected>Selecciona una opción</option>
-                            <option value="1">Casado</option>
-                            <option value="2">Soltero</option>
+                            ${this.estadoCivil?.map((item) => {
+                                return html` <option value=${item.id}>${item.descripcion}</option> `;
+                            })}
                         </select>
                         <label for="estadoCivil">Estado civil</label>
                         <label error>Debe seleccionar una opción</label>
                         <label subtext>Requerido</label>
                     </div>
-                    <div class="select" ?error=${this.validaciones.nacionalidad.invalid}>
+                    <div class="select" ?error=${this.validaciones.nacionalidades.invalid}>
                         <select id="nacionalidad" .value="${this.item.nacionalidad}" required @blur="${this.enlace("nacionalidad")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.nacionalidades?.map((item) => {
-                                return html` <option>${item.descripcion}</option> `;
+                                return html` <option value=${item.id}>${item.descripcion}</option> `;
                             })}
                         </select>
                         <label for="nacionalidad">Nacionalidad</label>
@@ -248,7 +247,6 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
         if (this.isValidForm()) {
             store.dispatch(goTo("afiliadoDireccion"));
 
-            console.log(this.item);
             store.dispatch(getDocumentacion(this.item.plan, this.item.parentesco, this.item.discapacidad));
         } else {
             this.requestUpdate();
@@ -305,7 +303,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                     documentoTipo: "2",
                     documentoNumero: "654654",
                     estadoCivil: "1",
-                    nacionalidad: "1",
+                    nacionalidades: "1",
                     discapacidad: "2",
                 };
             }
@@ -326,12 +324,12 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
         }
 
         if (name == TIPO_DOCUMENTO) {
-            this.tipoDocumento = state.parentesco.entities;
+            this.tipoDocumento = state.tipoDocumento.entities;
             this.update();
         }
 
         if (name == ESTADOS_CIVILES) {
-            this.estadoCivil = state.parentesco.entities;
+            this.estadoCivil = state.estadosCiviles.entities;
             this.update();
         }
 

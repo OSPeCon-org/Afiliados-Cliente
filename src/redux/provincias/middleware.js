@@ -16,9 +16,11 @@ export const get =
                     payload: {
                         receive: [
                             {
+                                id: 1,
                                 descripcion: "CABA",
                             },
                             {
+                                id: 2,
                                 descripcion: "Buenos Aires",
                             },
                         ],
