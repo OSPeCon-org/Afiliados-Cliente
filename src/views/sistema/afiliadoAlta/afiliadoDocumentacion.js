@@ -130,6 +130,7 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
                 this.hidden = false;
                 store.dispatch(cambioOpcioRuta(OPCION_DOCUM));
                 this.items = store.getState().afiliadoDocumentacion.entities;
+                console.log(this.items);
             }
         }
 

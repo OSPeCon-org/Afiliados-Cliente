@@ -46,54 +46,138 @@ export const get =
                             copete: "Debe subir el documento",
                             accion1: "VER DOCUMENTO",
                             accion2: "",
+                        }, // Titular Ospecon Obligatorio
+                        {
+                            PlanId: 2,
+                            ParentescoId: 1,
+                            Discapacidad: 2,
+                            titulo: "Documento frente",
+                            imagen: "UPLOAD",
+                            estado: "PENDIENTE",
+                            copete: "Debe subir el documento",
+                            accion1: "NUEVO DOCUMENTO",
+                            accion2: "",
                         },
                         {
-                            PlanId: 1, //tabla plan
-                            ParentescoId: 2, //tabla parentesco
-                            Discapacidad: 2, //si o no
-                            Documentacion: 0, //id documentos
+                            PlanId: 2,
+                            ParentescoId: 1,
+                            Discapacidad: 2,
+                            titulo: "Documento dorso",
+                            imagen: "UPLOAD",
+                            estado: "PENDIENTE",
+                            copete: "Debe subir el documento",
+                            accion1: "NUEVO DOCUMENTO",
+                            accion2: "",
                         },
                         {
-                            PlanId: 1, //tabla plan
-                            ParentescoId: 3, //tabla parentesco
-                            Discapacidad: 1, //si o no
-                            Documentacion: 0, //id documentos
+                            PlanId: 2,
+                            ParentescoId: 1,
+                            Discapacidad: 2,
+                            titulo: "Desempleo ANSES(último)",
+                            imagen: "UPLOAD",
+                            estado: "PENDIENTE",
+                            copete: "Debe subir el documento",
+                            accion1: "VER DOCUMENTO",
+                            accion2: "",
+                        }, // Titular desempleo
+                        {
+                            PlanId: 3,
+                            ParentescoId: 1,
+                            Discapacidad: 2,
+                            titulo: "Documento frente",
+                            imagen: "UPLOAD",
+                            estado: "PENDIENTE",
+                            copete: "Debe subir el documento",
+                            accion1: "NUEVO DOCUMENTO",
+                            accion2: "",
                         },
                         {
-                            PlanId: 2, //tabla plan
-                            ParentescoId: 1, //tabla parentesco
-                            Discapacidad: 2, //si o no
-                            Documentacion: 0, //id documentos
+                            PlanId: 3,
+                            ParentescoId: 1,
+                            Discapacidad: 2,
+                            titulo: "Documento dorso",
+                            imagen: "UPLOAD",
+                            estado: "PENDIENTE",
+                            copete: "Debe subir el documento",
+                            accion1: "NUEVO DOCUMENTO",
+                            accion2: "",
                         },
                         {
-                            PlanId: 2, //tabla plan
-                            ParentescoId: 2, //tabla parentesco
-                            Discapacidad: 1, //si o no
-                            Documentacion: 0, //id documentos
+                            PlanId: 3,
+                            ParentescoId: 1,
+                            Discapacidad: 2,
+                            titulo: "Pago monotributo(último)",
+                            imagen: "UPLOAD",
+                            estado: "PENDIENTE",
+                            copete: "Debe subir el documento",
+                            accion1: "NUEVO DOCUMENTO",
+                            accion2: "",
                         },
                         {
-                            PlanId: 2, //tabla plan
-                            ParentescoId: 3, //tabla parentesco
-                            Discapacidad: 1, //si o no
-                            Documentacion: 0, //id documentos
+                            PlanId: 3,
+                            ParentescoId: 1,
+                            Discapacidad: 2,
+                            titulo: "Credencial F152",
+                            imagen: "UPLOAD",
+                            estado: "PENDIENTE",
+                            copete: "Debe subir el documento",
+                            accion1: "NUEVO DOCUMENTO",
+                            accion2: "",
                         },
                         {
-                            PlanId: 3, //tabla plan
-                            ParentescoId: 1, //tabla parentesco
-                            Discapacidad: 2, //si o no
-                            Documentacion: 0, //id documentos
+                            PlanId: 3,
+                            ParentescoId: 1,
+                            Discapacidad: 2,
+                            titulo: "Credencial F184",
+                            imagen: "SETTINGS",
+                            estado: "PENDIENTE",
+                            copete: "Debe subir el documento",
+                            accion1: "NUEVO DOCUMENTO",
+                            accion2: "",
+                        }, // Titular Monotributo
+                        {
+                            PlanId: 4,
+                            ParentescoId: 1,
+                            Discapacidad: 2,
+                            titulo: "Documento frente",
+                            imagen: "UPLOAD",
+                            estado: "PENDIENTE",
+                            copete: "Debe subir el documento",
+                            accion1: "NUEVO DOCUMENTO",
+                            accion2: "",
                         },
                         {
-                            PlanId: 3, //tabla plan
-                            ParentescoId: 2, //tabla parentesco
-                            Discapacidad: 1, //si o no
-                            Documentacion: 0, //id documentos
+                            PlanId: 4,
+                            ParentescoId: 1,
+                            Discapacidad: 2,
+                            titulo: "Documento dorso",
+                            imagen: "UPLOAD",
+                            estado: "PENDIENTE",
+                            copete: "Debe subir el documento",
+                            accion1: "NUEVO DOCUMENTO",
+                            accion2: "",
                         },
                         {
-                            PlanId: 3, //tabla plan
-                            ParentescoId: 3, //tabla parentesco
-                            Discapacidad: 2, //si o no
-                            Documentacion: 0, //id documentos
+                            PlanId: 4,
+                            ParentescoId: 1,
+                            Discapacidad: 2,
+                            titulo: "Ticket de Pago",
+                            imagen: "UPLOAD",
+                            estado: "PENDIENTE",
+                            copete: "Debe subir el documento",
+                            accion1: "NUEVO DOCUMENTO",
+                            accion2: "",
+                        },
+                        {
+                            PlanId: 4,
+                            ParentescoId: 1,
+                            Discapacidad: 2,
+                            titulo: "Formulario F102",
+                            imagen: "UPLOAD",
+                            estado: "PENDIENTE",
+                            copete: "Debe subir el documento",
+                            accion1: "NUEVO DOCUMENTO",
+                            accion2: "",
                         },
                     ].filter((item) => {
                         return item.PlanId == action.planId && item.ParentescoId == action.parentescoId && item.Discapacidad == action.discapacidad;

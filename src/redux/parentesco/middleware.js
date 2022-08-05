@@ -19,14 +19,14 @@ export const get =
                                 id: 1,
                                 descripcion: "Titular",
                             },
-                            {
+                            /*{
                                 id: 2,
                                 descripcion: "Conyuge",
                             },
                             {
                                 id: 3,
                                 descripcion: "Hija",
-                            },
+                            },*/
                         ],
                     },
                 });

@@ -293,9 +293,9 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
 
                 /**TODO: llenar este item en el stateChange */
                 this.item = {
-                    parentesco: "1",
+                    parentesco: "",
                     cuil: "546546",
-                    plan: "1",
+                    plan: "",
                     apellido: "dfsdf",
                     nombre: "sdfsdf",
                     sexo: "1",

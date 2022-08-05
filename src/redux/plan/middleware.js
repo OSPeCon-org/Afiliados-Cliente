@@ -20,11 +20,15 @@ export const get =
                         },
                         {
                             id: 2,
-                            descripcion: "Monotributista",
+                            descripcion: "Desempleo",
                         },
                         {
                             id: 3,
-                            descripcion: "Adhrente",
+                            descripcion: "Monotributista",
+                        },
+                        {
+                            id: 4,
+                            descripcion: "Domestico",
                         },
                     ],
                 },
