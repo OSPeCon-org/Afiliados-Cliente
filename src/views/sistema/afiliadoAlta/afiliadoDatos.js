@@ -209,7 +209,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                         <label subtext>Requerido</label>
                     </div>
                     <div class="select" ?error=${this.validaciones.nacionalidades.invalid}>
-                        <select id="nacionalidad" .value="${this.item.nacionalidad}" required @blur="${this.enlace("nacionalidad")}">
+                        <select id="nacionalidad" .value="${this.item.nacionalidades}" required @blur="${this.enlace("nacionalidad")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.nacionalidades?.map((item) => {
                                 return html` <option value=${item.id}>${item.descripcion}</option> `;
@@ -294,6 +294,20 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                 /**TODO: llenar este item en el stateChange */
                 this.item = {
                     parentesco: "",
+                    cuil: "",
+                    plan: "",
+                    apellido: "",
+                    nombre: "",
+                    sexo: "",
+                    nacimiento: "",
+                    documentoTipo: "",
+                    documentoNumero: "",
+                    estadoCivil: "",
+                    nacionalidades: "",
+                    discapacidad: "",
+                };
+                /*this.item = {
+                    parentesco: "",
                     cuil: "546546",
                     plan: "",
                     apellido: "dfsdf",
@@ -305,7 +319,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                     estadoCivil: "1",
                     nacionalidades: "1",
                     discapacidad: "2",
-                };
+                };*/
             }
         }
 

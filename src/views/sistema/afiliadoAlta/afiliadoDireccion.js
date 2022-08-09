@@ -216,6 +216,15 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                 this.hidden = false;
 
                 this.item = {
+                    calle: "",
+                    altura: "",
+                    piso: "",
+                    departamento: "",
+                    provincias: "",
+                    localidades: "",
+                    codigoPostal: "",
+                };
+                /*this.item = {
                     calle: "Av. Belgrano",
                     altura: "1870",
                     piso: "4",
@@ -223,7 +232,7 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                     provincias: "2",
                     localidades: "1",
                     codigoPostal: "1094",
-                };
+                };*/
             }
         }
 

@@ -182,9 +182,13 @@ export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE)
         }
 
         this.item = {
+            telefonoCelular: "",
+            mail1: "",
+        };
+        /* this.item = {
             telefonoCelular: "1121644516",
             mail1: "fpenaranda@uocra.org",
-        };
+        };*/
     }
     static get properties() {
         return {
