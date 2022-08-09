@@ -209,7 +209,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                         <label subtext>Requerido</label>
                     </div>
                     <div class="select" ?error=${this.validaciones.nacionalidades.invalid}>
-                        <select id="nacionalidad" .value="${this.item.nacionalidades}" required @blur="${this.enlace("nacionalidad")}">
+                        <select id="nacionalidades" .value="${this.item.nacionalidades}" required @blur="${this.enlace("nacionalidades")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.nacionalidades?.map((item) => {
                                 return html` <option value=${item.id}>${item.descripcion}</option> `;
