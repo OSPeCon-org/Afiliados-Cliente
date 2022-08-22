@@ -53,6 +53,7 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, USUARIO,
 			#titulo {
 				color: var(--on-primario);
 				cursor: pointer;
+				font-size: 2vh;
 			}
 
 			.menuItem {
@@ -63,18 +64,15 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, USUARIO,
 			div[oculto] {
 				display: none;
 			}
-			h1 {
-				margin: 0;
-			}
 			#version {
 				color: var(--on-primario);
 				font-size: 0.6rem;
 				align-self: start;
 			}
 			#opciones {
+				font-size: 1.2vh;
 				justify-content: end;
-				grid-gap: 2rem;
-				padding: 2rem;
+				padding: 0;
 			}
 
 			:host([media-size="large"]) .menu-button,
@@ -133,8 +131,8 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, USUARIO,
 				z-index: 100;
 			}
 			svg {
-				height: 1.2rem;
-				width: 1.2rem;
+				height: 3.5vh;
+				width: 3.5vh;
 			}
 			button[etiqueta] {
 				display: grid;
@@ -151,6 +149,7 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, USUARIO,
 			}
 			button[raised] {
 				box-shadow: none;
+				padding: 3vh !important;
 			}
 			#version {
 				color: var(--on-primario-bajada);
@@ -160,10 +159,10 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, USUARIO,
 	render() {
 		return html`
 			<div id="velo" @click=${this.toggleMenu}></div>
-			<div class="grid column">
+			<div class="grid column" style="padding: 0 1rem;">
 				<div class="inner-grid column start">
 					<div class="logo"></div>
-					<h1 id="titulo" @click="${this.click}" .option=${"main"}>${__DESCRIPTION__}</h1>
+					<div id="titulo" @click="${this.click}" .option=${"main"}>${__DESCRIPTION__}</div>
 					<div id="version">${__VERSION__}</div>
 				</div>
 				<button raised circle class="menu-button" @click=${this.toggleMenu}>${MENU}</button>
