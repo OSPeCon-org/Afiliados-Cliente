@@ -14,15 +14,15 @@ import { viewManager } from "./views/manager";
 import { login } from "./redux/autorizacion/actions";
 import { register as registerSW, activate as activateSW } from "./libs/serviceWorker";
 
-import { getAll as GetAllParentesco } from "./redux/parentesco/actions";
+import { getAll as GetAllParentesco } from "./redux/parentescos/actions";
 import { getAll as GetAllPlan } from "./redux/plan/actions";
 import { getAll as GetAllTipoDocmento } from "./redux/tipoDocumento/actions";
 import { getAll as GetAllEstadosCiviles } from "./redux/estadosCiviles/actions";
 
 import { getAll as GetAllNacionalidades } from "./redux/nacionalidades/actions";
 if (process.env.NODE_ENV === "production") {
-    registerSW();
-    activateSW();
+	registerSW();
+	activateSW();
 }
 
 viewMode("main");
@@ -46,13 +46,13 @@ console.log("Sirviendo datos de :" + SERVICE_URL);
 }
  */
 export default {
-    login: (email, password) => {
-        store.dispatch(login(email, password));
-    },
-    cambioClave: () => {
-        store.dispatch(goTo("cambioClave"));
-    },
-    miembro: () => {
-        store.dispatch(goTo("serMiembro"));
-    },
+	login: (email, password) => {
+		store.dispatch(login(email, password));
+	},
+	cambioClave: () => {
+		store.dispatch(goTo("cambioClave"));
+	},
+	miembro: () => {
+		store.dispatch(goTo("serMiembro"));
+	},
 };
