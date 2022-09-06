@@ -14,6 +14,7 @@ import { select } from "@brunomon/template-lit/src/views/css/select";
 import { OPCION_DOMICILIO, RutaOpcionesControl } from "../../componentes/rutaOpciones";
 import { goTo, goHistoryPrev } from "@brunomon/template-lit/src/redux/routing/actions";
 import { get as GetAfiliadosDatos } from "../../../redux/afiliadoDatos/actions";
+import { add as addAfiliadosDomicilios } from "../../../redux/afiliadoDomicilios/actions"
 import { cambioOpcioRuta } from "../../../redux/ruta/actions";
 
 import { isEmpty, opcionInvalida } from "../../../libs/funciones";
@@ -53,7 +54,7 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
             :host {
                 display: grid;
                 position: relative;
-                width: 100vw;
+                width: 70vw;
                 grid-template-rows: auto 1fr;
                 justify-items: center;
             }
@@ -67,7 +68,7 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                 width: 100vw;
                 align-content: flex-start;
                 grid-gap: 0;
-                padding: 0;
+                
                 overflow-y: auto;
                 background-color: var(--formulario);
             }
@@ -171,8 +172,23 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
     atras() {
         store.dispatch(goHistoryPrev());
     }
+
+
     siguiente() {
-        if (this.isValidForm()) {
+        if (this.isValidForm()) {            
+
+            const itemAfiliadoDomicilios = {
+                afiliadoId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                calle: "string",
+                altura: "string",
+                piso: "string",
+                departamento: "string",
+                localidadesId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                codigoPostal: "string"
+            }
+
+ 
+            store.dispatch(addAfiliadosDomicilios(itemAfiliadoDomicilios))
             store.dispatch(goTo("afiliadoContacto"));
         } else {
             this.requestUpdate();
@@ -224,15 +240,7 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                     localidades: "",
                     codigoPostal: "",
                 };
-                /*this.item = {
-                    calle: "Av. Belgrano",
-                    altura: "1870",
-                    piso: "4",
-                    departamento: "",
-                    provincias: "2",
-                    localidades: "1",
-                    codigoPostal: "1094",
-                };*/
+
             }
         }
 

@@ -12,9 +12,12 @@ import { reducer as tipoDocumentoReducer } from "./tipoDocumento/reducer";
 import { reducer as estadosCivilesReducer } from "./estadosCiviles/reducer";
 import { reducer as nacionalidadesReducer } from "./nacionalidades/reducer";
 import { reducer as afiliadoDatosREducer } from "./afiliadoDatos/reducer";
+import { reducer as afiliadoDomiciliosREducer } from "./afiliadoDomicilios/reducer";
 import { reducer as provinciasREducer } from "./provincias/reducer";
 import { reducer as localidadesREducer } from "./localidades/reducer";
 import { reducer as afiliadoDocumentacionREducer } from "./afiliadoDocumentacion/reducer";
+
+
 
 export const rootReducer = (state = {}, action) => {
 	const presentacionesEstadosRed = state.presentacionesEstados;
@@ -25,6 +28,7 @@ export const rootReducer = (state = {}, action) => {
 		routing: routingReducer(state.routing, action),
 		ruta: rutaReducer(state.ruta, action),
 		afiliadoDatos: afiliadoDatosREducer(state.afiliadoDatos, action),
+		afiliadoDomicilios: afiliadoDomiciliosREducer(state.afiliadoDomicilios, action),
 		afiliadoDocumentacion: afiliadoDocumentacionREducer(state.afiliadoDocumentacion, action),
 		parentescos: parentescosReducer(state.parentescos, action),
 		planes: planesReducer(state.planes, action),

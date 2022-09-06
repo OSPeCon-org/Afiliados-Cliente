@@ -1,7 +1,7 @@
 import { GET, GET_SUCCESS, GET_ERROR } from "./actions";
 import { RESTRequest } from "../rest/actions";
 
-import { c } from "../fetchs";
+import { provinciasFetch } from "../fetchs";
 
 export const get =
     ({ dispatch, getState }) =>
@@ -10,22 +10,8 @@ export const get =
         next(action);
         if (action.type === GET) {
             if (!getState().provincias.entities) {
-                //dispatch(RESTRequest(webApiAfiliados, "", GET_SUCCESS, GET_ERROR, ""));
-                dispatch({
-                    type: GET_SUCCESS,
-                    payload: {
-                        receive: [
-                            {
-                                id: 1,
-                                descripcion: "CABA",
-                            },
-                            {
-                                id: 2,
-                                descripcion: "Buenos Aires",
-                            },
-                        ],
-                    },
-                });
+                dispatch(RESTRequest(provinciasFetch, "", GET_SUCCESS, GET_ERROR, ""));
+                
             } else {
                 dispatch({
                     type: GET_SUCCESS,

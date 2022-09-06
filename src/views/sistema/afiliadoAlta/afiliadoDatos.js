@@ -282,7 +282,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
 			}
 
 			//console.log(itemAfiliadoDatos);
-			store.dispatch(addAfiliadoDatos(itemAfiliadoDatos))
+			//store.dispatch(addAfiliadoDatos(itemAfiliadoDatos))
 			store.dispatch(getDocumentacion(this.item.planes, this.item.parentescos, this.item.discapacidad));
 
 		} else {
