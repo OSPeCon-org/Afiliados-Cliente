@@ -255,13 +255,13 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
 			const parentescoId = this.shadowRoot.querySelector("#parentescos").value;
 			const cuil = this.shadowRoot.querySelector("#cuil").value;
 			const fechaNacimiento = this.shadowRoot.querySelector("#nacimiento").value;
-			const fecha= new Date().getTime();
+			const fecha= new Date();
   			const planId = this.shadowRoot.querySelector("#planes").value; 
   			const sexo = this.shadowRoot.querySelector("#sexo").value; 
   			const estadoCivilId = this.shadowRoot.querySelector("#estadosCiviles").value; 
   			const discapacitado = this.shadowRoot.querySelector("#discapacidad").value; 
   			const nacionalidadId = this.shadowRoot.querySelector("#nacionalidades").value; 
-  			const estadosAfiliacionId = 1;
+  			const estadosAfiliacionId = "76151413-1847-4688-88F1-007356683E40";
 			  
 
 			const itemAfiliadoDatos = {
