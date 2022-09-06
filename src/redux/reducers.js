@@ -7,7 +7,7 @@ import { reducer as apiReducer } from "./api/reducer";
 import { reducer as autorizacionReducer } from "./autorizacion/reducer";
 import { reducer as rutaReducer } from "./ruta/reducer";
 import { reducer as parentescosReducer } from "./parentescos/reducer";
-import { reducer as planReducer } from "./plan/reducer";
+import { reducer as planesReducer } from "./planes/reducer";
 import { reducer as tipoDocumentoReducer } from "./tipoDocumento/reducer";
 import { reducer as estadosCivilesReducer } from "./estadosCiviles/reducer";
 import { reducer as nacionalidadesReducer } from "./nacionalidades/reducer";
@@ -27,7 +27,7 @@ export const rootReducer = (state = {}, action) => {
 		afiliadoDatos: afiliadoDatosREducer(state.afiliadoDatos, action),
 		afiliadoDocumentacion: afiliadoDocumentacionREducer(state.afiliadoDocumentacion, action),
 		parentescos: parentescosReducer(state.parentescos, action),
-		plan: planReducer(state.plan, action),
+		planes: planesReducer(state.planes, action),
 		tipoDocumento: tipoDocumentoReducer(state.tipoDocumento, action),
 		estadosCiviles: estadosCivilesReducer(state.estadosCiviles, action),
 		nacionalidades: nacionalidadesReducer(state.nacionalidades, action),

@@ -15,7 +15,7 @@ import { login } from "./redux/autorizacion/actions";
 import { register as registerSW, activate as activateSW } from "./libs/serviceWorker";
 
 import { getAll as GetAllParentesco } from "./redux/parentescos/actions";
-import { getAll as GetAllPlan } from "./redux/plan/actions";
+import { getAll as GetAllPlanes } from "./redux/planes/actions";
 import { getAll as GetAllTipoDocmento } from "./redux/tipoDocumento/actions";
 import { getAll as GetAllEstadosCiviles } from "./redux/estadosCiviles/actions";
 

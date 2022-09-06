@@ -1,7 +1,7 @@
-import { GET, SUCCESS } from "./actions";
+import { GET, SUCCESS, ADD, ADD_SUCCESS, ADD_ERROR } from "./actions";
 
 const initialState = {
-    entitiesCountOk: 3,
+    entitiesCountOk: 7,
     entitiesCountError: 0,
     timeStamp: null,
     errorTimeStamp: null,
@@ -22,7 +22,7 @@ export const reducer = (state = initialState, action) => {
                 newState.timeStamp = new Date().getTime();
             }
             //newState.timeStamp = new Date().getTime();
-            break;
+            break;        
     }
     return newState;
 };

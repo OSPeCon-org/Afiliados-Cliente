@@ -72,6 +72,9 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE)(
                 align-content: flex-start;
                 background-color: var(--aplicacion);
             }
+            div[invisible]{
+                visibility: hidden;
+            }
         `;
     }
 
@@ -95,9 +98,9 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE)(
                 <div id="subtitulo"><div>Nueva solicitud de afiliacion</div></div>
                 <div id="cuerpo">
                     ${this.item.map((item, index) => {
-                        return html` <div class="tarjeta-persona">
+                        return html `<div class="tarjeta-persona">
                             <div titulo>
-                                <div help style="visibility:${item.icono == "" ? "hidden" : "visible"};" @click="${this.icono}">${this.svgs[item.icono]}</div>
+                                <div help ?invisible=${item.icono == "" } @click="${this.icono}">${this.svgs[item.icono]}</div>
                                 <div>${item.parentesco}</div>
                             </div>
                             <div cuerpo><img src="${item.imagen}" /></div>

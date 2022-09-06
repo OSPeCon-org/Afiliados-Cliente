@@ -10,7 +10,7 @@ import { middleware as rest } from "./rest/middleware";
 import { middleware as route } from "./routing/middleware";
 
 import { middleware as parentescos } from "./parentescos/middleware";
-import { middleware as plan } from "./plan/middleware";
+import { middleware as planes } from "./planes/middleware";
 import { middleware as tipoDocumento } from "./tipoDocumento/middleware";
 import { middleware as estadosCiviles } from "./estadosCiviles/middleware";
 import { middleware as nacionalidades } from "./nacionalidades/middleware";
@@ -30,7 +30,7 @@ let mdw = [
 	...afiliadoDatos,
 	...afiliadoDocumentacion,
 	...parentescos,
-	...plan,
+	...planes,
 	...tipoDocumento,
 	...estadosCiviles,
 	...nacionalidades,

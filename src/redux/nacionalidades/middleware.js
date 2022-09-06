@@ -1,7 +1,7 @@
 import { GET, GET_SUCCESS, GET_ERROR } from "./actions";
 import { RESTRequest } from "../rest/actions";
 
-import { c } from "../fetchs";
+import { nacionaliodadesFetch } from "../fetchs";
 
 export const get =
     ({ dispatch }) =>
@@ -9,22 +9,8 @@ export const get =
     (action) => {
         next(action);
         if (action.type === GET) {
-            //dispatch(RESTRequest(webApiAfiliados, "", GET_SUCCESS, GET_ERROR, ""));
-            dispatch({
-                type: GET_SUCCESS,
-                payload: {
-                    receive: [
-                        {
-                            id: 1,
-                            descripcion: "Argentina",
-                        },
-                        {
-                            id: 2,
-                            descripcion: "Extranjero",
-                        },
-                    ],
-                },
-            });
+            dispatch(RESTRequest(nacionaliodadesFetch, "", GET_SUCCESS, GET_ERROR, ""));
+            
         }
     };
 

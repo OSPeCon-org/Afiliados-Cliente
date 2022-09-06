@@ -1,7 +1,7 @@
 import { GET, GET_SUCCESS, GET_ERROR } from "./actions";
 import { RESTRequest } from "../rest/actions";
 
-import { c } from "../fetchs";
+import { localidadesFetch } from "../fetchs";
 
 export const get =
     ({ dispatch, getState }) =>
@@ -10,22 +10,7 @@ export const get =
         next(action);
         if (action.type === GET) {
             if (!getState().localidades.entities) {
-                //dispatch(RESTRequest(webApiAfiliados, "", GET_SUCCESS, GET_ERROR, ""));
-                dispatch({
-                    type: GET_SUCCESS,
-                    payload: {
-                        receive: [
-                            {
-                                id: 1,
-                                descripcion: "Avellaneda",
-                            },
-                            {
-                                id: 2,
-                                descripcion: "Chascomus",
-                            },
-                        ],
-                    },
-                });
+                dispatch(RESTRequest(localidadesFetch, "", GET_SUCCESS, GET_ERROR, ""));
             } else {
                 dispatch({
                     type: GET_SUCCESS,
