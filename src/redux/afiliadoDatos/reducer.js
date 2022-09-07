@@ -5,6 +5,7 @@ const initialState = {
     entitiesCountError: 0,
     timeStamp: null,
     errorTimeStamp: null,
+    currentId: null,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -22,7 +23,9 @@ export const reducer = (state = initialState, action) => {
                 newState.timeStamp = new Date().getTime();
             }
             //newState.timeStamp = new Date().getTime();
-            break;        
+            break;  
+        case ADD_SUCCESS:
+            newState.currentId = action.payload.receive;      
     }
     return newState;
 };

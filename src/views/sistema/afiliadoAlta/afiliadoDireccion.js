@@ -175,17 +175,25 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
 
 
     siguiente() {
-        if (this.isValidForm()) {            
+        if (this.isValidForm()) {               
+
+            const afiliadoId = store.getState().afiliadoDatos.currentId;
+            const calle = this.shadowRoot.querySelector("#calle").value;
+            const altura = this.shadowRoot.querySelector("#altura").value;
+            const piso = this.shadowRoot.querySelector("#piso").value;
+            const departamento = this.shadowRoot.querySelector("#departamento").value;
+            const localidadesId = this.shadowRoot.querySelector("#localidades").value;
+            const codigoPostal = this.shadowRoot.querySelector("#codigoPostal").value;
 
             const itemAfiliadoDomicilios = {
-                afiliadoId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                calle: "string",
-                altura: "string",
-                piso: "string",
-                departamento: "string",
-                localidadesId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                codigoPostal: "string"
-            }
+                afiliadoId: afiliadoId,
+                calle: calle,
+                altura: altura,
+                piso: piso,
+                departamento: departamento,
+                localidadesId: localidadesId,
+                codigoPostal: codigoPostal
+            } 
 
  
             store.dispatch(addAfiliadosDomicilios(itemAfiliadoDomicilios))
