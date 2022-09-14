@@ -1,7 +1,7 @@
 import { GET, GET_SUCCESS, GET_ERROR } from "./actions";
 import { RESTRequest } from "../rest/actions";
 
-import { provinciasFetch } from "../fetchs";
+import { provinciasGetAllFetch } from "../fetchs";
 
 export const get =
     ({ dispatch, getState }) =>
@@ -10,7 +10,7 @@ export const get =
         next(action);
         if (action.type === GET) {
             if (!getState().provincias.entities) {
-                dispatch(RESTRequest(provinciasFetch, "", GET_SUCCESS, GET_ERROR, ""));
+                dispatch(RESTRequest(provinciasGetAllFetch, "", GET_SUCCESS, GET_ERROR, ""));
                 
             } else {
                 dispatch({

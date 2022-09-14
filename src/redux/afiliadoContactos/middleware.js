@@ -1,13 +1,8 @@
 import { GET, success, ADD, ADD_SUCCESS, ADD_ERROR } from "./actions";
 import { RESTRequest, RESTAdd } from "../rest/actions";
 
-import { afiliadosDomiciliosAddFetch } from "../fetchs";
-import { getAll as GetAllProvincias, GET_SUCCESS as GET_SUCCESS_PROVINCIAS } from "../provincias/actions";
-import { getAll as GetAllLocalidades, GET_SUCCESS as GET_SUCCESS_LOCALIDADES } from "../localidades/actions";
+import { afiliadosContactosAddFetch } from "../fetchs";
 import { store } from "../store";
-
-
-
 
 export const get =
 	({ dispatch, getState }) =>
@@ -15,8 +10,7 @@ export const get =
 	(action) => {
 		next(action);
 		if (action.type === GET) {
-			dispatch(GetAllProvincias());
-			dispatch(GetAllLocalidades());
+			
 		}
 	};
 
@@ -25,12 +19,7 @@ export const processGet =
 	(next) =>
 	(action) => {
 		next(action);
-		if (
-			action.type == GET_SUCCESS_PROVINCIAS ||
-			action.type == GET_SUCCESS_LOCALIDADES
-		) {
-			dispatch(success());
-		}
+		
 	};
 
 export const processError =
@@ -38,8 +27,7 @@ export const processError =
 	(next) =>
 	(action) => {
 		next(action);
-		/*if (action.type === GET_ERROR) {
-        }*/
+		
 	};
 
 export const add =
@@ -48,7 +36,7 @@ export const add =
 	(action) => {
 		next(action);
 		if (action.type === ADD) {
-			dispatch(RESTAdd(afiliadosDomiciliosAddFetch, action.item , ADD_SUCCESS, ADD_ERROR, ""));
+			dispatch(RESTAdd(afiliadosContactosAddFetch, action.item , ADD_SUCCESS, ADD_ERROR, ""));
         }
 	};
 

@@ -1,7 +1,7 @@
 import { GET, GET_SUCCESS, GET_ERROR } from "./actions";
 import { RESTRequest } from "../rest/actions";
 
-import { tipoDocumentoFetch } from "../fetchs";
+import { tipoDocumentoGetAllFetch } from "../fetchs";
 
 export const get =
     ({ dispatch }) =>
@@ -9,7 +9,7 @@ export const get =
     (action) => {
         next(action);
         if (action.type === GET) {
-            dispatch(RESTRequest(tipoDocumentoFetch, "", GET_SUCCESS, GET_ERROR, ""));            
+            dispatch(RESTRequest(tipoDocumentoGetAllFetch, "", GET_SUCCESS, GET_ERROR, ""));            
         }
     };
 

@@ -19,6 +19,7 @@ import { cambioOpcioRuta } from "../../../redux/ruta/actions";
 
 import { isEmpty, opcionInvalida } from "../../../libs/funciones";
 
+
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
 const RUTA = "ruta.timeStamp";
@@ -38,9 +39,9 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
         this.validaciones = {
             calle: { invalid: false, isInvalid: isEmpty },
             altura: { invalid: false, isInvalid: isEmpty },
-
-            provincias: { invalid: false, isInvalid: opcionInvalida },
-            localidades: { invalid: false, isInvalid: opcionInvalida },
+            piso: { invalid: false, isInvalid: isEmpty },
+            provincia: { invalid: false, isInvalid: opcionInvalida },
+            localidad: { invalid: false, isInvalid: opcionInvalida },
             codigoPostal: { invalid: false, isInvalid: isEmpty },
         };
     }
@@ -129,8 +130,8 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                 </div>
                 <div class="linea"></div>
                 <div class="grupo">
-                    <div class="select" ?error=${this.validaciones.provincias.invalid}>
-                        <select id="provincias" required .value=${this.item.provincias} @blur="${this.enlace("provincias")}">
+                    <div class="select" ?error=${this.validaciones.provincia.invalid}>
+                        <select id="provincias" required .value=${this.item.provincia} @blur="${this.enlace("provincia")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.provincias?.map((item) => {
                                 return html` <option value=${item.id}>${item.descripcion}</option> `;
@@ -140,8 +141,8 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                         <label error>Debe seleccionar una opción</label>
                         <label subtext>Requerido</label>
                     </div>
-                    <div class="select" ?error=${this.validaciones.localidades.invalid}>
-                        <select id="localidades" required .value=${this.item.localidades} @blur="${this.enlace("localidades")}">
+                    <div class="select" ?error=${this.validaciones.localidad.invalid}>
+                        <select id="localidades" required .value=${this.item.localidad} @blur="${this.enlace("localidad")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.localidades?.map((item) => {
                                 return html` <option value=${item.id}>${item.descripcion}</option> `;
@@ -177,25 +178,25 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
     siguiente() {
         if (this.isValidForm()) {               
 
-            const afiliadoId = store.getState().afiliadoDatos.currentId;
-            const calle = this.shadowRoot.querySelector("#calle").value;
-            const altura = this.shadowRoot.querySelector("#altura").value;
-            const piso = this.shadowRoot.querySelector("#piso").value;
-            const departamento = this.shadowRoot.querySelector("#departamento").value;
-            const localidadesId = this.shadowRoot.querySelector("#localidades").value;
-            const codigoPostal = this.shadowRoot.querySelector("#codigoPostal").value;
+            const afiliadoId = this.item.afiliadoId;
+            const calle = this.item.calle;
+            const altura = this.item.altura;
+            const piso = this.item.piso;
+            const departamento = this.item.departamento;
+            const localidad = this.item.localidad;
+            const codigoPostal = this.item.codigoPostal;
 
             const itemAfiliadoDomicilios = {
-                afiliadoId: afiliadoId,
+                afiliadoId: store.getState().afiliadoDatos.currentId,
                 calle: calle,
                 altura: altura,
                 piso: piso,
                 departamento: departamento,
-                localidadesId: localidadesId,
-                codigoPostal: codigoPostal
+                localidadesId: localidad,
+                codigoPostal: codigoPostal,
             } 
 
- 
+
             store.dispatch(addAfiliadosDomicilios(itemAfiliadoDomicilios))
             store.dispatch(goTo("afiliadoContacto"));
         } else {
@@ -240,14 +241,15 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                 this.hidden = false;
 
                 this.item = {
+                    afiliadoId: "",
                     calle: "",
                     altura: "",
                     piso: "",
                     departamento: "",
-                    provincias: "",
-                    localidades: "",
+                    provincia: "",
+                    localidad: "",
                     codigoPostal: "",
-                };
+                };                
 
             }
         }

@@ -5,6 +5,7 @@ export const ADD = "[afiliado Datos] ADD";
 export const ADD_SUCCESS = "[afiliado Datos] ADD success";
 export const ADD_ERROR = "[afiliado Datos] ADD error";
 
+
 export const get = () => ({
     type: GET,
 });
@@ -18,3 +19,7 @@ export const add = (item) => ({
     type: ADD,
     item: item,
 });
+
+
+
+

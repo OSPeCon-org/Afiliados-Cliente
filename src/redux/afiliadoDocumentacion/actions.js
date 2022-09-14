@@ -8,3 +8,7 @@ export const get = (planId, parentescoId, discapacidad) => ({
 	parentescoId: parentescoId,
 	discapacidad: discapacidad,
 });
+
+
+
+

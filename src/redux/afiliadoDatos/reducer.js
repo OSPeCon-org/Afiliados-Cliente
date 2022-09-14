@@ -1,4 +1,4 @@
-import { GET, SUCCESS, ADD, ADD_SUCCESS, ADD_ERROR } from "./actions";
+import { GET, SUCCESS, ADD, ADD_SUCCESS, ADD_ERROR, } from "./actions";
 
 const initialState = {
     entitiesCountOk: 7,
@@ -6,7 +6,8 @@ const initialState = {
     timeStamp: null,
     errorTimeStamp: null,
     currentId: null,
-};
+
+    }
 
 export const reducer = (state = initialState, action) => {
     const newState = {
@@ -26,6 +27,7 @@ export const reducer = (state = initialState, action) => {
             break;  
         case ADD_SUCCESS:
             newState.currentId = action.payload.receive;      
+            break;       
     }
     return newState;
 };

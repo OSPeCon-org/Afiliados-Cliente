@@ -16,7 +16,8 @@ import { middleware as estadosCiviles } from "./estadosCiviles/middleware";
 import { middleware as nacionalidades } from "./nacionalidades/middleware";
 import { middleware as afiliadoDatos } from "./afiliadoDatos/middleware";
 import { middleware as afiliadoDocumentacion } from "./afiliadoDocumentacion/middleware";
-import { middleware as  afiliadoDomicilios  } from "./afiliadoDomicilios/middleware";
+import { middleware as afiliadosContactos } from "./afiliadoContactos/middleware";
+import { middleware as afiliadoDomicilios  } from "./afiliadoDomicilios/middleware";
 import { middleware as provincias } from "./provincias/middleware";
 import { middleware as localidades } from "./localidades/middleware";
 
@@ -29,9 +30,10 @@ let mdw = [
 	...ui,
 	...route,
 	...autorizacion,
-	...afiliadoDatos,
-	...afiliadoDocumentacion,
-	...afiliadoDomicilios,	
+	...afiliadoDatos,	
+	...afiliadoDomicilios,
+	...afiliadosContactos,
+	...afiliadoDocumentacion,	
 	...parentescos,
 	...planes,
 	...tipoDocumento,

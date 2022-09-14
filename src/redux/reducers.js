@@ -16,6 +16,7 @@ import { reducer as afiliadoDomiciliosREducer } from "./afiliadoDomicilios/reduc
 import { reducer as provinciasREducer } from "./provincias/reducer";
 import { reducer as localidadesREducer } from "./localidades/reducer";
 import { reducer as afiliadoDocumentacionREducer } from "./afiliadoDocumentacion/reducer";
+import { reducer as afiliadoContactosREducer } from "./afiliadoContactos/reducer";
 
 
 
@@ -29,6 +30,7 @@ export const rootReducer = (state = {}, action) => {
 		ruta: rutaReducer(state.ruta, action),
 		afiliadoDatos: afiliadoDatosREducer(state.afiliadoDatos, action),
 		afiliadoDomicilios: afiliadoDomiciliosREducer(state.afiliadoDomicilios, action),
+		afiliadoContactos:  afiliadoContactosREducer(state.afiliadoContactos, action),
 		afiliadoDocumentacion: afiliadoDocumentacionREducer(state.afiliadoDocumentacion, action),
 		parentescos: parentescosReducer(state.parentescos, action),
 		planes: planesReducer(state.planes, action),

@@ -11,7 +11,6 @@ const expedienteOdataFactory = ODataFetchFactory({
 	fetch: fetch,
 	domain: webApiExpedientes,
 });
-//https://afiliaciones.api.uocra.net/api/v1/Parentescos/all
 
 export const loginFetch = fetchFactory(webApi, "LoginOS");
 export const logonFetch = ODataEntity(expedienteOdataFactory, "Logon");
@@ -19,16 +18,20 @@ export const recuperoFetch = ODataEntity(expedienteOdataFactory, "PedirRecupero"
 export const cambiarPasswordFetch = ODataEntity(expedienteOdataFactory, "CambiarPassword");
 
 
-export const estadosCivilesFetch = fetchFactory(webApiAfiliaciones, "EstadosCiviles/all");
-export const localidadesFetch = fetchFactory(webApiAfiliaciones, "Localidades/all");
-export const nacionaliodadesFetch = fetchFactory(webApiAfiliaciones, "Nacionalidades/all");
-export const parentescosFetch = fetchFactory(webApiAfiliaciones, "Parentescos/all");
-export const planesFetch = fetchFactory(webApiAfiliaciones, "Planes/all");
-export const provinciasFetch = fetchFactory(webApiAfiliaciones, "Provincias/all");
-export const tipoDocumentoFetch = fetchFactory(webApiAfiliaciones, "TipoDocumento/all");
+export const estadosCivilesGetAllFetch = fetchFactory(webApiAfiliaciones, "EstadosCiviles/all");
+export const localidadesGetAllFetch = fetchFactory(webApiAfiliaciones, "Localidades/all");
+export const nacionaliodadesGetAllFetch = fetchFactory(webApiAfiliaciones, "Nacionalidades/all");
+export const parentescosGetAllFetch = fetchFactory(webApiAfiliaciones, "Parentescos/all");
+export const planesGetAllFetch = fetchFactory(webApiAfiliaciones, "Planes/all");
+export const provinciasGetAllFetch = fetchFactory(webApiAfiliaciones, "Provincias/all");
+export const tipoDocumentoGetAllFetch = fetchFactory(webApiAfiliaciones, "TipoDocumento/all");
+
+
 
 export const afiliadosAddFetch = fetchFactory(webApiAfiliaciones, "Afiliados/add");
-export const afiliadosDomiciliosFetch = fetchFactory(webApiAfiliaciones, "AfiliadosDomicilios/add");
+export const afiliadosGetByPlanDocumentacionFetch = fetchFactory(webApiAfiliaciones, "DetalleDocumentacion/GetDetalleDocumentacionByPlanParentesco");
+export const afiliadosDomiciliosAddFetch = fetchFactory(webApiAfiliaciones, "AfiliadosDomicilios/add");
+export const afiliadosContactosAddFetch = fetchFactory(webApiAfiliaciones, "AfiliadosContactos/add");
 
 
 

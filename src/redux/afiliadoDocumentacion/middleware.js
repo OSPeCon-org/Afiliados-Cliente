@@ -1,7 +1,7 @@
-import { GET, GET_SUCCESS, GET_ERROR } from "./actions";
+import { GET, GET_SUCCESS, GET_ERROR} from "./actions";
 import { RESTRequest } from "../rest/actions";
 
-import { c } from "../fetchs";
+import { afiliadosGetByPlanDocumentacionFetch } from "../fetchs";
 
 export const get =
     ({ dispatch }) =>
@@ -9,8 +9,12 @@ export const get =
     (action) => {
         next(action);
         if (action.type === GET) {
-            //dispatch(RESTRequest(webApiAfiliados, "", GET_SUCCESS, GET_ERROR, ""));
-            dispatch({
+            const body = { 
+                planId: "108f11fb-9952-4fe0-a26f-f8ee4e2e9b8e", 
+                parentescoId: "e4389c83-310c-4399-b5fa-9ab06a00eb23",
+                discapacidad: false};
+            dispatch(RESTRequest( afiliadosGetByPlanDocumentacionFetch, "?planId=" + body.planId + "&parentescoId=" + body.parentescoId + "&discapacidad=" + body.discapacidad, GET_SUCCESS, GET_ERROR, ""));
+            /*dispatch({
                 type: GET_SUCCESS,
                 payload: {
                     receive: [
@@ -116,7 +120,7 @@ export const get =
                         // Titular Ospecon Obligatorio
                         {
                             PlanId: 2,
-                            ParentescoId: 1,
+                            Id: 1Parentesco,
                             Discapacidad: 1,
                             titulo: "Documento frente",
                             imagen: "UPLOAD",
@@ -384,7 +388,7 @@ export const get =
                         return item.PlanId == action.planId && item.ParentescoId == action.parentescoId && item.Discapacidad == action.discapacidad;
                     }),
                 },
-            });
+            });*/
         }
     };
 

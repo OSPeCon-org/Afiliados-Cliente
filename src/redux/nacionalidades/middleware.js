@@ -1,7 +1,7 @@
 import { GET, GET_SUCCESS, GET_ERROR } from "./actions";
 import { RESTRequest } from "../rest/actions";
 
-import { nacionaliodadesFetch } from "../fetchs";
+import { nacionaliodadesGetAllFetch } from "../fetchs";
 
 export const get =
     ({ dispatch }) =>
@@ -9,7 +9,7 @@ export const get =
     (action) => {
         next(action);
         if (action.type === GET) {
-            dispatch(RESTRequest(nacionaliodadesFetch, "", GET_SUCCESS, GET_ERROR, ""));
+            dispatch(RESTRequest(nacionaliodadesGetAllFetch, "", GET_SUCCESS, GET_ERROR, ""));
             
         }
     };
