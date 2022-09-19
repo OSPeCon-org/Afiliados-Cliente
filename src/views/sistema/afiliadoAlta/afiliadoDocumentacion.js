@@ -129,13 +129,20 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
             if (isInLayout(state, this.area) && isCurrentScreen) {
                 this.hidden = false;
                 store.dispatch(cambioOpcioRuta(OPCION_DOCUM));
-                this.items = store.getState().afiliadoDocumentacion.entities;
+                this.items = { 
+                    titulo: this.documentacion.documentacionNombre, 
+                    imagen: "", 
+                    estado: "", 
+                    copete: "", 
+                    accion1: "", 
+                    accion2: "" 
+                };
                 console.log(this.items);
             }
         }
 
         if (name == AFILIADO_DOCUMENTACION) {
-            this.documentacion = state.afiliadoDocumentacion.entities;
+            this.documentacion = state.afiliadoDocumentacion.documentacion;
         }
     }
     static get properties() {
