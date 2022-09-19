@@ -2,6 +2,7 @@ import { GET, GET_SUCCESS, GET_ERROR} from "./actions";
 import { RESTRequest } from "../rest/actions";
 
 import { afiliadosGetByPlanDocumentacionFetch } from "../fetchs";
+import { store } from "../store";
 
 export const get =
     ({ dispatch }) =>
@@ -398,6 +399,10 @@ export const processGet =
     (action) => {
         next(action);
         if (action.type === GET_SUCCESS) {
+            /*store.GetState().afiliadoDocumentacion.documentacion.filter((item) => {
+                return item.PlanId == action.planId && item.ParentescoId == action.parentescoId && item.Discapacidad == action.discapacidad;
+            });*/
+
         }
     };
 
