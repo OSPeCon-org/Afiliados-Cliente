@@ -49,7 +49,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
 		this.validaciones = {
 			parentesco: { invalid: false, isInvalid: isEmpty },
 			cuil: { invalid: false, isInvalid: invalidCUITCUIL },
-			plan: { invalid: false, isInvalid: isEmpty },
+			plan: { invalid: false, isInvalid: opcionInvalida },
 			apellido: { invalid: false, isInvalid: nameInvalido },
 			nombre: { invalid: false, isInvalid: nameInvalido },
 			sexo: { invalid: false, isInvalid: opcionInvalida },
