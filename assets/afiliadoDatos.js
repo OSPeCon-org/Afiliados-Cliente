@@ -18,7 +18,7 @@ import { cambioOpcioRuta } from "../../../redux/ruta/actions";
 import { get as GetAfiliadosDatos, add as addAfiliadoDatos } from "../../../redux/afiliadoDatos/actions";
 import { get as getDocumentacion } from "../../../redux/afiliadoDocumentacion/actions";
 
-import { isEmpty, cuilInvalido, opcionInvalida, invalidDni, nameInvalido, invalidCUITCUIL } from "../../../libs/funciones";
+import { isEmpty, cuilInvalido, opcionInvalida, dniInvalido,nameInvalido } from "../../../libs/funciones";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -48,13 +48,13 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
 
 		this.validaciones = {
 			parentesco: { invalid: false, isInvalid: isEmpty },
-			cuil: { invalid: false, isInvalid: invalidCUITCUIL },
+			cuil: { invalid: false, isInvalid: cuilInvalido },
 			plan: { invalid: false, isInvalid: isEmpty },
-			apellido: { invalid: false, isInvalid: nameInvalido },
+			apellido: { invalid: false, isInvalid: isEmpty },
 			nombre: { invalid: false, isInvalid: nameInvalido },
 			sexo: { invalid: false, isInvalid: opcionInvalida },
 			tipoDocumento: { invalid: false, isInvalid: opcionInvalida },
-			documentoNumero: { invalid: false, isInvalid: invalidDni },
+			documentoNumero: { invalid: false, isInvalid: dniInvalido },
 			estadoCivil: { invalid: false, isInvalid: opcionInvalida },
 			nacionalidad: { invalid: false, isInvalid: opcionInvalida },
 			discapacidad: { invalid: false, isInvalid: opcionInvalida },
