@@ -40,7 +40,12 @@ export const nameInvalido = (value) => {
 };
 
 export const invalidFecha = (value) => {
-    
+    var fecha = new Date().toISOString();
+
+    if(value >= fecha){
+    return true
+    }
+    return false
 }
 
 export const opcionInvalida = (value) => {

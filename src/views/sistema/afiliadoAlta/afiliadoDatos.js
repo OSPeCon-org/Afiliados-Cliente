@@ -18,7 +18,7 @@ import { cambioOpcioRuta } from "../../../redux/ruta/actions";
 import { get as GetAfiliadosDatos, add as addAfiliadoDatos } from "../../../redux/afiliadoDatos/actions";
 import { get as getDocumentacion } from "../../../redux/afiliadoDocumentacion/actions";
 
-import { isEmpty, cuilInvalido, opcionInvalida, invalidDni, nameInvalido, invalidCUITCUIL } from "../../../libs/funciones";
+import { isEmpty, opcionInvalida, invalidDni, nameInvalido, invalidCUITCUIL,invalidFecha } from "../../../libs/funciones";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -53,6 +53,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
 			apellido: { invalid: false, isInvalid: nameInvalido },
 			nombre: { invalid: false, isInvalid: nameInvalido },
 			sexo: { invalid: false, isInvalid: opcionInvalida },
+			nacimiento: { invalid: false, isInvalid: invalidFecha},
 			tipoDocumento: { invalid: false, isInvalid: opcionInvalida },
 			documentoNumero: { invalid: false, isInvalid: invalidDni },
 			estadoCivil: { invalid: false, isInvalid: opcionInvalida },
@@ -132,7 +133,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
 					<div class="input" ?error=${this.validaciones.cuil.invalid}>
 						<input id="cuil" .value=${this.item.cuil} @blur="${this.enlace("cuil")}" />
 						<label for="cuil">CUIL</label>
-						<label error>El cuil es inválido</label>
+						<label error>El cuil es inválido. No ingresar guiones</label>
 						<label subtext>Requerido</label>
 					</div>
 					<div class="select" ?error=${this.validaciones.plan.invalid}>
@@ -171,10 +172,10 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
 						<label error>Debe seleccionar una opción</label>
 						<label subtext>Requerido</label>
 					</div>
-					<div class="input">
+					<div class="input" ?error=${this.validaciones.nacimiento.invalid}>
 						<input id="nacimiento" value="${this.item.nacimiento}" type="date" @blur="${this.enlace("nacimiento")}"/>
 						<label for="nacimiento">Fecha de nacimiento</label>
-						<label error>No puede ser vacio</label>
+						<label error>Debe ingresar un fecha válida</label>
 						<label subtext>Requerido</label>
 					</div>
 					<div class="select" ?error=${this.validaciones.tipoDocumento.invalid}>
@@ -191,7 +192,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
 					<div class="input" ?error=${this.validaciones.documentoNumero.invalid}>
 						<input id="documentoNumero" .value=${this.item.documentoNumero} @blur="${this.enlace("documentoNumero")}" />
 						<label for="documentoNumero">Numero de documento</label>
-						<label error>Debe ingresar numero de DNI</label>
+						<label error>Debe ingresar numero de DNI válido</label>
 						<label subtext>Requerido</label>
 					</div>
 				</div>
@@ -264,8 +265,8 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
   				estadosAfiliacionId: "76151413-1847-4688-88F1-007356683E40"
 			}
 
-
-			store.dispatch(addAfiliadoDatos(itemAfiliadoDatos));
+			
+			//store.dispatch(addAfiliadoDatos(itemAfiliadoDatos));
 			//store.dispatch(getDocumentacion(this.item.plan, this.item.parentesco, this.item.discapacidad));
 			store.dispatch(getDocumentacion("108f11fb-9952-4fe0-a26f-f8ee4e2e9b8e", "e4389c83-310c-4399-b5fa-9ab06a00eb23", false));
 
