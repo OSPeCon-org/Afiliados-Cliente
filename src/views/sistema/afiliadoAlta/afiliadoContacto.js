@@ -16,7 +16,7 @@ import { goHistoryPrev, goTo } from "@brunomon/template-lit/src/redux/routing/ac
 import { cambioOpcioRuta } from "../../../redux/ruta/actions";
 
 import { add as addAfiliadoContactos } from "../../../redux/afiliadoContactos/actions"
-import { isEmpty, opcionInvalida } from "../../../libs/funciones";
+import { isEmpty, opcionInvalida, mailInvalid } from "../../../libs/funciones";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -33,8 +33,8 @@ export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE)
             celular: { invalid: false, isInvalid: isEmpty },
             particular: { invalid: false, isInvalid: isEmpty }, 
             laboral: { invalid: false, isInvalid: isEmpty }, 
-            mail: { invalid: false, isInvalid: isEmpty },
-            mail2: { invalid: false, isInvalid: isEmpty }, 
+            mail: { invalid: false, isInvalid: mailInvalid },
+            mail2: { invalid: false, isInvalid: mailInvalid }, 
         };
        
     }

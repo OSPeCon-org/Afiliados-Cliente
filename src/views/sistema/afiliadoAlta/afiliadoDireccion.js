@@ -17,7 +17,7 @@ import { get as GetAfiliadosDatos } from "../../../redux/afiliadoDatos/actions";
 import { add as addAfiliadosDomicilios } from "../../../redux/afiliadoDomicilios/actions"
 import { cambioOpcioRuta } from "../../../redux/ruta/actions";
 
-import { isEmpty, opcionInvalida } from "../../../libs/funciones";
+import { isEmpty, opcionInvalida,onlyLetter,onlyNumber } from "../../../libs/funciones";
 
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
@@ -37,12 +37,13 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
         (this.provincias = null), (this.localidades = null), (this.svgs = { BENEF: BENEF, GRPFAM: GRPFAM });
 
         this.validaciones = {
-            calle: { invalid: false, isInvalid: isEmpty },
-            altura: { invalid: false, isInvalid: isEmpty },
-            piso: { invalid: false, isInvalid: isEmpty },
+            calle: { invalid: false, isInvalid: onlyLetter },
+            altura: { invalid: false, isInvalid: onlyNumber },
+            piso: { invalid: false, isInvalid: onlyNumber },
+            departamento: { invalid: false, isInvalid: onlyLetter },
             provincia: { invalid: false, isInvalid: opcionInvalida },
             localidad: { invalid: false, isInvalid: opcionInvalida },
-            codigoPostal: { invalid: false, isInvalid: isEmpty },
+            codigoPostal: { invalid: false, isInvalid: onlyNumber },
         };
     }
 
@@ -115,13 +116,13 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                         <label error>Debe ingresar altura</label>
                         <label subtext>Requerido</label>
                     </div>
-                    <div class="input">
+                    <div class="input" ?error=${this.validaciones.piso.invalid}>
                         <input id="piso" .value=${this.item.piso} @blur="${this.enlace("piso")}" />
                         <label for="piso">Piso</label>
                         <label error>No puede ser vacio</label>
                         <label subtext></label>
                     </div>
-                    <div class="input">
+                    <div class="input" ?error=${this.validaciones.departamento.invalid}>
                         <input id="departamento" .value=${this.item.departamento} @blur="${this.enlace("departamento")}" />
                         <label for="departamento">Departamento</label>
                         <label error></label>

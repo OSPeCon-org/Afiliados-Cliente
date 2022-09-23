@@ -1,6 +1,6 @@
-export const validaMail = (email) => {
+export const mailInvalid = (email) => {
     var regex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    return regex.test(email) ? true : false;
+    return regex.test(email) ? false: true;
 };
 
 export const invalidCUITCUIL = (cuit) => {		
@@ -35,6 +35,16 @@ export const invalidDni = (value) => {
 export const nameInvalido = (value) => {
     var name = /[a-zA-Z ñÑ]/;
     return name.test(value) ? false : true;
+};
+
+export const onlyLetter = (value) => {
+  var name = /[a-zA-ZñÑ]/;
+  return name.test(value) ? false : true;
+};
+
+export const onlyNumber = (value) => {
+  var name = /[0-9]/;
+  return name.test(value) ? false : true;
 };
 
 export const invalidFecha = (value) => {
