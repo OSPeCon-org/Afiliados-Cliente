@@ -265,22 +265,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
   				nacionalidadId: this.item.nacionalidad,
   				estadosAfiliacionId: "76151413-1847-4688-88F1-007356683E40"
 			}
-
-			this.item = {
-				parentesco: this.item.parentesco,
-				cuil: this.item.cuil,
-				plan: "",
-				apellido: "",
-				nombre: "",
-				sexo: "",
-				nacimiento: "",
-				tipoDocumento: "",
-				documentoNumero: "",
-				estadoCivil: "",
-				nacionalidad: "",
-				discapacidad: "",
-			};
-			
+						
 			store.dispatch(addAfiliadoDatos(itemAfiliadoDatos));
 			//store.dispatch(getDocumentacion(this.item.plan, this.item.parentesco, this.item.discapacidad));
 			store.dispatch(getDocumentacion("108f11fb-9952-4fe0-a26f-f8ee4e2e9b8e", "e4389c83-310c-4399-b5fa-9ab06a00eb23", false));
