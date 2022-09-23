@@ -1,7 +1,7 @@
-import { GET, success, ADD, ADD_SUCCESS, ADD_ERROR } from "./actions";
+import { GET, success, GET_ERROR, GET_BY_ID, GET_BY_ID_SUCCESS, GET_BY_ID_ERROR, ADD, ADD_SUCCESS, ADD_ERROR } from "./actions";
 import { RESTRequest, RESTAdd } from "../rest/actions";
 
-import { afiliadosAddFetch } from "../fetchs";
+import { afiliadosAddFetch, afiliadosGetById} from "../fetchs";
 import { getAll as GetAllParentescos, GET_SUCCESS as GET_SUCCESS_PARENTESCOS } from "../parentescos/actions";
 import { getAll as GetAllPlanes, GET_SUCCESS as GET_SUCCESS_PLANES } from "../planes/actions";
 import { getAll as GetAllTipoDocumento, GET_SUCCESS as GET_SUCCESS_TIPO_DOCUMENTO } from "../tipoDocumento/actions";
@@ -10,8 +10,6 @@ import { getAll as GetAllNacionalidades, GET_SUCCESS as GET_SUCCESS_NACIONALIDAD
 import { getAll as GetAllProvincias, GET_SUCCESS as GET_SUCCESS_PROVINCIAS } from "../provincias/actions";
 import { getAll as GetAllLocalidades, GET_SUCCESS as GET_SUCCESS_LOCALIDADES } from "../localidades/actions";
 import { store } from "../store";
-
-
 
 
 export const get =
@@ -56,6 +54,17 @@ export const processError =
 		/*if (action.type === GET_ERROR) {
         }*/
 	};
+
+
+export const GetById =
+({ dispatch }) =>
+(next) =>
+(action) => {
+	next(action);
+	if (action.type === GET_BY_ID_SUCCESS) {
+		//dispatch(RESTRequest(afiliadosGetById, "{" + "}", )){}
+	}
+};
 
 export const add =
 	({ dispatch }) =>

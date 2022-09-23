@@ -4,12 +4,10 @@ export const validaMail = (email) => {
 };
 
 export const invalidCUITCUIL = (cuit) => {		
-        
-    if (!cuit.length == 11 ) {
-        return true;
-    }   
+      
       let acumulado = 0;
-      let digitos = cuit.split('');
+      let digitos = cuit.replace(/-/g,'');
+        digitos = digitos.split('');
       let digito = parseInt(digitos.pop());
     
       for (let i = 0; i < digitos.length; i++) {
@@ -21,8 +19,8 @@ export const invalidCUITCUIL = (cuit) => {
         verif = 0;
       } else if (verif === 10) {
         verif = 9;
-      }    
-      console.log(!(digito === verif))
+      }   
+    
       return !(digito === verif);        
 };
 
@@ -42,7 +40,7 @@ export const nameInvalido = (value) => {
 export const invalidFecha = (value) => {
     var fecha = new Date().toISOString();
 
-    if(value >= fecha){
+    if(value >= fecha || value == ""){
     return true
     }
     return false

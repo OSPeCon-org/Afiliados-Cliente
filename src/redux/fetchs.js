@@ -27,8 +27,9 @@ export const provinciasGetAllFetch = fetchFactory(webApiAfiliaciones, "Provincia
 export const tipoDocumentoGetAllFetch = fetchFactory(webApiAfiliaciones, "TipoDocumento/all");
 
 
-
 export const afiliadosAddFetch = fetchFactory(webApiAfiliaciones, "Afiliados/add");
+export const afiliadosGetById= fetchFactory(webApiAfiliaciones, "Afiliados");
+
 export const afiliadosGetByPlanDocumentacionFetch = fetchFactory(webApiAfiliaciones, "DetalleDocumentacion/GetDetalleDocumentacionByPlanParentesco");
 export const afiliadosDomiciliosAddFetch = fetchFactory(webApiAfiliaciones, "AfiliadosDomicilios/add");
 export const afiliadosContactosAddFetch = fetchFactory(webApiAfiliaciones, "AfiliadosContactos/add");
