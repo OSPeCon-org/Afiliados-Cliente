@@ -21,6 +21,7 @@ import { afiliadoDireccionScreen } from "./sistema/afiliadoAlta/afiliadoDireccio
 import { afiliadoContactoScreen } from "./sistema/afiliadoAlta/afiliadoContacto";
 import { afiliadoDocumentacionScreen } from "./sistema/afiliadoAlta/afiliadoDocumentacion";
 import { afiliadoAltaFinScreen } from "./sistema/afiliadoAlta/afiliadoAltaFin";
+import { afiliadoPorCuil } from "./sistema/afiliadoAlta/afiliadoPorCuil";
 
 import { pruebaDaniel } from "./prueba/pruebaDaniel";
 import { pruebaFlor } from "./prueba/pruebaFlor";
@@ -92,6 +93,7 @@ export class viewManager extends connect(store, MEDIA_CHANGE, SCREEN, SELECTION)
 			<afiliado-contacto-screen id="afiliadoContacto" area="body"></afiliado-contacto-screen>
 			<afiliado-documentacion-screen id="afiliadoDocumentacion" area="body"></afiliado-documentacion-screen>
 			<afiliado-alta-fin-screen id="afiliadoAltaFin" area="body"></afiliado-alta-fin-screen>
+			<afiliado-PorCuil id="afiliadoPorCuil" area="body"></afiliado-PorCuil>
 
 			<prueba-daniel id="pruebaDaniel" area="body"></prueba-daniel>
 			<prueba-flor id="pruebaFlor" area="body"></prueba-flor>

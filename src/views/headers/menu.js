@@ -170,7 +170,7 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, USUARIO,
 
 			<div id="opciones" class="grid column" @click=${this.toggleMenu}>
 				<button raised circle action class="menu-button">${RIGHT}</button>
-				<button link ?selected="${this.selectedOption[0]}" @click=${this.click} .option=${"afiliadoMostrar"}>Nueva Afiliacion</button>
+				<button link ?selected="${this.selectedOption[0]}" @click=${this.click} .option=${"afiliadoPorCuil"}>Nueva Afiliacion</button>
 				<button link ?selected="${this.selectedOption[1]}" @click=${this.click} .option=${"opcion1"}>Opcion 1</button>
 				<button link ?selected="${this.selectedOption[2]}" @click=${this.click} .option=${"opcion2"}>Opcion 2</button>
 				<button link etiqueta ?selected="${this.selectedOption[3]}" @click=${this.click} .option=${"opcion3"}>

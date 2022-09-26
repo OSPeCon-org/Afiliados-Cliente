@@ -265,7 +265,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
   				estadosAfiliacionId: "76151413-1847-4688-88F1-007356683E40"
 			}
 						
-			//store.dispatch(addAfiliadoDatos(itemAfiliadoDatos));
+			store.dispatch(addAfiliadoDatos(itemAfiliadoDatos));
 			//store.dispatch(getDocumentacion(this.item.plan, this.item.parentesco, this.item.discapacidad));
 			store.dispatch(getDocumentacion("108f11fb-9952-4fe0-a26f-f8ee4e2e9b8e", "e4389c83-310c-4399-b5fa-9ab06a00eb23", false));
 
