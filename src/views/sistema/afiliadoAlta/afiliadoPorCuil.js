@@ -11,9 +11,11 @@ import { button } from "@brunomon/template-lit/src/views/css/button";
 import { input } from "@brunomon/template-lit/src/views/css/input";
 import { select } from "@brunomon/template-lit/src/views/css/select";
 import { invalidCUITCUIL } from "../../../libs/funciones";
+import { getGrupoFamiliar } from "../../../redux/afiliados/actions";
 
 
 import { goHistoryPrev, goTo } from "@brunomon/template-lit/src/redux/routing/actions";
+
 
 
 
@@ -27,7 +29,9 @@ export class afiliadoPorCuil extends connect(store, SCREEN, MEDIA_CHANGE)(LitEle
 		this.hidden = true;
 		this.area = "body";
 		this.current = "";
-        this.cuil = ""
+       this.item={
+        cuil:""
+       }
 	
 
     this.validaciones = {    
@@ -59,8 +63,8 @@ export class afiliadoPorCuil extends connect(store, SCREEN, MEDIA_CHANGE)(LitEle
 				font-family: var(--font-header-h1-family);
 				font-size: var(--font-header-h1-size);
 				font-weight: 400;
-				background-color: var(--terciario);
-				color: var(--on-terciario);
+				background-color: var(--secundario);
+				color: var(--on-secundario);
 			}
 			#titulo div {
 				margin: auto;
@@ -77,27 +81,32 @@ export class afiliadoPorCuil extends connect(store, SCREEN, MEDIA_CHANGE)(LitEle
 		return html`
 			<div id="titulo"><div>Ingrese CUIL del Titular</div></div>
 			<div id="cuerpo" class="grid row">
-            <div class="input" ?error=${this.validaciones.cuil.invalid}>
-						<input id="cuil" .value=${this.cuil} @blur="${this.enlace("cuil")}" />
+                <div class="input" ?error=${this.validaciones.cuil.invalid}>
+						<input id="cuil" .value=${this.item.cuil} @blur="${this.enlace("cuil")}"/>
 						<label for="cuil">CUIL</label>
 						<label error>Debe ingresar numero de CUIL válido</label>
 						<label subtext>Requerido</label>
-					</div>
+				</div>
 				<button raised @click="${this.siguiente}">BUSCAR</button>
 			</div>
 		`;
 	}
 
 	siguiente() {
-		store.dispatch(goTo("main"));
+        if(this.isValidForm()){
+            store.dispatch(getGrupoFamiliar(this.item.cuil));
+            store.dispatch(goTo("afiliadoMostrar"));
+        }
+		
 	}
 
-    isValidForm() {
+	isValidForm() {
 		let isValid = true;
 		Object.entries(this.validaciones).forEach(([field, value]) => {
 			this.validaciones[field].invalid = this.validaciones[field].isInvalid(this.item[field]);
 			isValid = isValid && !this.validaciones[field].invalid;
 		});
+        this.requestUpdate();
 		return isValid;
 	}
 

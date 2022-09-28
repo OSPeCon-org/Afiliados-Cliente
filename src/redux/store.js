@@ -14,12 +14,14 @@ import { middleware as planes } from "./planes/middleware";
 import { middleware as tipoDocumento } from "./tipoDocumento/middleware";
 import { middleware as estadosCiviles } from "./estadosCiviles/middleware";
 import { middleware as nacionalidades } from "./nacionalidades/middleware";
+import { middleware as afiliados } from "./afiliados/middleware";
 import { middleware as afiliadoDatos } from "./afiliadoDatos/middleware";
 import { middleware as afiliadoDocumentacion } from "./afiliadoDocumentacion/middleware";
 import { middleware as afiliadosContactos } from "./afiliadoContactos/middleware";
 import { middleware as afiliadoDomicilios  } from "./afiliadoDomicilios/middleware";
 import { middleware as provincias } from "./provincias/middleware";
 import { middleware as localidades } from "./localidades/middleware";
+
 
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -30,6 +32,7 @@ let mdw = [
 	...ui,
 	...route,
 	...autorizacion,
+	...afiliados,
 	...afiliadoDatos,	
 	...afiliadoDomicilios,
 	...afiliadosContactos,

@@ -5,10 +5,12 @@ export const mailInvalid = (email) => {
 
 export const invalidCUITCUIL = (cuit) => {		
       
-      let acumulado = 0;
-      let digitos = cuit.replace(/-/g,'');
+    if(cuit === undefined) return true; 
+
+    let acumulado = 0;
+    let digitos = cuit.replaceAll('-','');
         digitos = digitos.split('');
-      let digito = parseInt(digitos.pop());
+    let digito = parseInt(digitos.pop());
     
       for (let i = 0; i < digitos.length; i++) {
         acumulado += digitos[9 - i] * (2 + (i % 6));

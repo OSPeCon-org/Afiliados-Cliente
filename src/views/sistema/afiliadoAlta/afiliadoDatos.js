@@ -281,6 +281,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
 			this.validaciones[field].invalid = this.validaciones[field].isInvalid(this.item[field]);
 			isValid = isValid && !this.validaciones[field].invalid;
 		});
+		//this.update();
 		return isValid;
 	}
 
