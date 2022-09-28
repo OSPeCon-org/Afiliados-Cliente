@@ -15,23 +15,26 @@ import { goTo } from "@brunomon/template-lit/src/redux/routing/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
+const GRUPO_FAMILIAR = "afiliados.timeStamp";
 
-export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE)(LitElement) {
+
+export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, GRUPO_FAMILIAR)(LitElement) {
     constructor() {
         super();
         this.hidden = true;
         this.area = "body";
         this.current = "";
+        this.grupoFamiliar = [];
         this.svgs = { BENEF: BENEF, GRPFAM: GRPFAM };
 
-        //"https://app.uocra.org/credencialSindical/sinusuario.png"
+        //"https://app.uocra.org/credencialSindical/sinusuario.png"//
         this.item = [
             { id: 1, icono: "", parentesco: "Titular", imagen: "https://app.uocra.org/credencialSindical/28491226.jpg", nombre: "Juan Jose Ruiz", estado: "Afiliacion activa" },
             { id: 1, icono: "", parentesco: "Conyuge", imagen: "https://app.uocra.org/credencialSindical/sinusuario.png", nombre: "Josefa Ruiz", estado: "Afiliacion activa" },
             { id: 1, icono: "", parentesco: "Madre", imagen: "https://app.uocra.org/credencialSindical/17249982.jpg", nombre: "Antonia Maria", estado: "Afiliacion activa" },
             { id: 1, icono: "", parentesco: "Hijo", imagen: "https://app.uocra.org/credencialSindical/17221332.jpg", nombre: "Lucas Ruiz", estado: "Afiliacion activa" },
         ];
-        this.item = null;
+        //this.item = null;
     }
 
     static get styles() {
@@ -138,6 +141,11 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE)(
                 this.hidden = false;
             }
         }
+
+        if(name == GRUPO_FAMILIAR){
+            THIS
+        }
+
     }
     static get properties() {
         return {

@@ -11,7 +11,7 @@ import { store } from "./redux/store";
 import { captureMedia } from "./redux/ui/actions";
 import { goTo } from "./redux/routing/actions";
 import { viewManager } from "./views/manager";
-import { login } from "./redux/autorizacion/actions";
+
 import { register as registerSW, activate as activateSW } from "./libs/serviceWorker";
 
 import { getAll as GetAllParentesco } from "./redux/parentescos/actions";
@@ -29,30 +29,39 @@ viewMode("main");
 store.dispatch(captureMedia());
 store.dispatch(goTo("splash"));
 
-console.log("Sirviendo datos de :" + SERVICE_URL);
-/* if ("credentials" in navigator) {
-    navigator.credentials
-        .get({ password: true, mediation: "optional" })
-        .catch((err) => console.log("navigator.credentials.get: No funciona en Firefox"))
-        .then((cred) => {
-            if (cred) {
-                store.dispatch(login(cred.id, cred.password, true));
-            } else {
-                store.dispatch(goTo("login"));
-            }
-        });
-} else {
-    store.dispatch(goTo("login"));
+console.log("Sirviendo datos de :" + AFILIACIONES_URL);
+
+
+window.addEventListener(
+    "message",
+    function (e) {
+        var origin = e.origin;
+        if (origin == "https://front.uocra.net") {
+            const profile = parseJwt(e.data);
+            //document.getElementsByTagName("p")[0].innerHTML = "Apellido:" + profile["family_name"];
+            //document.getElementsByTagName("p")[1].innerHTML = "Nombre:" + profile["given_name"];
+            //document.getElementsByTagName("p")[2].innerHTML = "E-mail:" + profile["email"];
+            //popUp.close();
+        }
+    },
+    false
+);
+
+function parseJwt(token) {
+    var base64Url = token.split(".")[1];
+    var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    var jsonPayload = decodeURIComponent(
+        window
+            .atob(base64)
+            .split("")
+            .map(function (c) {
+                return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+            })
+            .join("")
+    );
+
+    return JSON.parse(jsonPayload);
 }
- */
-export default {
-	login: (email, password) => {
-		store.dispatch(login(email, password));
-	},
-	cambioClave: () => {
-		store.dispatch(goTo("cambioClave"));
-	},
-	miembro: () => {
-		store.dispatch(goTo("serMiembro"));
-	},
-};
+
+window.open("https://front.uocra.net/auth/index.html", "_blank", "top=0,left=0,width=" + window.innerWidth / 2 + ",height=" + window.innerHeight, true);
+

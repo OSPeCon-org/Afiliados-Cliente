@@ -11,30 +11,8 @@ export const getGrupoFamiliar =
 	(action) => {
 		next(action);		
 		if (action.type === GET_GRUPO_FAMILIAR) {
-			            /*dispatch({
-                type: GET_SUCCESS,
-                payload: {
-                    receive: [
-                        {
-                            PlanId: 1,
-                            ParentescoId: 1,
-                            Discapacidad: 2,
-                            titulo: "Documento frente",
-                            imagen: "UPLOAD",
-                            estado: "PENDIENTE",
-                            copete: "Debe subir el documento",
-                            accion1: "NUEVO DOCUMENTO",
-                            accion2: "",
-                        },
-                       
-                    ].filter((item) => {
-                        return item.PlanId == action.planId && item.ParentescoId == action.parentescoId && item.Discapacidad == action.discapacidad;
-                    }),
-                },
-            });*/
-
-			dispatch({
-                type: GET_GRUPO_FAMILIAR,
+			/*dispatch({
+                type: GET_GRUPO_FAMILIAR_SUCCESS,
                 payload: {
                     receive: [
                         {
@@ -61,7 +39,7 @@ export const getGrupoFamiliar =
 							estadosAfiliacionNombre: "estadoPruebs"
                         }]                    
                 },
-            });
+            });*/
 		}
 	};
 
