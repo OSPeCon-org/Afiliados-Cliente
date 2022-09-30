@@ -21,8 +21,8 @@ import { getAll as GetAllEstadosCiviles } from "./redux/estadosCiviles/actions";
 
 import { getAll as GetAllNacionalidades } from "./redux/nacionalidades/actions";
 if (process.env.NODE_ENV === "production") {
-	registerSW();
-	activateSW();
+    registerSW();
+    activateSW();
 }
 
 viewMode("main");
@@ -31,17 +31,19 @@ store.dispatch(goTo("splash"));
 
 console.log("Sirviendo datos de :" + AFILIACIONES_URL);
 
-
 window.addEventListener(
     "message",
     function (e) {
         var origin = e.origin;
         if (origin == "https://front.uocra.net") {
-            const profile = parseJwt(e.data);
+            try {
+                const profile = parseJwt(e.data);
+                console.log(profile);
+                popUp.close();
+            } catch {}
             //document.getElementsByTagName("p")[0].innerHTML = "Apellido:" + profile["family_name"];
             //document.getElementsByTagName("p")[1].innerHTML = "Nombre:" + profile["given_name"];
             //document.getElementsByTagName("p")[2].innerHTML = "E-mail:" + profile["email"];
-            //popUp.close();
         }
     },
     false
@@ -63,5 +65,4 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 }
 
-window.open("https://front.uocra.net/auth/index.html", "_blank", "top=0,left=0,width=" + window.innerWidth / 2 + ",height=" + window.innerHeight, true);
-
+let popUp = window.open("https://front.uocra.net/auth/index.html", "_blank", "top=0,left=0,width=" + window.innerWidth / 2 + ",height=" + window.innerHeight, true);
