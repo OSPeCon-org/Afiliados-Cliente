@@ -12,6 +12,7 @@ import { button } from "@brunomon/template-lit/src/views/css/button";
 import { tarjetaFamilia } from "../../css/tarjetaFamilia";
 import { tarjetaPersona } from "../../css/tarjetaPersona";
 import { goTo } from "@brunomon/template-lit/src/redux/routing/actions";
+import { getGrupoFamiliar } from "../../../redux/afiliados/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -28,12 +29,13 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, 
         this.svgs = { BENEF: BENEF, GRPFAM: GRPFAM };
 
         //"https://app.uocra.org/credencialSindical/sinusuario.png"//
-        this.item = [
-            { id: 1, icono: "", parentesco: "Titular", imagen: "https://app.uocra.org/credencialSindical/28491226.jpg", nombre: "Juan Jose Ruiz", estado: "Afiliacion activa" },
+        this.item = [          
+            /*{ id: 1, icono: "", parentesco: "Titular", imagen: "https://app.uocra.org/credencialSindical/28491226.jpg", nombre: "Juan Jose Ruiz", estado: "Afiliacion activa" },
             { id: 1, icono: "", parentesco: "Conyuge", imagen: "https://app.uocra.org/credencialSindical/sinusuario.png", nombre: "Josefa Ruiz", estado: "Afiliacion activa" },
             { id: 1, icono: "", parentesco: "Madre", imagen: "https://app.uocra.org/credencialSindical/17249982.jpg", nombre: "Antonia Maria", estado: "Afiliacion activa" },
-            { id: 1, icono: "", parentesco: "Hijo", imagen: "https://app.uocra.org/credencialSindical/17221332.jpg", nombre: "Lucas Ruiz", estado: "Afiliacion activa" },
-        ];
+            { id: 1, icono: "", parentesco: "Hijo", imagen: "https://app.uocra.org/credencialSindical/17221332.jpg", nombre: "Lucas Ruiz", estado: "Afiliacion activa" },*/
+        ]; 
+        
         //this.item = null;
     }
 
@@ -100,24 +102,24 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, 
             return html`
                 <div id="subtitulo"><div>Nueva solicitud de afiliacion</div></div>
                 <div id="cuerpo">
-                    ${this.item.map((item, index) => {
+                    ${this.item?.map((item) => {
                         return html `<div class="tarjeta-persona">
                             <div titulo>
                                 <div help ?invisible=${item.icono == "" } @click="${this.icono}">${this.svgs[item.icono]}</div>
                                 <div>${item.parentesco}</div>
                             </div>
-                            <div cuerpo><img src="${item.imagen}" /></div>
-                            <div nombre>${item.nombre}</div>
-                            <div estado>${item.estado}</div>
-                        </div>`;
-                    })}
+                                <div cuerpo><img src="${item.imagen}"/></div>
+                                <div nombre>${item.nombre}</div>
+                                <div estado>${item.estado}</div>
+                            </div>`;
+                    })};
                     <div class="tarjeta-familia">
                         <div titulo>
                             <div help>${GRPFAM}</div>
                             <div>Grupo Familiar</div>
                         </div>
-                        <div cuerpo>Dar de alta un nuevo integante del grupo familiar</div>
-                        <button raised @click="${this.nuevo}">AGREGAR</button>
+                            <div cuerpo>Dar de alta un nuevo integante del grupo familiar</div>
+                            <button raised @click="${this.nuevo}">AGREGAR</button>
                     </div>
                 </div>
             `;
@@ -143,8 +145,9 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, 
         }
 
         if(name == GRUPO_FAMILIAR){
-            THIS
-        }
+            this.grupoFamiliar = state.afiliados.grupoFamiliar;
+            this.item = [{ id: this.grupoFamiliar.id, icono: "", parentesco: this.grupoFamiliar.parentescoNombre, imagen: "https://app.uocra.org/credencialSindical/28491226.jpg", nombre: this.grupoFamiliar.nombre + this.grupoFamiliar.apellido, estado: this.grupoFamiliar.estadoAfiliacion }];
+                }
 
     }
     static get properties() {
