@@ -18,7 +18,6 @@ const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
 const GRUPO_FAMILIAR = "afiliados.timeStamp";
 
-
 export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, GRUPO_FAMILIAR)(LitElement) {
     constructor() {
         super();
@@ -29,13 +28,12 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, 
         this.svgs = { BENEF: BENEF, GRPFAM: GRPFAM };
 
         //"https://app.uocra.org/credencialSindical/sinusuario.png"//
-        this.item = [          
-            /*{ id: 1, icono: "", parentesco: "Titular", imagen: "https://app.uocra.org/credencialSindical/28491226.jpg", nombre: "Juan Jose Ruiz", estado: "Afiliacion activa" },
+        this.items = [];
+        /*{ id: 1, icono: "", parentesco: "Titular", imagen: "https://app.uocra.org/credencialSindical/28491226.jpg", nombre: "Juan Jose Ruiz", estado: "Afiliacion activa" },
             { id: 1, icono: "", parentesco: "Conyuge", imagen: "https://app.uocra.org/credencialSindical/sinusuario.png", nombre: "Josefa Ruiz", estado: "Afiliacion activa" },
             { id: 1, icono: "", parentesco: "Madre", imagen: "https://app.uocra.org/credencialSindical/17249982.jpg", nombre: "Antonia Maria", estado: "Afiliacion activa" },
             { id: 1, icono: "", parentesco: "Hijo", imagen: "https://app.uocra.org/credencialSindical/17221332.jpg", nombre: "Lucas Ruiz", estado: "Afiliacion activa" },*/
-        ]; 
-        
+
         //this.item = null;
     }
 
@@ -77,14 +75,14 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, 
                 align-content: flex-start;
                 background-color: var(--aplicacion);
             }
-            div[invisible]{
+            div[invisible] {
                 visibility: hidden;
             }
         `;
     }
 
     render() {
-        if (!this.item) {
+        if (!this.items) {
             return html`
                 <div id="subtitulo"><div>Nueva solicitud de afiliacion</div></div>
                 <div id="cuerpo">
@@ -102,24 +100,24 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, 
             return html`
                 <div id="subtitulo"><div>Nueva solicitud de afiliacion</div></div>
                 <div id="cuerpo">
-                    ${this.item?.map((item) => {
-                        return html `<div class="tarjeta-persona">
+                    ${this.items?.map((item) => {
+                        return html`<div class="tarjeta-persona">
                             <div titulo>
-                                <div help ?invisible=${item.icono == "" } @click="${this.icono}">${this.svgs[item.icono]}</div>
+                                <div help ?invisible=${item.icono == ""} @click="${this.icono}">${this.svgs[item.icono]}</div>
                                 <div>${item.parentesco}</div>
                             </div>
-                                <div cuerpo><img src="${item.imagen}"/></div>
-                                <div nombre>${item.nombre}</div>
-                                <div estado>${item.estado}</div>
-                            </div>`;
+                            <div cuerpo><img src="${item.imagen}" /></div>
+                            <div nombre>${item.nombre}</div>
+                            <div estado>${item.estado}</div>
+                        </div>`;
                     })};
                     <div class="tarjeta-familia">
                         <div titulo>
                             <div help>${GRPFAM}</div>
                             <div>Grupo Familiar</div>
                         </div>
-                            <div cuerpo>Dar de alta un nuevo integante del grupo familiar</div>
-                            <button raised @click="${this.nuevo}">AGREGAR</button>
+                        <div cuerpo>Dar de alta un nuevo integante del grupo familiar</div>
+                        <button raised @click="${this.nuevo}">AGREGAR</button>
                     </div>
                 </div>
             `;
@@ -144,12 +142,21 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, 
             }
         }
 
-        if(name == GRUPO_FAMILIAR){
-            this.grupoFamiliar = state.afiliados.grupoFamiliar;
-            this.item = [{ id: this.grupoFamiliar.id, icono: "", parentesco: this.grupoFamiliar.parentescoNombre, imagen: "https://app.uocra.org/credencialSindical/28491226.jpg", nombre: this.grupoFamiliar.nombre + this.grupoFamiliar.apellido, estado: this.grupoFamiliar.estadoAfiliacion }];
-                }
-
+        if (name == GRUPO_FAMILIAR) {
+            this.items = state.afiliados.grupoFamiliar.map((item) => {
+                return {
+                    id: item.id,
+                    icono: "",
+                    parentesco: item.parentescoNombre,
+                    imagen: "https://app.uocra.org/credencialSindical/" + item.documento + ".jpg",
+                    nombre: item.nombre + item.apellido,
+                    estado: item.estadosAfiliacionNombre,
+                };
+            });
+            this.update();
+        }
     }
+
     static get properties() {
         return {
             mediaSize: {
