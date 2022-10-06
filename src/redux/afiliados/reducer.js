@@ -38,7 +38,7 @@ export const reducer = (state = initialState, action) => {
                     nacionalidadId: "62dc612e-2411-43b4-bc03-5d52938e285c",
                     nacionalidadNombre: "Argentino",
                     estadosAfiliacionId: "76151413-1847-4688-88f1-007356683e40",
-                    estadosAfiliacionNombre: "estadoPrueba",
+                    estadosAfiliacionNombre: "Aprobado",
                 },
             ];
 

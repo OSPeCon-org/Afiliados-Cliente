@@ -129,20 +129,22 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
             if (isInLayout(state, this.area) && isCurrentScreen) {
                 this.hidden = false;
                 store.dispatch(cambioOpcioRuta(OPCION_DOCUM));
-                this.items = { 
-                    titulo: this.documentacion.documentacionNombre, 
-                    imagen: "", 
-                    estado: "", 
-                    copete: "", 
-                    accion1: "", 
-                    accion2: "" 
-                };
-                console.log(this.items);
             }
         }
 
         if (name == AFILIADO_DOCUMENTACION) {
             this.documentacion = state.afiliadoDocumentacion.documentacion;
+            this.items = this.documentacion.map((item) => {
+                return {
+                    titulo: item.documentacionNombre,
+                    imagen: "UPLOAD",
+                    estado: "PENDIENTE",
+                    copete: "",
+                    accion1: "",
+                    accion2: "",
+                };
+            });
+            this.update();
         }
     }
     static get properties() {

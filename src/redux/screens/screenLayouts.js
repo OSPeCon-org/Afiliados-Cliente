@@ -43,7 +43,7 @@ export const screenLayuts = {
         medium: HEADER_BODY,
         large: HEADER_BODY,
     },
-    afiliadoPorCuil:{
+    afiliadoPorCuil: {
         small: HEADER_BODY,
         medium: HEADER_BODY,
         large: HEADER_BODY,
@@ -59,6 +59,11 @@ export const screenLayuts = {
         large: HEADER_BODY,
     },
     pruebaCristian: { HEADER_BODY, medium: HEADER_BODY, large: HEADER_BODY },
+    formDocumentacion: {
+        small: HEADER_BODY,
+        medium: HEADER_BODY,
+        large: HEADER_BODY,
+    },
 };
 
 export const getLayout = (state) => {

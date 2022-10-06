@@ -15,7 +15,7 @@ import { OPCION_DATOS, RutaOpcionesControl } from "../../componentes/rutaOpcione
 import { goHistoryPrev, goTo } from "@brunomon/template-lit/src/redux/routing/actions";
 
 import { cambioOpcioRuta } from "../../../redux/ruta/actions";
-import { get as GetAfiliadosDatos, add as addAfiliadoDatos } from "../../../redux/afiliadoDatos/actions";
+import { get as GetAfiliadosDatos, actualizar as addAfiliadoDatos } from "../../../redux/afiliadoDatos/actions";
 import { get as getDocumentacion } from "../../../redux/afiliadoDocumentacion/actions";
 
 import { isEmpty, opcionInvalida, invalidDni, nameInvalido, invalidCUITCUIL, invalidFecha } from "../../../libs/funciones";
@@ -242,7 +242,11 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
     }
 
     siguiente() {
-        /**TODO: poner alert si irASiguiente == false  */
+        /**
+         * TODO: poner alert si irASiguiente == false
+         * preguntar si no hay titular no enviar item SIN campo titularID,
+         * si hay titular, enviar item CON titularID
+         *   */
         if (this.isValidForm()) {
             store.dispatch(goTo("afiliadoDireccion"));
 
@@ -250,7 +254,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                 apellido: this.item.apellido,
                 nombre: this.item.nombre,
                 tipoDocumentoId: this.item.tipoDocumento,
-                documento: this.item.documentoNumero,
+                documento: Number(this.item.documentoNumero),
                 parentescoId: this.item.parentesco,
                 cuil: this.item.cuil,
                 fechaNacimiento: this.item.nacimiento,
@@ -260,12 +264,11 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                 estadoCivilId: this.item.estadoCivil,
                 discapacitado: this.item.discapacidad,
                 nacionalidadId: this.item.nacionalidad,
-                estadosAfiliacionId: "76151413-1847-4688-88F1-007356683E40",
+                estadosAfiliacionId: "4863E7E8-B653-4433-A6C5-85585E114781",
             };
 
             store.dispatch(addAfiliadoDatos(itemAfiliadoDatos));
-            //store.dispatch(getDocumentacion(this.item.plan, this.item.parentesco, this.item.discapacidad));
-            store.dispatch(getDocumentacion("108f11fb-9952-4fe0-a26f-f8ee4e2e9b8e", "e4389c83-310c-4399-b5fa-9ab06a00eb23", false));
+            store.dispatch(getDocumentacion(this.item.plan, this.item.parentesco, this.item.discapacidad));
         } else {
             this.requestUpdate();
         }
@@ -347,7 +350,6 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
 
         if (name == PLANES) {
             this.planes = state.planes.entities;
-
             this.update();
         }
 

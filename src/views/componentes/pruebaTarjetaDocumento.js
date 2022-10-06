@@ -50,7 +50,7 @@ export class pruebaTarjetaDocumento extends connect(store, SCREEN, MEDIA_CHANGE)
             <div class="grid row grilla itemsCenter">
                 ${this.items.map((item) => {
                     return html`
-                        <div class="tarjeta" tipo=${item.imagen}>
+                        <div class="tarjeta-documento" tipo=${item.imagen}>
                             <div titulo>
                                 <div>${item.titulo}</div>
                                 <div help>${HELP}</div>

@@ -18,6 +18,7 @@ import { getAll as GetAllParentesco } from "./redux/parentescos/actions";
 import { getAll as GetAllPlanes } from "./redux/planes/actions";
 import { getAll as GetAllTipoDocmento } from "./redux/tipoDocumento/actions";
 import { getAll as GetAllEstadosCiviles } from "./redux/estadosCiviles/actions";
+import { getAll as getAllDocumentacion } from "./redux/documentacion/actions";
 
 import { getAll as GetAllNacionalidades } from "./redux/nacionalidades/actions";
 if (process.env.NODE_ENV === "production") {
@@ -28,6 +29,7 @@ if (process.env.NODE_ENV === "production") {
 viewMode("main");
 store.dispatch(captureMedia());
 store.dispatch(goTo("splash"));
+store.dispatch(getAllDocumentacion());
 
 console.log("Sirviendo datos de :" + AFILIACIONES_URL);
 

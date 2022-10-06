@@ -29,6 +29,11 @@ html {
     --on-formulario-separador: rgba(0, 0, 0, 0.12);
     --on-formulario-bajada: rgba(0, 0, 0, 0.6);
     --velo: rgba(0, 0, 0, 0.32);
+
+    --ok: rgba(89, 166, 13, 0.21);
+    --cancel: rgba(255, 0, 0, 0.14);
+    --settings: rgba(213, 217, 30, 0.36);
+    --upload: rgba(28, 59, 120, 0.15);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -48,5 +53,7 @@ html {
         --error: #cf6679;
 
         --primario: var(--primario10);
+
+        --upload: #597fc947;
     }
 }

@@ -14,11 +14,10 @@ import { select } from "@brunomon/template-lit/src/views/css/select";
 import { OPCION_DOMICILIO, RutaOpcionesControl } from "../../componentes/rutaOpciones";
 import { goTo, goHistoryPrev } from "@brunomon/template-lit/src/redux/routing/actions";
 import { get as GetAfiliadosDatos } from "../../../redux/afiliadoDatos/actions";
-import { add as addAfiliadosDomicilios } from "../../../redux/afiliadoDomicilios/actions"
+import { add as addAfiliadosDomicilios } from "../../../redux/afiliadoDomicilios/actions";
 import { cambioOpcioRuta } from "../../../redux/ruta/actions";
 
-import { isEmpty, opcionInvalida,onlyLetter,onlyNumber } from "../../../libs/funciones";
-
+import { isEmpty, opcionInvalida, onlyLetter, onlyNumber } from "../../../libs/funciones";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -39,8 +38,6 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
         this.validaciones = {
             calle: { invalid: false, isInvalid: onlyLetter },
             altura: { invalid: false, isInvalid: onlyNumber },
-            piso: { invalid: false, isInvalid: onlyNumber },
-            departamento: { invalid: false, isInvalid: onlyLetter },
             provincia: { invalid: false, isInvalid: opcionInvalida },
             localidad: { invalid: false, isInvalid: opcionInvalida },
             codigoPostal: { invalid: false, isInvalid: onlyNumber },
@@ -70,7 +67,7 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                 width: 100vw;
                 align-content: flex-start;
                 grid-gap: 0;
-                
+
                 overflow-y: auto;
                 background-color: var(--formulario);
             }
@@ -116,17 +113,17 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                         <label error>Debe ingresar altura</label>
                         <label subtext>Requerido</label>
                     </div>
-                    <div class="input" ?error=${this.validaciones.piso.invalid}>
-                        <input id="piso" .value=${this.item.piso} @blur="${this.enlace("piso")}" />
+                    <div class="input">
+                        <input id="piso" .value=${this.item.piso} />
                         <label for="piso">Piso</label>
                         <label error>No puede ser vacio</label>
-                        <label subtext></label>
+                        <label subtext>opcional</label>
                     </div>
-                    <div class="input" ?error=${this.validaciones.departamento.invalid}>
-                        <input id="departamento" .value=${this.item.departamento} @blur="${this.enlace("departamento")}" />
+                    <div class="input">
+                        <input id="departamento" .value=${this.item.departamento} />
                         <label for="departamento">Departamento</label>
                         <label error></label>
-                        <label subtext></label>
+                        <label subtext>opcional</label>
                     </div>
                 </div>
                 <div class="linea"></div>
@@ -175,30 +172,19 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
         store.dispatch(goHistoryPrev());
     }
 
-
     siguiente() {
-        if (this.isValidForm()) {               
-
-            const afiliadoId = this.item.afiliadoId;
-            const calle = this.item.calle;
-            const altura = this.item.altura;
-            const piso = this.item.piso;
-            const departamento = this.item.departamento;
-            const localidad = this.item.localidad;
-            const codigoPostal = this.item.codigoPostal;
-
+        if (this.isValidForm()) {
             const itemAfiliadoDomicilios = {
                 afiliadoId: store.getState().afiliadoDatos.currentId,
-                calle: calle,
-                altura: altura,
-                piso: piso,
-                departamento: departamento,
-                localidadesId: localidad,
-                codigoPostal: codigoPostal,
-            } 
+                calle: this.item.calle,
+                altura: this.item.altura,
+                piso: this.item.piso,
+                departamento: this.item.departamento,
+                localidadesId: this.item.localidad,
+                codigoPostal: this.item.codigoPostal,
+            };
 
-
-            store.dispatch(addAfiliadosDomicilios(itemAfiliadoDomicilios))
+            store.dispatch(addAfiliadosDomicilios(itemAfiliadoDomicilios));
             store.dispatch(goTo("afiliadoContacto"));
         } else {
             this.requestUpdate();
@@ -250,8 +236,7 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                     provincia: "",
                     localidad: "",
                     codigoPostal: "",
-                };                
-
+                };
             }
         }
 

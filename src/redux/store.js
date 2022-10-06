@@ -18,36 +18,36 @@ import { middleware as afiliados } from "./afiliados/middleware";
 import { middleware as afiliadoDatos } from "./afiliadoDatos/middleware";
 import { middleware as afiliadoDocumentacion } from "./afiliadoDocumentacion/middleware";
 import { middleware as afiliadosContactos } from "./afiliadoContactos/middleware";
-import { middleware as afiliadoDomicilios  } from "./afiliadoDomicilios/middleware";
+import { middleware as afiliadoDomicilios } from "./afiliadoDomicilios/middleware";
 import { middleware as provincias } from "./provincias/middleware";
 import { middleware as localidades } from "./localidades/middleware";
-
-
+import { middleware as documentacion } from "./documentacion/middleware";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 let mdw = [
-	api,
-	rest,
-	...ui,
-	...route,
-	...autorizacion,
-	...afiliados,
-	...afiliadoDatos,	
-	...afiliadoDomicilios,
-	...afiliadosContactos,
-	...afiliadoDocumentacion,	
-	...parentescos,
-	...planes,
-	...tipoDocumento,
-	...estadosCiviles,
-	...nacionalidades,
-	...provincias,
-	...localidades,
+    api,
+    rest,
+    ...ui,
+    ...route,
+    ...autorizacion,
+    ...afiliados,
+    ...afiliadoDatos,
+    ...afiliadoDomicilios,
+    ...afiliadosContactos,
+    ...afiliadoDocumentacion,
+    ...parentescos,
+    ...planes,
+    ...tipoDocumento,
+    ...estadosCiviles,
+    ...nacionalidades,
+    ...provincias,
+    ...localidades,
+    ...documentacion,
 ];
 
 if (process.env.NODE_ENV !== "production") {
-	mdw = [...mdw, logger];
+    mdw = [...mdw, logger];
 }
 
 const initialData = {};

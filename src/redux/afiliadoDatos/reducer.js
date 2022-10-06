@@ -1,4 +1,4 @@
-import { GET, SUCCESS, ADD, ADD_SUCCESS, ADD_ERROR, } from "./actions";
+import { GET, SUCCESS, ACTUALIZAR, ACTUALIZAR_SUCCESS, ACTUALIZAR_ERROR } from "./actions";
 
 const initialState = {
     entitiesCountOk: 7,
@@ -6,7 +6,7 @@ const initialState = {
     timeStamp: null,
     errorTimeStamp: null,
     currentId: null,
-    }
+};
 
 export const reducer = (state = initialState, action) => {
     const newState = {
@@ -23,11 +23,11 @@ export const reducer = (state = initialState, action) => {
                 newState.timeStamp = new Date().getTime();
             }
             //newState.timeStamp = new Date().getTime();
-            break;  
-        case ADD_SUCCESS:
+            break;
+        case ACTUALIZAR_SUCCESS:
             newState.currentId = action.payload.receive;
 
-            break;       
+            break;
     }
     return newState;
 };

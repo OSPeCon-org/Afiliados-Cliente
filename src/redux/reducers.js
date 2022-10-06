@@ -18,27 +18,28 @@ import { reducer as localidadesREducer } from "./localidades/reducer";
 import { reducer as afiliadoDocumentacionREducer } from "./afiliadoDocumentacion/reducer";
 import { reducer as afiliadoContactosREducer } from "./afiliadoContactos/reducer";
 import { reducer as afiliadosReducer } from "./afiliados/reducer";
-
+import { reducer as documentacionReducer } from "./documentacion/reducer";
 
 export const rootReducer = (state = {}, action) => {
-	const presentacionesEstadosRed = state.presentacionesEstados;
-	return {
-		api: apiReducer(state.api, action),
-		ui: uiReducer(state.ui, action),
-		screen: screenReducer(state.screen, action),
-		routing: routingReducer(state.routing, action),
-		ruta: rutaReducer(state.ruta, action),
-		afiliados: afiliadosReducer(state.afiliados, action),
-		afiliadoDatos: afiliadoDatosREducer(state.afiliadoDatos, action),
-		afiliadoDomicilios: afiliadoDomiciliosREducer(state.afiliadoDomicilios, action),
-		afiliadoContactos:  afiliadoContactosREducer(state.afiliadoContactos, action),
-		afiliadoDocumentacion: afiliadoDocumentacionREducer(state.afiliadoDocumentacion, action),
-		parentescos: parentescosReducer(state.parentescos, action),
-		planes: planesReducer(state.planes, action),
-		tipoDocumento: tipoDocumentoReducer(state.tipoDocumento, action),
-		estadosCiviles: estadosCivilesReducer(state.estadosCiviles, action),
-		nacionalidades: nacionalidadesReducer(state.nacionalidades, action),
-		provincias: provinciasREducer(state.provincias, action),
-		localidades: localidadesREducer(state.localidades, action),
-	};
+    const presentacionesEstadosRed = state.presentacionesEstados;
+    return {
+        api: apiReducer(state.api, action),
+        ui: uiReducer(state.ui, action),
+        screen: screenReducer(state.screen, action),
+        routing: routingReducer(state.routing, action),
+        ruta: rutaReducer(state.ruta, action),
+        afiliados: afiliadosReducer(state.afiliados, action),
+        afiliadoDatos: afiliadoDatosREducer(state.afiliadoDatos, action),
+        afiliadoDomicilios: afiliadoDomiciliosREducer(state.afiliadoDomicilios, action),
+        afiliadoContactos: afiliadoContactosREducer(state.afiliadoContactos, action),
+        afiliadoDocumentacion: afiliadoDocumentacionREducer(state.afiliadoDocumentacion, action),
+        parentescos: parentescosReducer(state.parentescos, action),
+        planes: planesReducer(state.planes, action),
+        tipoDocumento: tipoDocumentoReducer(state.tipoDocumento, action),
+        estadosCiviles: estadosCivilesReducer(state.estadosCiviles, action),
+        nacionalidades: nacionalidadesReducer(state.nacionalidades, action),
+        provincias: provinciasREducer(state.provincias, action),
+        localidades: localidadesREducer(state.localidades, action),
+        documentacion: documentacionReducer(state.documentacion, action),
+    };
 };

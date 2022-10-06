@@ -6,10 +6,9 @@ export const GET_BY_ID = "[afiliado Datos] GET";
 export const GET_BY_ID_SUCCESS = "[afiliado Datos] GET Success";
 export const GET_BY_ID_ERROR = "[afiliado Datos] GET Error";
 
-export const ADD = "[afiliado Datos] ADD";
-export const ADD_SUCCESS = "[afiliado Datos] ADD success";
-export const ADD_ERROR = "[afiliado Datos] ADD error";
-
+export const ACTUALIZAR = "[afiliado Datos] Actualizar";
+export const ACTUALIZAR_SUCCESS = "[afiliado Datos] Actualizar success";
+export const ACTUALIZAR_ERROR = "[afiliado Datos] Actualizar error";
 
 export const get = () => ({
     type: GET,
@@ -24,11 +23,7 @@ export const getById = (id) => ({
     id: id,
 });
 
-export const add = (item) => ({
-    type: ADD,
+export const actualizar = (item) => ({
+    type: ACTUALIZAR,
     item: item,
 });
-
-
-
-
