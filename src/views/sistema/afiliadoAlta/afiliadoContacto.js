@@ -15,7 +15,7 @@ import { OPCION_CONTACTO, RutaOpcionesControl } from "../../componentes/rutaOpci
 import { goHistoryPrev, goTo } from "@brunomon/template-lit/src/redux/routing/actions";
 import { cambioOpcioRuta } from "../../../redux/ruta/actions";
 
-import { add as addAfiliadoContactos } from "../../../redux/afiliadoContactos/actions"
+import { add as addAfiliadoContactos } from "../../../redux/afiliadoContactos/actions";
 import { isEmpty, opcionInvalida, mailInvalid } from "../../../libs/funciones";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
@@ -31,12 +31,8 @@ export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE)
 
         this.validaciones = {
             celular: { invalid: false, isInvalid: isEmpty },
-            particular: { invalid: false, isInvalid: isEmpty }, 
-            laboral: { invalid: false, isInvalid: isEmpty }, 
             mail: { invalid: false, isInvalid: mailInvalid },
-            mail2: { invalid: false, isInvalid: mailInvalid }, 
         };
-       
     }
 
     static get styles() {
@@ -97,19 +93,19 @@ export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE)
             <div id="cuerpo" class="grid row">
                 <div class="grupo">
                     <div class="input" ?error=${this.validaciones.celular.invalid}>
-                        <input id="telefonoCelular" .value=${this.item.celular} @blur="${this.enlace("celular")}"/>
+                        <input id="telefonoCelular" .value=${this.item.celular} @blur="${this.enlace("celular")}" />
                         <label for="telefonoCelular">Telefono celular</label>
                         <label error>Debe ingresar un numero de contacto</label>
                         <label subtext>Requerido</label>
                     </div>
-                    <div class="input" ?error=${this.validaciones.particular.invalid}>
-                        <input id="telefonoParticular"  .value=${this.item.particular} @blur="${this.enlace("particular")}"/>
+                    <div class="input">
+                        <input id="telefonoParticular" .value=${this.item.particular} />
                         <label for="telefonoParticular">Telefono particular</label>
                         <label error>No puede ser vacio</label>
                         <label subtext>Opcional</label>
                     </div>
-                    <div class="input" ?error=${this.validaciones.laboral.invalid}>
-                        <input id="telefonoLaboral" .value=${this.item.laboral} @blur="${this.enlace("laboral")}"  />
+                    <div class="input">
+                        <input id="telefonoLaboral" .value=${this.item.laboral} />
                         <label for="telefonoLaboral">Telefono laboral</label>
                         <label error>No puede ser vacio</label>
                         <label subtext>Opcional</label>
@@ -118,13 +114,13 @@ export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE)
                 <div class="linea"></div>
                 <div class="grupo">
                     <div class="input" ?error=${this.validaciones.mail.invalid}>
-                        <input id="mail1" .value=${this.item.mail} @blur="${this.enlace("mail")}"/>
+                        <input id="mail1" .value=${this.item.mail} @blur="${this.enlace("mail")}" />
                         <label for="mail1">Mail 1</label>
                         <label error>Debe ingresar una cuenta de correo</label>
                         <label subtext>Requerido</label>
                     </div>
-                    <div class="input" ?error=${this.validaciones.mail2.invalid}>
-                        <input id="mail2" .value=${this.item.mail2} @blur="${this.enlace("mail2")}"/>
+                    <div class="input">
+                        <input id="mail2" .value=${this.item.mail2} />
                         <label for="mail2">Mail 2</label>
                         <label error>No puede ser vacio</label>
                         <label subtext>Opcional</label>
@@ -139,22 +135,24 @@ export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE)
     }
 
     atras() {
+        /**
+         * CARGAR ANTERIOR
+         */
         store.dispatch(goHistoryPrev());
     }
 
     siguiente() {
         if (this.isValidForm()) {
+            const itemAfiliadoContactos = {
+                afiliadosId: store.getState().afiliadoDatos.currentId,
+                celular: this.item.celular,
+                particular: this.item.particular,
+                laboral: this.item.laboral,
+                mail: this.item.mail,
+                mail2: this.item.mail2,
+            };
 
-            const itemAfiliadoContactos ={
-            afiliadosId: store.getState().afiliadoDatos.currentId,
-            celular: this.item.celular,
-            particular: this.item.particular,
-            laboral: this.item.laboral,
-            mail: this.item.mail,
-            mail2: this.item.mail2,
-            }
-            
-            store.dispatch(addAfiliadoContactos(itemAfiliadoContactos))
+            store.dispatch(addAfiliadoContactos(itemAfiliadoContactos));
             store.dispatch(goTo("afiliadoDocumentacion"));
         } else {
             this.requestUpdate();
@@ -204,8 +202,7 @@ export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE)
             laboral: "",
             mail: "",
             mail2: "",
-        };   
-        
+        };
     }
     static get properties() {
         return {
