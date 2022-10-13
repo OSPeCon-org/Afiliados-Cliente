@@ -48,6 +48,11 @@ export const screenLayuts = {
         medium: HEADER_BODY,
         large: HEADER_BODY,
     },
+    afiliadoAccept: {
+        small: HEADER_BODY,
+        medium: HEADER_BODY,
+        large: HEADER_BODY,
+    },
     pruebaDaniel: {
         small: HEADER_BODY,
         medium: HEADER_BODY,

@@ -65,12 +65,12 @@ export const GetById =
     };
 
 export const actualizar =
-    ({ dispatch }) =>
+    ({ dispatch, getState }) =>
     (next) =>
     (action) => {
         next(action);
         if (action.type === ACTUALIZAR) {
-            dispatch(RESTAdd(afiliadosAddFetch, action.item, ACTUALIZAR_SUCCESS, ACTUALIZAR_ERROR, ""));
+            dispatch(RESTAdd(afiliadosAddFetch, action.item, ACTUALIZAR_SUCCESS, ACTUALIZAR_ERROR, getState().autorizacion.entities.token));
         }
     };
 

@@ -1,7 +1,7 @@
-import { GET, GET_SUCCESS, GET_ERROR } from "./actions";
+import { GET, GET_SUCCESS, GET_ERROR, GET_BY_ID, GET_BY_ID_SUCCESS, GET_BY_ID_ERROR } from "./actions";
 import { RESTRequest } from "../rest/actions";
 
-import { planesGetAllFetch } from "../fetchs";
+import { planesGetAllFetch, planesByIdFetch } from "../fetchs";
 
 export const get =
     ({ dispatch }) =>
@@ -31,4 +31,14 @@ export const processError =
         }
     };
 
-export const middleware = [get, processGet, processError];
+export const getById =
+    ({ dispatch, getState }) =>
+    (next) =>
+    (action) => {
+        next(action);
+        if (action.type === GET_BY_ID) {
+            dispatch(RESTRequest(planesByIdFetch, "{" + action.id + "}", GET_BY_ID_SUCCESS, GET_BY_ID_ERROR, ""));
+        }
+    };
+
+export const middleware = [get, getById, processGet, processError];

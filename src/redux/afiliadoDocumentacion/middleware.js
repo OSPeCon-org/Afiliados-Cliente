@@ -1,4 +1,4 @@
-import { GET, GET_SUCCESS, GET_ERROR} from "./actions";
+import { GET, GET_SUCCESS, GET_ERROR } from "./actions";
 import { RESTRequest } from "../rest/actions";
 
 import { afiliadosGetByPlanDocumentacionFetch } from "../fetchs";
@@ -10,11 +10,15 @@ export const get =
     (action) => {
         next(action);
         if (action.type === GET) {
-            const body = { 
-                planId: "108f11fb-9952-4fe0-a26f-f8ee4e2e9b8e", 
-                parentescoId: "e4389c83-310c-4399-b5fa-9ab06a00eb23",
-                discapacidad: false};
-            dispatch(RESTRequest( afiliadosGetByPlanDocumentacionFetch, "?planId=" + body.planId + "&parentescoId=" + body.parentescoId + "&discapacidad=" + body.discapacidad, GET_SUCCESS, GET_ERROR, ""));
+            dispatch(
+                RESTRequest(
+                    afiliadosGetByPlanDocumentacionFetch,
+                    "{planId:" + action.planId + ",parentescoId:" + action.parentescoId + ",discapacidad:" + action.discapacidad + "}",
+                    GET_SUCCESS,
+                    GET_ERROR,
+                    ""
+                )
+            );
             /*dispatch({
                 type: GET_SUCCESS,
                 payload: {
@@ -48,7 +52,6 @@ export const processGet =
             /*store.GetState().afiliadoDocumentacion.documentacion.filter((item) => {
                 return item.PlanId == action.planId && item.ParentescoId == action.parentescoId && item.Discapacidad == action.discapacidad;
             });*/
-
         }
     };
 

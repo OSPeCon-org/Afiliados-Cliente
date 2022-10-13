@@ -13,25 +13,48 @@ import { MENU, RIGHT, PERSON } from "../../../assets/icons/svgs";
 import { logout } from "../../redux/autorizacion/actions";
 import { gesturesController } from "@brunomon/template-lit/src/views/controllers/gesturesController";
 import { selection } from "../../redux/ui/actions";
+import { autorizacion } from "../../redux/autorizacion/actions";
+import { getGrupoFamiliar } from "../../redux/afiliados/actions";
+import { setCurrent } from "../../redux/afiliados/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SELECTION = "ui.menu.timeStamp";
 const SCREEN = "screen.timeStamp";
-const USUARIO = "autorizacion.loginTimeStamp";
+const AUTORIZACION = "autorizacion.timeStamp";
 
-export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, USUARIO, SELECTION)(LitElement) {
+export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZACION, SELECTION)(LitElement) {
     constructor() {
         super();
         this.area = "header";
         this.visible = false;
         this.arrastrando = false;
         this.usuario = null;
-        this.optionsCount = 4;
-        this.defaultOption = 0;
+        this.optionsCount = 3;
+        this.defaultOption = 2;
         this.selectedOption = new Array(this.optionsCount).fill(false);
-        this.selectedOption[this.defaultOption] = true;
+        //this.selectedOption[this.defaultOption] = true;
 
         const gestures = new gesturesController(this, this.gestos);
+        this.profile = "ACCEDER";
+        this.popUp = null;
+        this.logueado = false;
+
+        window.addEventListener(
+            "message",
+            (e) => {
+                var origin = e.origin;
+                if (origin == "https://front.uocra.net") {
+                    try {
+                        const profile = this.parseJwt(e.data);
+                        this.profile = profile["family_name"] + " " + profile["given_name"];
+                        this.popUp.close();
+                        this.logueado = true;
+                        store.dispatch(autorizacion(e.data));
+                    } catch {}
+                }
+            },
+            false
+        );
     }
 
     static get styles() {
@@ -47,6 +70,9 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, USUARIO,
                 background-color: var(--primario);
             }
             :host([hidden]) {
+                display: none;
+            }
+            :host(:not([logueado])) *[solo-logueado] {
                 display: none;
             }
 
@@ -154,6 +180,21 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, USUARIO,
             #version {
                 color: var(--on-primario-bajada);
             }
+            .popup {
+                position: absolute;
+                left: 0;
+                top: 100%;
+                background-color: var(--formulario);
+                color: var(--on-formulario);
+                display: none;
+                z-index: 1000;
+            }
+            #acceso {
+                position: relative;
+            }
+            #acceso[logueado]:hover .popup {
+                display: grid;
+            }
         `;
     }
     render() {
@@ -170,20 +211,22 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, USUARIO,
 
             <div id="opciones" class="grid column" @click=${this.toggleMenu}>
                 <button raised circle action class="menu-button">${RIGHT}</button>
-                <button link ?selected="${this.selectedOption[0]}" @click=${this.click} .option=${"afiliadoPorCuil"}>Nueva Afiliacion</button>
-                <button link ?selected="${this.selectedOption[1]}" @click=${this.click} .option=${"opcion1"}>Opcion 1</button>
-                <button link ?selected="${this.selectedOption[2]}" @click=${this.click} .option=${"opcion2"}>Opcion 2</button>
-                <div class="grid popup">
-                    <button flat="" action="" hidden onclick="abrirForzado();">
-                        <div>Acceder con otro usuario</div>
-                    </button>
-                    <button flat="" action="" hidden onclick="salir();">
-                        <div>Salir</div>
-                    </button>
-                    <button link etiqueta ?selected="${this.selectedOption[3]}" @click=${this.log} .option=${"log"}>
+                <button link ?selected="${this.selectedOption[0]}" @click=${this.nuevaAfiliacion} solo-logueado>Nueva Afiliacion</button>
+                <button link ?selected="${this.selectedOption[1]}" @click=${this.grupoFamiliar} solo-logueado>Grupo Familiar</button>
+
+                <div id="acceso" ?logueado="${this.logueado}">
+                    <button link etiqueta ?selected="${this.selectedOption[2]}" @click=${this.abrir} .option=${"log"}>
                         <div>${PERSON}</div>
-                        <div class="justify-self-start">Login</div>
+                        <div class="justify-self-start">${this.profile}</div>
                     </button>
+                    <div class="grid popup">
+                        <button flat="" action="" @click=${this.abrirForzado}>
+                            <div>Acceder con otro usuario</div>
+                        </button>
+                        <button flat="" action="" @click=${this.salir}>
+                            <div>Salir</div>
+                        </button>
+                    </div>
                 </div>
             </div>
         `;
@@ -214,58 +257,67 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, USUARIO,
         this.opciones.style.right = this.visible ? "0" : "-100%";
     }
 
-    click(e) {
-        if (e.currentTarget.option == "logout") {
-            try {
-                navigator.credentials.preventSilentAccess();
-            } catch {}
-            store.dispatch(logout());
-            return;
-        }
-
+    nuevaAfiliacion(e) {
         this.selectedOption = new Array(this.optionsCount).fill(false);
         this.selectedOption[Array.from(e.currentTarget.parentNode.children).indexOf(e.currentTarget) - 1] = true;
 
         store.dispatch(selection(e.currentTarget.option));
-        store.dispatch(goTo(e.currentTarget.option));
+        if (store.getState().autorizacion.entities.titulares.length == 0) {
+            store.dispatch(goTo("afiliadoPorCuil"));
+        } else {
+            store.dispatch(
+                setCurrent({
+                    parentescoId: "",
+                    cuil: "",
+                    planId: "",
+                    apellido: "",
+                    nombre: "",
+                    sexo: "",
+                    fechaNacimiento: "",
+                    tipoDocumento: "",
+                    documento: "",
+                    estadoCivil: "",
+                    nacionalidad: "",
+                    discapacitado: "",
+                })
+            );
+            store.dispatch(goTo("afiliadoDatos"));
+        }
     }
 
-    log(e) {
-        window.addEventListener(
-            "message",
-            function (e) {
-                var origin = e.origin;
-                if (origin == "https://front.uocra.net") {
-                    try {
-                        const profile = parseJwt(e.data);
-                        console.log(profile);
-                        popUp.close();
-                    } catch {}
-                    document.getElementsByTagName("p")[0].innerHTML = "Apellido:" + profile["family_name"];
-                    document.getElementsByTagName("p")[1].innerHTML = "Nombre:" + profile["given_name"];
-                    //document.getElementsByTagName("p")[2].innerHTML = "E-mail:" + profile["email"];
-                }
-            },
-            false
+    grupoFamiliar(e) {
+        this.selectedOption = new Array(this.optionsCount).fill(false);
+        this.selectedOption[Array.from(e.currentTarget.parentNode.children).indexOf(e.currentTarget) - 1] = true;
+        store.dispatch(goTo("afiliadoMostrar"));
+    }
+    parseJwt(token) {
+        var base64Url = token.split(".")[1];
+        var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+        var jsonPayload = decodeURIComponent(
+            window
+                .atob(base64)
+                .split("")
+                .map(function (c) {
+                    return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+                })
+                .join("")
         );
 
-        function parseJwt(token) {
-            var base64Url = token.split(".")[1];
-            var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-            var jsonPayload = decodeURIComponent(
-                window
-                    .atob(base64)
-                    .split("")
-                    .map(function (c) {
-                        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-                    })
-                    .join("")
-            );
+        return JSON.parse(jsonPayload);
+    }
 
-            return JSON.parse(jsonPayload);
+    abrir(e) {
+        if (this.profile == "ACCEDER") {
+            this.popUp = window.open("https://front.uocra.net/auth/index.html", "_blank", "top=0,left=0,width=" + window.innerWidth / 2 + ",height=" + window.innerHeight, true);
         }
+    }
+    abrirForzado(e) {
+        this.popUp = window.open("https://front.uocra.net/auth/index.html?nuevo=true", "_blank", "top=0,left=0,width=" + window.innerWidth / 2 + ",height=" + window.innerHeight, true);
+    }
 
-        let popUp = window.open("https://front.uocra.net/auth/index.html", "_blank", "top=0,left=0,width=" + window.innerWidth / 2 + ",height=" + window.innerHeight, true);
+    salir() {
+        this.profile = "ACCEDER";
+        this.logueado = false;
     }
 
     firstUpdated(changedProperties) {
@@ -281,10 +333,9 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, USUARIO,
                 this.hidden = false;
             }
         }
-        if (name == USUARIO) {
-            if (state.autorizacion.usuario.Profiles && state.autorizacion.usuario.Profiles.length != 0) {
-                this.usuario = state.autorizacion.usuario;
-            }
+        if (name == AUTORIZACION) {
+            //store.dispatch(getGrupoFamiliar())
+            const profile = this.parseJwt(state.autorizacion.entities.token);
         }
     }
 
@@ -303,6 +354,10 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, USUARIO,
                 type: Boolean,
                 reflect: true,
             },
+            profile: {
+                type: String,
+                reflect: false,
+            },
             area: {
                 type: String,
             },
@@ -316,6 +371,10 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, USUARIO,
             },
             selectedOption: {
                 type: Array,
+            },
+            logueado: {
+                type: Boolean,
+                reflect: true,
             },
         };
     }

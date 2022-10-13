@@ -1,9 +1,12 @@
-import { GET_SUCCESS, GET_ERROR } from "./actions";
+import { GET_SUCCESS, GET_ERROR, GET_BY_ID_SUCCESS, GET_BY_ID_ERROR } from "./actions";
 
 const initialState = {
     entities: null,
     timeStamp: null,
     errorTimeStamp: null,
+    planesNombre: null,
+    nombreTimeStamp: null,
+    errorNombreTimeStamp: null,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -18,6 +21,13 @@ export const reducer = (state = initialState, action) => {
             break;
         case GET_ERROR:
             newState.errorTimeStamp = new Date().getTime();
+            break;
+        case GET_BY_ID_SUCCESS:
+            newState.planesNombre = action.payload.receive;
+            newState.nombreTimeStamp = new Date().getTime();
+            break;
+        case GET_BY_ID_ERROR:
+            newState.errorNombreTimeStamp = new Date().getTime();
             break;
     }
     return newState;

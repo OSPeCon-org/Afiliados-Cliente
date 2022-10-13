@@ -27,6 +27,7 @@ export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE)
         this.hidden = true;
         this.area = "body";
         this.current = "";
+        this.currentAnterior = "";
         this.svgs = { BENEF: BENEF, GRPFAM: GRPFAM };
 
         this.validaciones = {

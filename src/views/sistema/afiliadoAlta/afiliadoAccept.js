@@ -4,7 +4,7 @@ import { html, LitElement, css } from "lit";
 import { store } from "../../../redux/store";
 import { connect } from "@brunomon/helpers";
 
-import { BENEF, GRPFAM } from "../../../../assets/icons/svgs.js";
+import { BENEF, GRPFAM, PERSON } from "../../../../assets/icons/svgs.js";
 import { gridLayout } from "@brunomon/template-lit/src/views/css/gridLayout";
 import { isInLayout } from "../../../redux/screens/screenLayouts";
 import { button } from "@brunomon/template-lit/src/views/css/button";
@@ -13,19 +13,22 @@ import { tarjetaFamilia } from "../../css/tarjetaFamilia";
 import { tarjetaPersona } from "../../css/tarjetaPersona";
 import { goTo } from "@brunomon/template-lit/src/redux/routing/actions";
 import { getGrupoFamiliar, setCurrent } from "../../../redux/afiliados/actions";
+import { accept, autorizacion } from "../../../redux/autorizacion/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
 const GRUPO_FAMILIAR = "afiliados.timeStamp";
 const AUTORIZACION = "autorizacion.timeStamp";
+const AFILIADO_BY_CUIL = "afiliados.afiliadoByCuilTimeStamp";
+const ACCEPT = "afiliados.acceptTimeStamp";
 
-export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, AUTORIZACION, GRUPO_FAMILIAR)(LitElement) {
+export class afiliadoAcceptScreen extends connect(store, SCREEN, MEDIA_CHANGE, AUTORIZACION, ACCEPT, AFILIADO_BY_CUIL, GRUPO_FAMILIAR)(LitElement) {
     constructor() {
         super();
         this.hidden = true;
         this.area = "body";
-        this.current = "";
-        this.grupoFamiliar = [];
+        this.currentByCuil = "";
+
         this.svgs = { BENEF: BENEF, GRPFAM: GRPFAM };
 
         //"https://app.uocra.org/credencialSindical/sinusuario.png"//
@@ -47,8 +50,7 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, 
             :host {
                 display: grid;
                 position: relative;
-                width: 100vw;
-                grid-template-rows: 3rem 1fr;
+
                 background-color: var(--aplicacion);
             }
             :host([hidden]) {
@@ -67,7 +69,7 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, 
             }
             #cuerpo {
                 display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(12rem, 14rem));
+                //grid-template-columns: repeat(auto-fill, minmax(12rem, 14rem));
                 grid-gap: 1rem;
                 padding: 1rem 0;
                 overflow-y: auto;
@@ -79,54 +81,60 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, 
             div[invisible] {
                 visibility: hidden;
             }
+            *[hidden] {
+                display: none;
+            }
         `;
     }
 
     render() {
-        if (!this.items) {
-            return html`
-                <div id="subtitulo"><div>Nueva solicitud de afiliacion</div></div>
+        return html`
+            <div class="grid" ?hidden=${this.modo != "encontrado"}>
+                <div id="subtitulo"><div>confirmacion de identidad</div></div>
                 <div id="cuerpo">
-                    <div class="tarjeta-familia">
+                    <div class="tarjeta-persona">
                         <div titulo>
-                            <div help>${BENEF}</div>
-                            <div>Titular</div>
+                            <div help>${PERSON}</div>
+                            <div>${this.currentByCuil.apellido}, ${this.currentByCuil.nombre}</div>
                         </div>
-                        <div cuerpo>Dar de alta al titular del grupo familiar</div>
-                        <button raised @click="${this.nuevo}">AGREGAR</button>
+                        <div cuerpo><img src="" /></div>
+                        <div nombre>DNI: ${this.currentByCuil.documento}</div>
+                        <div documento>FECHA NAC.:${this.currentByCuil.fechaNacimiento}</div>
+                        <button raised @click="${this.aceptar}">ACEPTAR</button>
                     </div>
                 </div>
-            `;
-        } else {
-            return html`
-                <div id="subtitulo"><div>Nueva solicitud de afiliacion</div></div>
-                <div id="cuerpo">
-                    ${this.items?.map((item) => {
-                        return html`<div class="tarjeta-persona">
-                            <div titulo>
-                                <div help ?invisible=${item.icono == ""} @click="${this.icono}">${this.svgs[item.icono]}</div>
-                                <div>${item.parentescoNombre}</div>
-                            </div>
-                            <div cuerpo><img src="${item.imagen}" /></div>
-                            <div nombre>${item.apellido}, ${item.nombre}</div>
-                            <div estado>${item.estadosAfiliacionNombre}</div>
-                            <button raised @click="${this.mostrar}" .item=${item}>VER</button>
-                        </div> `;
-                    })}
-                    <div class="tarjeta-familia">
-                        <div titulo>
-                            <div help>${GRPFAM}</div>
-                            <div>Grupo Familiar</div>
-                        </div>
-                        <div cuerpo>Dar de alta un nuevo integante del grupo familiar</div>
-                        <button raised @click="${this.nuevo}">AGREGAR</button>
-                    </div>
-                </div>
-            `;
-        }
+            </div>
+            <div class="grid" ?hidden=${this.modo != "no-encontrado"}>
+                <div id="subtitulo"><div>No existe</div></div>
+                <button raised @click="${this.afiliarme}">AFILIARME</button>
+            </div>
+        `;
     }
 
-    nuevo() {
+    /*return html`
+            <div id="subtitulo"><div></div></div>
+            <div id="cuerpo">
+                <div class="tarjeta-persona">
+                    <div titulo>
+                        <div help ?invisible=${item.icono == ""} @click="${this.icono}">${this.svgs[item.icono]}</div>
+                        <div>${this.currentByCuil.apellido}, ${this.currentByCuil.nombre}</div>
+                    </div>
+                    <div cuerpo><img src="${item.imagen}" /></div>
+                    <div nombre>${item.apellido}, ${item.nombre}</div>
+                    <div estado>${item.estadosAfiliacionNombre}</div>
+                    <button raised @click="${this.aceptar}" .item=${item}>ACEPTAR</button>
+                </div>
+            </div>
+        `;*/
+
+    aceptar(e) {
+        //store.dispatch(setCurrent(e.currentTarget.item));
+
+        store.dispatch(accept(store.getState().afiliados.afiliadoByCuil.id));
+        store.dispatch(goTo("afiliadoMostrar"));
+    }
+
+    afiliarme() {
         store.dispatch(
             setCurrent({
                 parentescoId: "",
@@ -146,11 +154,6 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, 
         store.dispatch(goTo("afiliadoDatos"));
     }
 
-    mostrar(e) {
-        store.dispatch(setCurrent(e.currentTarget.item));
-        store.dispatch(goTo("afiliadoDatos"));
-    }
-
     firstUpdated(changedProperties) {}
 
     stateChanged(state, name) {
@@ -160,13 +163,13 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, 
 
         if (name == SCREEN) {
             this.hidden = true;
-            const isCurrentScreen = ["afiliadoMostrar"].includes(state.screen.name);
+            const isCurrentScreen = ["afiliadoAccept"].includes(state.screen.name);
             if (isInLayout(state, this.area) && isCurrentScreen) {
                 this.hidden = false;
             }
         }
 
-        if (name == GRUPO_FAMILIAR) {
+        /*if (name == GRUPO_FAMILIAR) {
             this.items = state.afiliados.grupoFamiliar.map((item) => {
                 item.imagen = "https://app.uocra.org/credencialSindical/" + item.documento + ".jpg";
                 item.icono = "";
@@ -180,6 +183,18 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, 
                 this.items = null;
                 this.update();
             }
+        }*/
+
+        if (name == AFILIADO_BY_CUIL) {
+            this.hidden = false;
+            this.currentByCuil = state.afiliados.afiliadoByCuil;
+            if (this.currentByCuil.status == 404) {
+                this.modo = "no-encontrado";
+            } else {
+                this.modo = "encontrado";
+            }
+
+            this.update();
         }
     }
 
@@ -205,8 +220,12 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, 
                 type: String,
                 reflect: true,
             },
+            modo: {
+                type: String,
+                reflect: true,
+            },
         };
     }
 }
 
-window.customElements.define("afiliado-mostrar-screen", afiliadoMostrarScreen);
+window.customElements.define("afiliado-accept-screen", afiliadoAcceptScreen);

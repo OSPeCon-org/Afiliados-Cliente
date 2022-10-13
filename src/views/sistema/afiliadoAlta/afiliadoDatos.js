@@ -19,6 +19,8 @@ import { get as GetAfiliadosDatos, actualizar as addAfiliadoDatos } from "../../
 import { get as getDocumentacion } from "../../../redux/afiliadoDocumentacion/actions";
 
 import { isEmpty, opcionInvalida, invalidDni, nameInvalido, invalidCUITCUIL, invalidFecha } from "../../../libs/funciones";
+import { goPrev } from "../../../redux/routing/actions";
+import { getById } from "../../../redux/parentescos/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -28,8 +30,20 @@ const TIPO_DOCUMENTO = "tipoDocumento.timeStamp";
 const ESTADOS_CIVILES = "estadosCiviles.timeStamp";
 const NACIONALIDADES = "nacionalidades.timeStamp";
 const AFILIADO_DATOS_SUCCESS = "afiliadoDatos.timeStamp";
+const CURRENT_AFILIADO = "afiliados.currentTimeStamp";
 
-export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AFILIADO_DATOS_SUCCESS, PARENTESCOS, PLANES, TIPO_DOCUMENTO, ESTADOS_CIVILES, NACIONALIDADES)(LitElement) {
+export class afiliadoDatosScreen extends connect(
+    store,
+    SCREEN,
+    MEDIA_CHANGE,
+    AFILIADO_DATOS_SUCCESS,
+    PARENTESCOS,
+    PLANES,
+    TIPO_DOCUMENTO,
+    ESTADOS_CIVILES,
+    NACIONALIDADES,
+    CURRENT_AFILIADO
+)(LitElement) {
     constructor() {
         super();
         this.hidden = true;
@@ -46,18 +60,18 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
         this.svgs = { BENEF: BENEF, GRPFAM: GRPFAM };
 
         this.validaciones = {
-            parentesco: { invalid: false, isInvalid: isEmpty },
+            parentescoId: { invalid: false, isInvalid: isEmpty },
             cuil: { invalid: false, isInvalid: invalidCUITCUIL },
-            plan: { invalid: false, isInvalid: opcionInvalida },
+            planId: { invalid: false, isInvalid: opcionInvalida },
             apellido: { invalid: false, isInvalid: nameInvalido },
             nombre: { invalid: false, isInvalid: nameInvalido },
             sexo: { invalid: false, isInvalid: opcionInvalida },
-            nacimiento: { invalid: false, isInvalid: invalidFecha },
+            fechaNacimiento: { invalid: false, isInvalid: invalidFecha },
             tipoDocumento: { invalid: false, isInvalid: opcionInvalida },
-            documentoNumero: { invalid: false, isInvalid: invalidDni },
+            documento: { invalid: false, isInvalid: invalidDni },
             estadoCivil: { invalid: false, isInvalid: opcionInvalida },
             nacionalidad: { invalid: false, isInvalid: opcionInvalida },
-            discapacidad: { invalid: false, isInvalid: opcionInvalida },
+            discapacitado: { invalid: false, isInvalid: opcionInvalida },
         };
     }
 
@@ -117,11 +131,11 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
             <ruta-opcionescontrol></ruta-opcionescontrol>
             <div id="cuerpo" class="grid row">
                 <div class="grupo">
-                    <div class="select" ?error=${this.validaciones.parentesco.invalid}>
-                        <select id="parentescos" .value="${this.item.parentesco}" required @blur="${this.enlace("parentesco")}">
+                    <div class="select" ?error=${this.validaciones.parentescoId.invalid}>
+                        <select id="parentescos" .value="${this.item.parentescoId}" required @blur="${this.enlace("parentescoId")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.parentescos?.map((item) => {
-                                return html` <option value=${item.id}>${item.descripcion}</option> `;
+                                return html` <option value=${item.id} ?selected=${this.item.parentescoId == item.id}>${item.descripcion}</option> `;
                             })}
                         </select>
                         <label for="parentescos">Parentescos</label>
@@ -134,11 +148,11 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                         <label error>Debe ingresar numero de CUIL válido</label>
                         <label subtext>Requerido</label>
                     </div>
-                    <div class="select" ?error=${this.validaciones.plan.invalid}>
-                        <select id="planes" .value="${this.item.plan}" required @blur="${this.enlace("plan")}">
+                    <div class="select" ?error=${this.validaciones.planId.invalid}>
+                        <select id="planes" .value="${this.item.planId}" required @blur="${this.enlace("planId")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.planes?.map((item) => {
-                                return html` <option value=${item.id}>${item.descripcion}</option> `;
+                                return html` <option value=${item.id} ?selected=${this.item.planId == item.id}>${item.descripcion}</option> `;
                             })}
                         </select>
                         <label for="planes">Planes</label>
@@ -170,8 +184,8 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                         <label error>Debe seleccionar una opción</label>
                         <label subtext>Requerido</label>
                     </div>
-                    <div class="input" ?error=${this.validaciones.nacimiento.invalid}>
-                        <input id="nacimiento" value="${this.item.nacimiento}" type="date" @blur="${this.enlace("nacimiento")}" />
+                    <div class="input" ?error=${this.validaciones.fechaNacimiento.invalid}>
+                        <input id="nacimiento" value="${this.item.fechaNacimiento}" type="date" @blur="${this.enlace("fechaNacimiento")}" />
                         <label for="nacimiento">Fecha de nacimiento</label>
                         <label error>Debe ingresar una fecha válida</label>
                         <label subtext>Requerido</label>
@@ -187,8 +201,8 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                         <label error>Debe seleccionar una opción</label>
                         <label subtext>Requerido</label>
                     </div>
-                    <div class="input" ?error=${this.validaciones.documentoNumero.invalid}>
-                        <input id="documentoNumero" .value=${this.item.documentoNumero} @blur="${this.enlace("documentoNumero")}" />
+                    <div class="input" ?error=${this.validaciones.documento.invalid}>
+                        <input id="documentoNumero" .value=${this.item.documento} @blur="${this.enlace("documento")}" />
                         <label for="documentoNumero">Numero de documento</label>
                         <label error>Debe ingresar numero de DNI válido</label>
                         <label subtext>Requerido</label>
@@ -218,8 +232,8 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                         <label error>Debe seleccionar una opción</label>
                         <label subtext>Requerido</label>
                     </div>
-                    <div class="select" ?error=${this.validaciones.discapacidad.invalid}>
-                        <select id="discapacidad" .value="${this.item.discapacidad}" required @blur="${this.enlace("discapacidad")}">
+                    <div class="select" ?error=${this.validaciones.discapacitado.invalid}>
+                        <select id="discapacidad" .value="${this.item.discapacitado}" required @blur="${this.enlace("discapacitado")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             <option value="true">Si</option>
                             <option value="false">No</option>
@@ -255,7 +269,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                 nombre: this.item.nombre,
                 tipoDocumentoId: this.item.tipoDocumento,
                 documento: Number(this.item.documentoNumero),
-                parentescoId: this.item.parentesco,
+                parentescoId: this.item.parentescoId,
                 cuil: this.item.cuil,
                 fechaNacimiento: this.item.nacimiento,
                 fecha: new Date(),
@@ -268,7 +282,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
             };
 
             store.dispatch(addAfiliadoDatos(itemAfiliadoDatos));
-            store.dispatch(getDocumentacion(this.item.plan, this.item.parentesco, this.item.discapacidad));
+            //store.dispatch(getDocumentacion(this.item.plan, this.item.parentesco, this.item.discapacidad));
         } else {
             this.requestUpdate();
         }
@@ -311,25 +325,13 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                     store.dispatch(GetAfiliadosDatos());
                     store.dispatch(cambioOpcioRuta(OPCION_DATOS));
                 }
-
                 this.hidden = false;
-
-                /**TODO: llenar este item en el stateChange */
-                this.item = {
-                    parentesco: "",
-                    cuil: "",
-                    plan: "",
-                    apellido: "",
-                    nombre: "",
-                    sexo: "",
-                    nacimiento: "",
-                    tipoDocumento: "",
-                    documentoNumero: "",
-                    estadoCivil: "",
-                    nacionalidad: "",
-                    discapacidad: "",
-                };
             }
+        }
+
+        if (name == CURRENT_AFILIADO) {
+            this.item = state.afiliados.current;
+            this.update();
         }
 
         if (name == AFILIADO_DATOS_SUCCESS) {

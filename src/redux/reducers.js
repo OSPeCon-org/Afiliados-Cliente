@@ -27,6 +27,7 @@ export const rootReducer = (state = {}, action) => {
         ui: uiReducer(state.ui, action),
         screen: screenReducer(state.screen, action),
         routing: routingReducer(state.routing, action),
+        autorizacion: autorizacionReducer(state.autorizacion, action),
         ruta: rutaReducer(state.ruta, action),
         afiliados: afiliadosReducer(state.afiliados, action),
         afiliadoDatos: afiliadoDatosREducer(state.afiliadoDatos, action),

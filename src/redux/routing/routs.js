@@ -9,6 +9,7 @@ export const largeRoute = [
     "7-afiliadoDocumentacion",
     "8-afiliadoAltaFin",
     "9-afiliadoPorCuil",
+    "10-",
     "500-pruebaDaniel",
     "501-pruebaFlor",
     "502-pruebaCristian",

@@ -11,9 +11,10 @@ import { button } from "@brunomon/template-lit/src/views/css/button";
 import { input } from "@brunomon/template-lit/src/views/css/input";
 import { select } from "@brunomon/template-lit/src/views/css/select";
 import { invalidCUITCUIL } from "../../../libs/funciones";
-import { getGrupoFamiliar } from "../../../redux/afiliados/actions";
+import { afiliadosByCuil, getGrupoFamiliar } from "../../../redux/afiliados/actions";
 
 import { goHistoryPrev, goTo } from "@brunomon/template-lit/src/redux/routing/actions";
+import { afiliadoAcceptScreen } from "./afiliadoAccept";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -24,9 +25,7 @@ export class afiliadoPorCuil extends connect(store, SCREEN, MEDIA_CHANGE)(LitEle
         this.hidden = true;
         this.area = "body";
         this.current = "";
-        this.item = {
-            cuil: "27-35947760-6",
-        };
+        this.cuil = "";
 
         this.validaciones = {
             cuil: { invalid: false, isInvalid: invalidCUITCUIL },
@@ -42,18 +41,19 @@ export class afiliadoPorCuil extends connect(store, SCREEN, MEDIA_CHANGE)(LitEle
             :host {
                 display: grid;
                 position: relative;
-                width: 100vw;
-                grid-template-rows: auto auto 1fr;
+
                 justify-items: center;
                 background-color: var(--aplicacion);
+                align-content: start;
+                align-items: start;
             }
+
             :host([hidden]) {
                 display: none;
             }
             #titulo {
                 display: grid;
-                height: 2.4rem;
-                width: 100vw;
+                padding: 0.5rem;
                 font-family: var(--font-header-h1-family);
                 font-size: var(--font-header-h1-size);
                 font-weight: 400;
@@ -74,27 +74,28 @@ export class afiliadoPorCuil extends connect(store, SCREEN, MEDIA_CHANGE)(LitEle
             <div id="titulo"><div>Ingrese CUIL del Titular</div></div>
             <div id="cuerpo" class="grid row">
                 <div class="input" ?error=${this.validaciones.cuil.invalid}>
-                    <input id="cuil" .value=${this.item.cuil} @blur="${this.enlace("cuil")}" />
+                    <input id="cuil" .value=${this.cuil} @blur="${this.enlace("cuil")}" />
                     <label for="cuil">CUIL</label>
                     <label error>Debe ingresar numero de CUIL válido</label>
                     <label subtext>Requerido</label>
                 </div>
-                <button raised @click="${this.siguiente}">BUSCAR</button>
+                <button raised @click="${this.buscar}">BUSCAR</button>
             </div>
+            <afiliado-accept-screen id="afiliadoAccept"></afiliado-accept-screen>
         `;
     }
 
-    siguiente() {
+    buscar(state) {
         if (this.isValidForm()) {
-            store.dispatch(getGrupoFamiliar(this.item.cuil));
-            store.dispatch(goTo("afiliadoMostrar"));
+            store.dispatch(afiliadosByCuil(this.cuil));
+            //store.dispatch(goTo("afiliadoMostrar"));
         }
     }
 
     isValidForm() {
         let isValid = true;
         Object.entries(this.validaciones).forEach(([field, value]) => {
-            this.validaciones[field].invalid = this.validaciones[field].isInvalid(this.item[field]);
+            this.validaciones[field].invalid = this.validaciones[field].isInvalid(this.cuil);
             isValid = isValid && !this.validaciones[field].invalid;
         });
         this.requestUpdate();
@@ -106,9 +107,9 @@ export class afiliadoPorCuil extends connect(store, SCREEN, MEDIA_CHANGE)(LitEle
     }
 
     updateProperty(e, field) {
-        this.item[field] = e.currentTarget.value;
+        this.cuil = e.currentTarget.value;
         if (this.validaciones[field]) {
-            this.validaciones[field].invalid = this.validaciones[field].isInvalid(this.item[field]);
+            this.validaciones[field].invalid = this.validaciones[field].isInvalid(this.cuil);
         }
 
         this.requestUpdate();
