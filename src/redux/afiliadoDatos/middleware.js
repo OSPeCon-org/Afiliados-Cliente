@@ -75,4 +75,4 @@ export const actualizar =
         }
     };
 
-export const middleware = [get, processGet, actualizarSuccess, processError, actualizar];
+export const middleware = [get, processGet, processError, actualizar];
