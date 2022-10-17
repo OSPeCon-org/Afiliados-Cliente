@@ -206,7 +206,7 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, 
             this.update();
         }
 
-        if (name == AUTORIZACION) {
+        if (name == AUTORIZACION && false) {
             if (
                 //state.autorizacion.entities.titulares != undefined &&
                 state.autorizacion.entities.titulares.length == 0

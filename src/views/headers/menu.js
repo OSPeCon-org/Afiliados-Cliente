@@ -213,8 +213,8 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
 
             <div id="opciones" class="grid column" @click=${this.toggleMenu}>
                 <button raised circle action class="menu-button">${RIGHT}</button>
-                <button link ?selected="${this.selectedOption[0]}" @click=${this.nuevaAfiliacion} solo-logueado>Nueva Afiliacion</button>
-                <button link ?selected="${this.selectedOption[1]}" @click=${this.grupoFamiliar} solo-logueado>Grupo Familiar</button>
+
+                <button link ?selected="${this.selectedOption[1]}" @click=${this.nuevaAfiliacion} solo-logueado>Nueva Afiliacion</button>
 
                 <div id="acceso" ?logueado="${this.logueado}">
                     <button link etiqueta ?selected="${this.selectedOption[2]}" @click=${this.abrir} .option=${"log"}>
@@ -232,7 +232,7 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
                 </div>
             </div>
         `;
-    }
+    } /*<button link ?selected="${this.selectedOption[0]}" @click=${this.nuevaAfiliacion} solo-logueado>Nueva Afiliacion</button>*/
     isSelected(e) {
         return true;
     }
@@ -263,11 +263,9 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
         this.selectedOption = new Array(this.optionsCount).fill(false);
         this.selectedOption[Array.from(e.currentTarget.parentNode.children).indexOf(e.currentTarget) - 1] = true;
 
-        store.dispatch(selection(e.currentTarget.option));
-        if (
-            //store.getState().autorizacion.entities.titulares != "undefined" &&
-            store.getState().autorizacion.entities.titulares.length == 0
-        ) {
+        store.dispatch(autorizacion(store.getState().autorizacion.tokenAutentication));
+
+        if (store.getState().autorizacion.entities.titulares.length == 0) {
             store.dispatch(goTo("afiliadoPorCuil"));
         } else {
             store.dispatch(
@@ -314,6 +312,8 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
 
             store.dispatch(goTo("afiliadoDatos"));
         }
+
+        store.dispatch(selection(e.currentTarget.option));
     }
 
     grupoFamiliar(e) {

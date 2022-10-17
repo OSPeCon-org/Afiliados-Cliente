@@ -10,7 +10,8 @@ import { getAll as GetAllNacionalidades, GET_SUCCESS as GET_SUCCESS_NACIONALIDAD
 import { getAll as GetAllProvincias, GET_SUCCESS as GET_SUCCESS_PROVINCIAS } from "../provincias/actions";
 import { getAll as GetAllLocalidades, GET_SUCCESS as GET_SUCCESS_LOCALIDADES } from "../localidades/actions";
 import { store } from "../store";
-import { getByAfiliadoId } from "../afiliadoContactos/actions";
+import { getByAfiliadoId as getByAfiliadoIdContacto } from "../afiliadoContactos/actions";
+import { getByAfiliadoId as getByAfiliadoIdDomicilio } from "../afiliadoDomicilios/actions";
 
 export const get =
     ({ dispatch, getState }) =>
@@ -75,4 +76,16 @@ export const actualizar =
         }
     };
 
-export const middleware = [get, processGet, processError, actualizar];
+export const actualizarSuccess =
+    ({ dispatch, getState }) =>
+    (next) =>
+    (action) => {
+        next(action);
+        if (action.type === ACTUALIZAR_SUCCESS) {
+            //dispatch(RESTAdd(afiliadosAddFetch, action.item, ACTUALIZAR_SUCCESS, ACTUALIZAR_ERROR, getState().autorizacion.entities.token));
+            dispatch(getByAfiliadoIdContacto(store.getState().afiliadoDatos.current.id));
+            dispatch(getByAfiliadoIdDomicilio(store.getState().afiliadoDatos.current.id));
+        }
+    };
+
+export const middleware = [get, processGet, processError, actualizar, actualizarSuccess];

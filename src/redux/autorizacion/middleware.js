@@ -46,7 +46,8 @@ export const autorizacionSuccess =
             var titulares = getState().autorizacion.entities.titulares;
             if (titulares.length > 0) {
                 dispatch(getGrupoFamiliar(titulares[0].titularId));
-                dispatch(goTo("main"));
+
+                //dispatch(goTo("afiliadoMostrar"));
             }
         }
     };
