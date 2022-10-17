@@ -12,7 +12,9 @@ import { button } from "@brunomon/template-lit/src/views/css/button";
 import { tarjetaFamilia } from "../../css/tarjetaFamilia";
 import { tarjetaPersona } from "../../css/tarjetaPersona";
 import { goTo } from "@brunomon/template-lit/src/redux/routing/actions";
-import { getGrupoFamiliar, setCurrent } from "../../../redux/afiliados/actions";
+import { getGrupoFamiliar, setCurrent as setCurrentDatos } from "../../../redux/afiliadoDatos/actions";
+import { setCurrent as setCurrentDomicilio, getByAfiliadoId as getAfiliadoByIdDomicilio } from "../../../redux/afiliadoDomicilios/actions";
+import { setCurrent as setCurrentContactos, getByAfiliadoId as getAfiliadoByIdContacto } from "../../../redux/afiliadoContactos/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -128,7 +130,7 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, 
 
     nuevo() {
         store.dispatch(
-            setCurrent({
+            setCurrentDatos({
                 parentescoId: "",
                 cuil: "",
                 planId: "",
@@ -136,18 +138,47 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, 
                 nombre: "",
                 sexo: "",
                 fechaNacimiento: "",
-                tipoDocumento: "",
+                tipoDocumentoId: "",
                 documento: "",
-                estadoCivil: "",
-                nacionalidad: "",
+                estadoCivilId: "",
+                nacionalidadId: "",
                 discapacitado: "",
+                estadosAfiliacionId: "4863e7e8-b653-4433-a6c5-85585e114781",
             })
         );
+
+        store.dispatch(
+            setCurrentDomicilio({
+                afiliadoId: "",
+                calle: "",
+                altura: "",
+                piso: "",
+                departamento: "",
+                provincia: "",
+                localidad: "",
+                codigoPostal: "",
+            })
+        );
+
+        store.dispatch(
+            setCurrentContactos({
+                afiliadosId: "",
+                celular: "",
+                particular: "",
+                laboral: "",
+                mail: "",
+                mail2: "",
+            })
+        );
+
         store.dispatch(goTo("afiliadoDatos"));
     }
 
     mostrar(e) {
-        store.dispatch(setCurrent(e.currentTarget.item));
+        store.dispatch(setCurrentDatos(e.currentTarget.item));
+        store.dispatch(getAfiliadoByIdDomicilio(e.currentTarget.item.id));
+        store.dispatch(getAfiliadoByIdContacto(e.currentTarget.item.id));
+
         store.dispatch(goTo("afiliadoDatos"));
     }
 
@@ -176,7 +207,10 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, 
         }
 
         if (name == AUTORIZACION) {
-            if (state.autorizacion.entities.titulares.length == 0) {
+            if (
+                //state.autorizacion.entities.titulares != undefined &&
+                state.autorizacion.entities.titulares.length == 0
+            ) {
                 this.items = null;
                 this.update();
             }

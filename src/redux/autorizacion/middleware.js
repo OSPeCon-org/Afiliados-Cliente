@@ -46,6 +46,7 @@ export const autorizacionSuccess =
             var titulares = getState().autorizacion.entities.titulares;
             if (titulares.length > 0) {
                 dispatch(getGrupoFamiliar(titulares[0].titularId));
+                dispatch(goTo("main"));
             }
         }
     };
@@ -56,7 +57,7 @@ export const accept =
     (action) => {
         next(action);
         if (action.type === ACCEPT) {
-            dispatch(RESTAdd(acceptFetch, { AfiliadoId: action.id }, ACCEPT_SUCCESS, ACCEPT_ERROR, getState().autorizacion.entities.token, ""));
+            dispatch(RESTAdd(acceptFetch, { AfiliadoId: action.id }, ACCEPT_SUCCESS, ACCEPT_ERROR, getState().autorizacion.entities.token));
         }
     };
 

@@ -129,6 +129,7 @@ export class afiliadoPorCuil extends connect(store, SCREEN, MEDIA_CHANGE)(LitEle
             }
         }
     }
+
     static get properties() {
         return {
             mediaSize: {

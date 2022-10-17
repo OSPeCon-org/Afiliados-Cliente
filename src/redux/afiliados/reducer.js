@@ -1,11 +1,9 @@
-import { GET_GRUPO_FAMILIAR, GET_GRUPO_FAMILIAR_SUCCESS, GET_GRUPO_FAMILIAR_ERROR, SET_CURRENT, AFILIADO_BY_CUIL_SUCCESS, AFILIADO_BY_CUIL_ERROR } from "./actions";
+import { GET_GRUPO_FAMILIAR, GET_GRUPO_FAMILIAR_SUCCESS, GET_GRUPO_FAMILIAR_ERROR, AFILIADO_BY_CUIL_SUCCESS, AFILIADO_BY_CUIL_ERROR } from "./actions";
 
 const initialState = {
     grupoFamiliar: [],
     timeStamp: null,
     errorTimeStamp: null,
-    current: null,
-    currentTimeStamp: null,
     afiliadoByCuil: null,
     afiliadoByCuilTimeStamp: null,
     afiliadoByCuilErrorTimeStamp: null,
@@ -53,10 +51,6 @@ export const reducer = (state = initialState, action) => {
             break;
         case GET_GRUPO_FAMILIAR_ERROR:
             newState.errorTimeStamp = new Date().getTime();
-            break;
-        case SET_CURRENT:
-            newState.current = action.item;
-            newState.currentTimeStamp = new Date().getTime();
             break;
         case AFILIADO_BY_CUIL_SUCCESS:
             newState.afiliadoByCuil = action.payload.receive;

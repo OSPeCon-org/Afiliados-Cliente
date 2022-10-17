@@ -1,10 +1,12 @@
-import { GET, SUCCESS, ADD, ADD_SUCCESS, ADD_ERROR } from "./actions";
+import { GET, SUCCESS, ADD, ADD_SUCCESS, ADD_ERROR, SET_CURRENT } from "./actions";
 
 const initialState = {
     entitiesCountOk: 2,
     entitiesCountError: 0,
     timeStamp: null,
     errorTimeStamp: null,
+    current: null,
+    currentTimeStamp: null,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -22,7 +24,11 @@ export const reducer = (state = initialState, action) => {
                 newState.timeStamp = new Date().getTime();
             }
             //newState.timeStamp = new Date().getTime();
-            break;        
+            break;
+        case SET_CURRENT:
+            newState.current = action.item;
+            newState.currentTimeStamp = new Date().getTime();
+            break;
     }
     return newState;
 };

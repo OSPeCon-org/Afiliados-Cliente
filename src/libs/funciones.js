@@ -26,25 +26,26 @@ export const invalidCUITCUIL = (cuit) => {
 };
 
 export const invalidDni = (value) => {
-    var dni = /[0-9]/;
+    var dni = /^\d*$/g;
+    value = value.toString().trim();
     if (value.length == 6 || value.length == 7 || value.length == 8) {
-        return dni.test(value) ? false : true;
+        return !dni.test(value);
     }
     return true;
 };
 
 export const nameInvalido = (value) => {
-    var name = /[a-zA-Z ñÑ]/;
+    var name = /^[a-zA-Z ñÑ]*$/g;
     return name.test(value) ? false : true;
 };
 
 export const onlyLetter = (value) => {
-    var name = /[a-zA-ZñÑ]/;
+    var name = /[a-zA-ZñÑ]/g;
     return name.test(value) ? false : true;
 };
 
 export const onlyNumber = (value) => {
-    var name = /[0-9]/;
+    var name = /^\d*$/g;
     return name.test(value) ? false : true;
 };
 

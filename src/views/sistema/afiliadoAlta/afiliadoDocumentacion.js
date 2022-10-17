@@ -94,8 +94,8 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
                                 </div>
                                 ${this.svgs[item.imagen]}
                                 <div acciones>
-                                    <button link disabled>${item.accion2}</button>
-                                    <button link action>${item.accion1}</button>
+                                    <button link disabled @click=${this.subirDocumento}>${item.accion2}</button>
+                                    <button link action @click=${this.verDocumento}>${item.accion1}</button>
                                 </div>
                             </div>
                         `;
@@ -116,6 +116,10 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
         store.dispatch(goTo("afiliadoAltaFin"));
     }
 
+    subirDocumento() {}
+
+    verDocumento() {}
+
     help(titulo) {}
     firstUpdated(changedProperties) {}
 
@@ -134,14 +138,15 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
 
         if (name == AFILIADO_DOCUMENTACION) {
             this.documentacion = state.afiliadoDocumentacion.documentacion;
+            console.log(this.documentacion);
             this.items = this.documentacion.map((item) => {
                 return {
                     titulo: item.documentacionNombre,
                     imagen: "UPLOAD",
                     estado: "PENDIENTE",
-                    copete: "",
-                    accion1: "",
-                    accion2: "",
+                    copete: "Debe subir el documento",
+                    accion1: "ver documento",
+                    accion2: "subir documento",
                 };
             });
             this.update();

@@ -15,7 +15,9 @@ import { gesturesController } from "@brunomon/template-lit/src/views/controllers
 import { selection } from "../../redux/ui/actions";
 import { autorizacion } from "../../redux/autorizacion/actions";
 import { getGrupoFamiliar } from "../../redux/afiliados/actions";
-import { setCurrent } from "../../redux/afiliados/actions";
+import { setCurrent as setCurrentDatos } from "../../redux/afiliadoDatos/actions";
+import { setCurrent as setCurrentDomicilio } from "../../redux/afiliadoDomicilios/actions";
+import { setCurrent as setCurrentContactos } from "../../redux/afiliadoContactos/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SELECTION = "ui.menu.timeStamp";
@@ -262,11 +264,14 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
         this.selectedOption[Array.from(e.currentTarget.parentNode.children).indexOf(e.currentTarget) - 1] = true;
 
         store.dispatch(selection(e.currentTarget.option));
-        if (store.getState().autorizacion.entities.titulares.length == 0) {
+        if (
+            //store.getState().autorizacion.entities.titulares != "undefined" &&
+            store.getState().autorizacion.entities.titulares.length == 0
+        ) {
             store.dispatch(goTo("afiliadoPorCuil"));
         } else {
             store.dispatch(
-                setCurrent({
+                setCurrentDatos({
                     parentescoId: "",
                     cuil: "",
                     planId: "",
@@ -279,8 +284,34 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
                     estadoCivil: "",
                     nacionalidad: "",
                     discapacitado: "",
+                    estadosAfiliacionId: "4863e7e8-b653-4433-a6c5-85585e114781",
                 })
             );
+
+            store.dispatch(
+                setCurrentDomicilio({
+                    afiliadoId: "",
+                    calle: "",
+                    altura: "",
+                    piso: "",
+                    departamento: "",
+                    provincia: "",
+                    localidad: "",
+                    codigoPostal: "",
+                })
+            );
+
+            store.dispatch(
+                setCurrentContactos({
+                    afiliadosId: "",
+                    celular: "",
+                    particular: "",
+                    laboral: "",
+                    mail: "",
+                    mail2: "",
+                })
+            );
+
             store.dispatch(goTo("afiliadoDatos"));
         }
     }
@@ -318,6 +349,7 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
     salir() {
         this.profile = "ACCEDER";
         this.logueado = false;
+        store.dispatch(goTo("main"));
     }
 
     firstUpdated(changedProperties) {
@@ -334,7 +366,6 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
             }
         }
         if (name == AUTORIZACION) {
-            //store.dispatch(getGrupoFamiliar())
             const profile = this.parseJwt(state.autorizacion.entities.token);
         }
     }

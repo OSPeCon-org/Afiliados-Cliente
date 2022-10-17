@@ -1,4 +1,4 @@
-import { GET, SUCCESS, ACTUALIZAR, ACTUALIZAR_SUCCESS, ACTUALIZAR_ERROR } from "./actions";
+import { GET, SUCCESS, ACTUALIZAR, ACTUALIZAR_SUCCESS, ACTUALIZAR_ERROR, SET_CURRENT } from "./actions";
 
 const initialState = {
     entitiesCountOk: 7,
@@ -6,9 +6,10 @@ const initialState = {
     timeStamp: null,
     errorTimeStamp: null,
     currentId: null,
-    item: null,
     actualizarTimeStamp: null,
     errorActualizarTimeStamp: null,
+    current: null,
+    currentTimeStamp: null,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -29,11 +30,14 @@ export const reducer = (state = initialState, action) => {
             break;
         case ACTUALIZAR_SUCCESS:
             newState.currentId = action.payload.receive;
-            newState.item = action.payload.send;
             newState.actualizarTimeStamp = new Date().getTime();
             break;
         case ACTUALIZAR_ERROR:
             newState.errorActualizarTimeStamp = new Date().getTime();
+            break;
+        case SET_CURRENT:
+            newState.current = action.item;
+            newState.currentTimeStamp = new Date().getTime();
             break;
     }
     return newState;

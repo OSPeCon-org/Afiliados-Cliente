@@ -12,8 +12,11 @@ import { button } from "@brunomon/template-lit/src/views/css/button";
 import { tarjetaFamilia } from "../../css/tarjetaFamilia";
 import { tarjetaPersona } from "../../css/tarjetaPersona";
 import { goTo } from "@brunomon/template-lit/src/redux/routing/actions";
-import { getGrupoFamiliar, setCurrent } from "../../../redux/afiliados/actions";
+
 import { accept, autorizacion } from "../../../redux/autorizacion/actions";
+import { getGrupoFamiliar, setCurrent as setCurrentDatos } from "../../../redux/afiliadoDatos/actions";
+import { setCurrent as setCurrentDomicilio } from "../../../redux/afiliadoDomicilios/actions";
+import { setCurrent as setCurrentContactos } from "../../../redux/afiliadoContactos/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -136,7 +139,7 @@ export class afiliadoAcceptScreen extends connect(store, SCREEN, MEDIA_CHANGE, A
 
     afiliarme() {
         store.dispatch(
-            setCurrent({
+            setCurrentDatos({
                 parentescoId: "",
                 cuil: "",
                 planId: "",
@@ -144,13 +147,39 @@ export class afiliadoAcceptScreen extends connect(store, SCREEN, MEDIA_CHANGE, A
                 nombre: "",
                 sexo: "",
                 fechaNacimiento: "",
-                tipoDocumento: "",
+                tipoDocumentoId: "",
                 documento: "",
-                estadoCivil: "",
-                nacionalidad: "",
+                estadoCivilId: "",
+                nacionalidadId: "",
                 discapacitado: "",
+                estadosAfiliacionId: "4863e7e8-b653-4433-a6c5-85585e114781",
             })
         );
+
+        store.dispatch(
+            setCurrentDomicilio({
+                afiliadoId: "",
+                calle: "",
+                altura: "",
+                piso: "",
+                departamento: "",
+                provincia: "",
+                localidad: "",
+                codigoPostal: "",
+            })
+        );
+
+        store.dispatch(
+            setCurrentContactos({
+                afiliadosId: "",
+                celular: "",
+                particular: "",
+                laboral: "",
+                mail: "",
+                mail2: "",
+            })
+        );
+
         store.dispatch(goTo("afiliadoDatos"));
     }
 

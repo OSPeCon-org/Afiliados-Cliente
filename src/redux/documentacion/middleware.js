@@ -5,7 +5,7 @@ import { getAllDocumentacionFetch } from "../fetchs";
 import { store } from "../store";
 
 export const getAll =
-    ({ dispatch }) =>
+    ({ dispatch, getState }) =>
     (next) =>
     (action) => {
         next(action);

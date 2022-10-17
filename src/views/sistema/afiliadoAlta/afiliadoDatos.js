@@ -21,6 +21,8 @@ import { get as getDocumentacion } from "../../../redux/afiliadoDocumentacion/ac
 import { isEmpty, opcionInvalida, invalidDni, nameInvalido, invalidCUITCUIL, invalidFecha } from "../../../libs/funciones";
 import { goPrev } from "../../../redux/routing/actions";
 import { getById } from "../../../redux/parentescos/actions";
+import { get, getByAfiliadoId } from "../../../redux/afiliadoDomicilios/actions";
+import { ThumbsUpDownOutlined } from "@material-ui/icons";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -30,7 +32,7 @@ const TIPO_DOCUMENTO = "tipoDocumento.timeStamp";
 const ESTADOS_CIVILES = "estadosCiviles.timeStamp";
 const NACIONALIDADES = "nacionalidades.timeStamp";
 const AFILIADO_DATOS_SUCCESS = "afiliadoDatos.timeStamp";
-const CURRENT_AFILIADO = "afiliados.currentTimeStamp";
+const CURRENT_AFILIADO = "afiliadoDatos.currentTimeStamp";
 
 export class afiliadoDatosScreen extends connect(
     store,
@@ -56,6 +58,7 @@ export class afiliadoDatosScreen extends connect(
         this.tipoDocumento = null;
         this.estadosCiviles = null;
         this.nacionalidades = null;
+        this.readonly = false;
 
         this.svgs = { BENEF: BENEF, GRPFAM: GRPFAM };
 
@@ -67,10 +70,10 @@ export class afiliadoDatosScreen extends connect(
             nombre: { invalid: false, isInvalid: nameInvalido },
             sexo: { invalid: false, isInvalid: opcionInvalida },
             fechaNacimiento: { invalid: false, isInvalid: invalidFecha },
-            tipoDocumento: { invalid: false, isInvalid: opcionInvalida },
+            tipoDocumentoId: { invalid: false, isInvalid: opcionInvalida },
             documento: { invalid: false, isInvalid: invalidDni },
-            estadoCivil: { invalid: false, isInvalid: opcionInvalida },
-            nacionalidad: { invalid: false, isInvalid: opcionInvalida },
+            estadoCivilId: { invalid: false, isInvalid: opcionInvalida },
+            nacionalidadId: { invalid: false, isInvalid: opcionInvalida },
             discapacitado: { invalid: false, isInvalid: opcionInvalida },
         };
     }
@@ -132,7 +135,7 @@ export class afiliadoDatosScreen extends connect(
             <div id="cuerpo" class="grid row">
                 <div class="grupo">
                     <div class="select" ?error=${this.validaciones.parentescoId.invalid}>
-                        <select id="parentescos" .value="${this.item.parentescoId}" required @blur="${this.enlace("parentescoId")}">
+                        <select ?disabled=${this.readOnly} id="parentescos" .value="${this.item.parentescoId}" required @blur="${this.enlace("parentescoId")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.parentescos?.map((item) => {
                                 return html` <option value=${item.id} ?selected=${this.item.parentescoId == item.id}>${item.descripcion}</option> `;
@@ -143,13 +146,13 @@ export class afiliadoDatosScreen extends connect(
                         <label subtext>Requerido</label>
                     </div>
                     <div class="input" ?error=${this.validaciones.cuil.invalid}>
-                        <input id="cuil" .value=${this.item.cuil} @blur="${this.enlace("cuil")}" />
+                        <input id="cuil" ?disabled=${this.readOnly} .value=${this.item.cuil} @blur="${this.enlace("cuil")}" />
                         <label for="cuil">CUIL</label>
                         <label error>Debe ingresar numero de CUIL válido</label>
                         <label subtext>Requerido</label>
                     </div>
                     <div class="select" ?error=${this.validaciones.planId.invalid}>
-                        <select id="planes" .value="${this.item.planId}" required @blur="${this.enlace("planId")}">
+                        <select id="planes" ?disabled=${this.readOnly} .value="${this.item.planId}" required @blur="${this.enlace("planId")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.planes?.map((item) => {
                                 return html` <option value=${item.id} ?selected=${this.item.planId == item.id}>${item.descripcion}</option> `;
@@ -163,35 +166,35 @@ export class afiliadoDatosScreen extends connect(
                 <div class="linea"></div>
                 <div class="grupo">
                     <div class="input" ?error=${this.validaciones.apellido.invalid}>
-                        <input id="apellido" .value=${this.item.apellido} @blur="${this.enlace("apellido")}" />
+                        <input id="apellido" ?disabled=${this.readOnly} .value=${this.item.apellido} @blur="${this.enlace("apellido")}" />
                         <label for="apellido">Apellido</label>
                         <label error>Debe ingresar apellido</label>
                         <label subtext>Requerido</label>
                     </div>
                     <div class="input" ?error=${this.validaciones.nombre.invalid}>
-                        <input id="nombre" .value=${this.item.nombre} @blur="${this.enlace("nombre")}" />
+                        <input id="nombre" ?disabled=${this.readOnly} .value=${this.item.nombre} @blur="${this.enlace("nombre")}" />
                         <label for="nombre">Nombre</label>
                         <label error>Debe ingresar nombre</label>
                         <label subtext>Requerido</label>
                     </div>
                     <div class="select" ?error=${this.validaciones.sexo.invalid}>
-                        <select id="sexo" .value="${this.item.sexo}" required @blur="${this.enlace("sexo")}">
+                        <select id="sexo" ?disabled=${this.readOnly} .value="${this.item.sexo}" required @blur="${this.enlace("sexo")}">
                             <option value="" disabled selected>Selecciona una opción</option>
-                            <option value="Femenino">Femenino</option>
-                            <option value="Masculino">Masculino</option>
+                            <option value="Femenino" ?selected=${this.item.sexo?.toUpperCase() == "FEMENINO"}>Femenino</option>
+                            <option value="Masculino" ?selected=${this.item.sexo?.toUpperCase() == "MASCULINO"}>Masculino</option>
                         </select>
                         <label for="sexo">Sexo</label>
                         <label error>Debe seleccionar una opción</label>
                         <label subtext>Requerido</label>
                     </div>
                     <div class="input" ?error=${this.validaciones.fechaNacimiento.invalid}>
-                        <input id="nacimiento" value="${this.item.fechaNacimiento}" type="date" @blur="${this.enlace("fechaNacimiento")}" />
+                        <input id="nacimiento" ?disabled=${this.readOnly} .value="${this.item.fechaNacimiento?.substr(0, 10)}" type="date" @blur="${this.enlace("fechaNacimiento")}" />
                         <label for="nacimiento">Fecha de nacimiento</label>
                         <label error>Debe ingresar una fecha válida</label>
                         <label subtext>Requerido</label>
                     </div>
-                    <div class="select" ?error=${this.validaciones.tipoDocumento.invalid}>
-                        <select id="tipoDocumento" .value="${this.item.tipoDocumento}" required @blur="${this.enlace("tipoDocumento")}">
+                    <div class="select" ?error=${this.validaciones.tipoDocumentoId.invalid}>
+                        <select id="tipoDocumento" ?disabled=${this.readOnly} .value="${this.item.tipoDocumentoId}" required @blur="${this.enlace("tipoDocumentoId")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.tipoDocumento?.map((item) => {
                                 return html` <option value=${item.id}>${item.descripcion}</option> `;
@@ -202,16 +205,16 @@ export class afiliadoDatosScreen extends connect(
                         <label subtext>Requerido</label>
                     </div>
                     <div class="input" ?error=${this.validaciones.documento.invalid}>
-                        <input id="documentoNumero" .value=${this.item.documento} @blur="${this.enlace("documento")}" />
-                        <label for="documentoNumero">Numero de documento</label>
+                        <input id="documento" ?disabled=${this.readOnly} .value=${this.item.documento} @blur="${this.enlace("documento")}" />
+                        <label for="documento">Numero de documento</label>
                         <label error>Debe ingresar numero de DNI válido</label>
                         <label subtext>Requerido</label>
                     </div>
                 </div>
                 <div class="linea"></div>
                 <div class="grupo">
-                    <div class="select" ?error=${this.validaciones.estadoCivil.invalid}>
-                        <select id="estadosCiviles" .value="${this.item.estadoCivil}" required @blur="${this.enlace("estadoCivil")}">
+                    <div class="select" ?error=${this.validaciones.estadoCivilId.invalid}>
+                        <select id="estadosCiviles" ?disabled=${this.readOnly} .value="${this.item.estadoCivilId}" required @blur="${this.enlace("estadoCivilId")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.estadosCiviles?.map((item) => {
                                 return html` <option value=${item.id}>${item.descripcion}</option> `;
@@ -221,8 +224,8 @@ export class afiliadoDatosScreen extends connect(
                         <label error>Debe seleccionar una opción</label>
                         <label subtext>Requerido</label>
                     </div>
-                    <div class="select" ?error=${this.validaciones.nacionalidad.invalid}>
-                        <select id="nacionalidades" .value="${this.item.nacionalidad}" required @blur="${this.enlace("nacionalidad")}">
+                    <div class="select" ?error=${this.validaciones.nacionalidadId.invalid}>
+                        <select id="nacionalidades" ?disabled=${this.readOnly} .value="${this.item.nacionalidadId}" required @blur="${this.enlace("nacionalidadId")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.nacionalidades?.map((item) => {
                                 return html` <option value=${item.id}>${item.descripcion}</option> `;
@@ -233,7 +236,7 @@ export class afiliadoDatosScreen extends connect(
                         <label subtext>Requerido</label>
                     </div>
                     <div class="select" ?error=${this.validaciones.discapacitado.invalid}>
-                        <select id="discapacidad" .value="${this.item.discapacitado}" required @blur="${this.enlace("discapacitado")}">
+                        <select id="discapacidad" ?disabled=${this.readOnly} .value="${this.item.discapacitado}" required @blur="${this.enlace("discapacitado")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             <option value="true">Si</option>
                             <option value="false">No</option>
@@ -267,22 +270,27 @@ export class afiliadoDatosScreen extends connect(
             const itemAfiliadoDatos = {
                 apellido: this.item.apellido,
                 nombre: this.item.nombre,
-                tipoDocumentoId: this.item.tipoDocumento,
-                documento: Number(this.item.documentoNumero),
+                tipoDocumentoId: this.item.tipoDocumentoId,
+                documento: this.item.documento,
                 parentescoId: this.item.parentescoId,
                 cuil: this.item.cuil,
-                fechaNacimiento: this.item.nacimiento,
+                fechaNacimiento: this.item.fechaNacimiento,
                 fecha: new Date(),
-                planId: this.item.plan,
+                planId: this.item.planId,
                 sexo: this.item.sexo,
-                estadoCivilId: this.item.estadoCivil,
-                discapacitado: this.item.discapacidad,
-                nacionalidadId: this.item.nacionalidad,
+                estadoCivilId: this.item.estadoCivilId,
+                discapacitado: this.item.discapacitado,
+                nacionalidadId: this.item.nacionalidadId,
                 estadosAfiliacionId: "4863E7E8-B653-4433-A6C5-85585E114781",
             };
 
+            /**
+             * TODO: accion que traiga contacto y domicilio
+             *
+             */
             store.dispatch(addAfiliadoDatos(itemAfiliadoDatos));
-            //store.dispatch(getDocumentacion(this.item.plan, this.item.parentesco, this.item.discapacidad));
+            //store.dispatch(getByAfiliadoId(store.getState().afiliadoDatos.current.id));
+            store.dispatch(getDocumentacion(this.item.planId, this.item.parentescoId, this.item.discapacitado));
         } else {
             this.requestUpdate();
         }
@@ -296,6 +304,12 @@ export class afiliadoDatosScreen extends connect(
         });
         //this.update();
         return isValid;
+    }
+
+    forceValid() {
+        Object.entries(this.validaciones).forEach(([field, value]) => {
+            this.validaciones[field].invalid = false;
+        });
     }
 
     enlace(field) {
@@ -330,7 +344,22 @@ export class afiliadoDatosScreen extends connect(
         }
 
         if (name == CURRENT_AFILIADO) {
-            this.item = state.afiliados.current;
+            this.item = state.afiliadoDatos.current;
+            if (
+                this.item.estadosAfiliacionId == "4863e7e8-b653-4433-a6c5-85585e114781" ||
+                this.item.estadosAfiliacionId == "F814DDF6-61AF-4466-9FC9-5912CD22C73D" ||
+                this.item.estadosAfiliacionId == ""
+            ) {
+                this.readOnly = false;
+            } else {
+                this.readOnly = true;
+            }
+
+            if (this.item.id) {
+                this.isValidForm();
+            } else {
+                this.forceValid();
+            }
             this.update();
         }
 
@@ -391,6 +420,10 @@ export class afiliadoDatosScreen extends connect(
             },
             current: {
                 type: String,
+                reflect: true,
+            },
+            readOnly: {
+                type: Boolean,
                 reflect: true,
             },
         };

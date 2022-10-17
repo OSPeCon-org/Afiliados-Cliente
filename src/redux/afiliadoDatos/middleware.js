@@ -10,6 +10,7 @@ import { getAll as GetAllNacionalidades, GET_SUCCESS as GET_SUCCESS_NACIONALIDAD
 import { getAll as GetAllProvincias, GET_SUCCESS as GET_SUCCESS_PROVINCIAS } from "../provincias/actions";
 import { getAll as GetAllLocalidades, GET_SUCCESS as GET_SUCCESS_LOCALIDADES } from "../localidades/actions";
 import { store } from "../store";
+import { getByAfiliadoId } from "../afiliadoContactos/actions";
 
 export const get =
     ({ dispatch, getState }) =>
@@ -74,4 +75,4 @@ export const actualizar =
         }
     };
 
-export const middleware = [get, processGet, processError, actualizar];
+export const middleware = [get, processGet, actualizarSuccess, processError, actualizar];

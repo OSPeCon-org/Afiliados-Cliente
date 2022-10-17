@@ -16,6 +16,7 @@ import { goTo, goHistoryPrev } from "@brunomon/template-lit/src/redux/routing/ac
 import { get as GetAfiliadosDatos } from "../../../redux/afiliadoDatos/actions";
 import { add as addAfiliadosDomicilios } from "../../../redux/afiliadoDomicilios/actions";
 import { cambioOpcioRuta } from "../../../redux/ruta/actions";
+import { setCurrent as setCurrentDomicilio } from "../../../redux/afiliadoDomicilios/actions";
 
 import { isEmpty, opcionInvalida, onlyLetter, onlyNumber } from "../../../libs/funciones";
 
@@ -25,8 +26,9 @@ const RUTA = "ruta.timeStamp";
 
 const PROVINCIAS = "provincias.timeStamp";
 const LOCALIDADES = "localidades.timeStamp";
+const CURRENT_AFILIADO = "afiliadoDomicilios.currentTimeStamp";
 
-export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE, PROVINCIAS, LOCALIDADES)(LitElement) {
+export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE, PROVINCIAS, LOCALIDADES, CURRENT_AFILIADO)(LitElement) {
     constructor() {
         super();
         this.hidden = true;
@@ -34,6 +36,7 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
         this.current = "";
         this.item = {};
         (this.provincias = null), (this.localidades = null), (this.svgs = { BENEF: BENEF, GRPFAM: GRPFAM });
+        this.readonly = false;
 
         this.validaciones = {
             calle: { invalid: false, isInvalid: onlyLetter },
@@ -175,12 +178,12 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
     siguiente() {
         if (this.isValidForm()) {
             const itemAfiliadoDomicilios = {
-                afiliadoId: store.getState().afiliadoDatos.currentId,
+                afiliadoId: store.getState().afiliadoDatos.current.id,
                 calle: this.item.calle,
                 altura: this.item.altura,
                 piso: this.item.piso,
                 departamento: this.item.departamento,
-                localidadesId: this.item.localidad,
+                localidadesId: this.item.localidadesId,
                 codigoPostal: this.item.codigoPostal,
             };
 
@@ -198,6 +201,12 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
             isValid = isValid && !this.validaciones[field].invalid;
         });
         return isValid;
+    }
+
+    forceValid() {
+        Object.entries(this.validaciones).forEach(([field, value]) => {
+            this.validaciones[field].invalid = false;
+        });
     }
 
     enlace(field) {
@@ -226,17 +235,6 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                     store.dispatch(cambioOpcioRuta(OPCION_DOMICILIO));
                 }
                 this.hidden = false;
-
-                this.item = {
-                    afiliadoId: "",
-                    calle: "",
-                    altura: "",
-                    piso: "",
-                    departamento: "",
-                    provincia: "",
-                    localidad: "",
-                    codigoPostal: "",
-                };
             }
         }
 
@@ -247,6 +245,21 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
 
         if (name == LOCALIDADES) {
             this.localidades = state.localidades.entities;
+            this.update();
+        }
+
+        if (name == CURRENT_AFILIADO) {
+            this.item = state.afiliadoDomicilios.current;
+            /*if () {
+                this.readOnly = true;
+            } else {
+                this.readOnly = true;
+            }*/
+            if (this.item.id) {
+                this.isValidForm();
+            } else {
+                this.forceValid();
+            }
             this.update();
         }
     }
@@ -271,6 +284,10 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
             },
             current: {
                 type: String,
+                reflect: true,
+            },
+            readOnly: {
+                type: Boolean,
                 reflect: true,
             },
         };

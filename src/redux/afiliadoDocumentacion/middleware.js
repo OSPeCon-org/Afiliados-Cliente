@@ -5,7 +5,7 @@ import { afiliadosGetByPlanDocumentacionFetch } from "../fetchs";
 import { store } from "../store";
 
 export const get =
-    ({ dispatch }) =>
+    ({ dispatch, getState }) =>
     (next) =>
     (action) => {
         next(action);
@@ -13,10 +13,10 @@ export const get =
             dispatch(
                 RESTRequest(
                     afiliadosGetByPlanDocumentacionFetch,
-                    "{planId:" + action.planId + ",parentescoId:" + action.parentescoId + ",discapacidad:" + action.discapacidad + "}",
+                    "?planId=" + action.planId + "&parentescoId=" + action.parentescoId + "&discapacidad=" + action.discapacidad,
                     GET_SUCCESS,
                     GET_ERROR,
-                    ""
+                    getState().autorizacion.entities.token
                 )
             );
             /*dispatch({

@@ -20,14 +20,17 @@ import { isEmpty, opcionInvalida, mailInvalid } from "../../../libs/funciones";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
+const CURRENT_AFILIADO = "afiliadoContactos.currentTimeStamp";
 
-export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE)(LitElement) {
+export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE, CURRENT_AFILIADO)(LitElement) {
     constructor() {
         super();
         this.hidden = true;
         this.area = "body";
         this.current = "";
         this.currentAnterior = "";
+        this.item = {};
+        this.readonly = false;
         this.svgs = { BENEF: BENEF, GRPFAM: GRPFAM };
 
         this.validaciones = {
@@ -145,7 +148,7 @@ export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE)
     siguiente() {
         if (this.isValidForm()) {
             const itemAfiliadoContactos = {
-                afiliadosId: store.getState().afiliadoDatos.currentId,
+                afiliadosId: store.getState().afiliadoDatos.current.id,
                 celular: this.item.celular,
                 particular: this.item.particular,
                 laboral: this.item.laboral,
@@ -167,6 +170,21 @@ export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE)
             isValid = isValid && !this.validaciones[field].invalid;
         });
         return isValid;
+    }
+
+    isValidForm() {
+        let isValid = true;
+        Object.entries(this.validaciones).forEach(([field, value]) => {
+            this.validaciones[field].invalid = this.validaciones[field].isInvalid(this.item[field]);
+            isValid = isValid && !this.validaciones[field].invalid;
+        });
+        return isValid;
+    }
+
+    forceValid() {
+        Object.entries(this.validaciones).forEach(([field, value]) => {
+            this.validaciones[field].invalid = false;
+        });
     }
 
     enlace(field) {
@@ -196,14 +214,17 @@ export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE)
             }
         }
 
-        this.item = {
-            afiliadosId: "",
-            celular: "",
-            particular: "",
-            laboral: "",
-            mail: "",
-            mail2: "",
-        };
+        if (name == CURRENT_AFILIADO) {
+            this.item = state.afiliadoContactos.current;
+
+            if (this.item.id) {
+                this.isValidForm();
+            } else {
+                this.forceValid();
+            }
+
+            this.update();
+        }
     }
     static get properties() {
         return {
@@ -225,6 +246,10 @@ export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE)
             },
             current: {
                 type: String,
+                reflect: true,
+            },
+            readOnly: {
+                type: Boolean,
                 reflect: true,
             },
         };
