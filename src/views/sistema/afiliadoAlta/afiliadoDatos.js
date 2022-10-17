@@ -22,7 +22,6 @@ import { isEmpty, opcionInvalida, invalidDni, nameInvalido, invalidCUITCUIL, inv
 import { goPrev } from "../../../redux/routing/actions";
 import { getById } from "../../../redux/parentescos/actions";
 import { get, getByAfiliadoId } from "../../../redux/afiliadoDomicilios/actions";
-import { ThumbsUpDownOutlined } from "@material-ui/icons";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
