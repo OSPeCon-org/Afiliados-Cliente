@@ -279,10 +279,10 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
                     nombre: "",
                     sexo: "",
                     fechaNacimiento: "",
-                    tipoDocumento: "",
+                    tipoDocumentoId: "",
                     documento: "",
-                    estadoCivil: "",
-                    nacionalidad: "",
+                    estadoCivilId: "",
+                    nacionalidadId: "",
                     discapacitado: "",
                     estadosAfiliacionId: "4863e7e8-b653-4433-a6c5-85585e114781",
                 })
