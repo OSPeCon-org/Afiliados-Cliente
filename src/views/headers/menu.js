@@ -263,11 +263,10 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
         this.selectedOption = new Array(this.optionsCount).fill(false);
         this.selectedOption[Array.from(e.currentTarget.parentNode.children).indexOf(e.currentTarget) - 1] = true;
 
-        store.dispatch(autorizacion(store.getState().autorizacion.tokenAutentication));
-
         if (store.getState().autorizacion.entities.titulares.length == 0) {
             store.dispatch(goTo("afiliadoPorCuil"));
         } else {
+            store.dispatch(goTo("afiliadoMostrar"));
             store.dispatch(
                 setCurrentDatos({
                     parentescoId: "",
@@ -310,8 +309,14 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
                 })
             );
 
-            store.dispatch(goTo("afiliadoDatos"));
+            store.dispatch(goTo("afiliadoMostrar"));
         }
+
+        /*var titulares = store.getState().autorizacion.entities.titulares;
+        if (titulares.length == 0) {
+            store.dispatch(goTo("afiliadoPorCuil"));
+        }
+        store.dispatch(goTo("afiliadoMostrar"));*/
 
         store.dispatch(selection(e.currentTarget.option));
     }

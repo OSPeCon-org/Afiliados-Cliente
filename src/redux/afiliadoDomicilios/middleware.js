@@ -5,6 +5,7 @@ import { afiliadosDomiciliosAddFetch, afiliadosDomiciliosGetByAfiliadoIdFetch } 
 import { getAll as GetAllProvincias, GET_SUCCESS as GET_SUCCESS_PROVINCIAS } from "../provincias/actions";
 import { getAll as GetAllLocalidades, GET_SUCCESS as GET_SUCCESS_LOCALIDADES } from "../localidades/actions";
 import { store } from "../store";
+import { restAfiliadoLoaded } from "../ui/actions";
 
 export const get =
     ({ dispatch, getState }) =>
@@ -54,9 +55,10 @@ export const GetByAfiliadoIdSuccess =
         if (action.type === GET_BY_AFILIADO_ID_SUCCESS) {
             let domicilio = action.payload.receive[0];
             if (domicilio == null) {
-                domicilio = { afiliadoId: "", calle: "", altura: "", piso: "", departamento: "", provincia: "", localidad: "", codigoPostal: "" };
+                domicilio = { afiliadoId: "", calle: "", altura: "", piso: "", departamento: "", provincia: "", localidadesId: "", codigoPostal: "" };
             }
             dispatch(setCurrent(domicilio));
+            dispatch(restAfiliadoLoaded());
         }
     };
 

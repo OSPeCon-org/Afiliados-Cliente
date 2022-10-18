@@ -3,6 +3,7 @@ import { RESTRequest, RESTAdd } from "../rest/actions";
 
 import { afiliadosContactosAddFetch, afiliadosContactosGetByAfiliadoIdFetch } from "../fetchs";
 import { store } from "../store";
+import { restAfiliadoLoaded } from "../ui/actions";
 
 export const get =
     ({ dispatch, getState }) =>
@@ -34,6 +35,7 @@ export const GetByAfiliadoIdSuccess =
                 contacto = { afiliadosId: "", celular: "", particular: "", laboral: "", mail: "", mail2: "" };
             }
             dispatch(setCurrent(contacto));
+            dispatch(restAfiliadoLoaded());
         }
     };
 

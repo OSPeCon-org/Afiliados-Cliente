@@ -11,18 +11,20 @@ import { button } from "@brunomon/template-lit/src/views/css/button";
 import { input } from "@brunomon/template-lit/src/views/css/input";
 import { select } from "@brunomon/template-lit/src/views/css/select";
 
-import { OPCION_CONTACTO, RutaOpcionesControl } from "../../componentes/rutaOpciones";
+import { OPCION_CONTACTO, OPCION_DATOS, OPCION_DOMICILIO, RutaOpcionesControl } from "../../componentes/rutaOpciones";
 import { goHistoryPrev, goTo } from "@brunomon/template-lit/src/redux/routing/actions";
 import { cambioOpcioRuta } from "../../../redux/ruta/actions";
 
 import { add as addAfiliadoContactos } from "../../../redux/afiliadoContactos/actions";
 import { isEmpty, opcionInvalida, mailInvalid } from "../../../libs/funciones";
+import { afiliadoDireccionMostrar } from "../../../redux/ui/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
 const CURRENT_AFILIADO = "afiliadoContactos.currentTimeStamp";
+const AFILIADO_CONTACTO_ADD = "afiliadoContactos.addTimeStamp";
 
-export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE, CURRENT_AFILIADO)(LitElement) {
+export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE, AFILIADO_CONTACTO_ADD, CURRENT_AFILIADO)(LitElement) {
     constructor() {
         super();
         this.hidden = true;
@@ -142,7 +144,8 @@ export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE,
         /**
          * CARGAR ANTERIOR
          */
-        store.dispatch(goHistoryPrev());
+        store.dispatch(afiliadoDireccionMostrar());
+        store.dispatch(cambioOpcioRuta(OPCION_DOMICILIO));
     }
 
     siguiente() {
@@ -157,7 +160,6 @@ export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE,
             };
 
             store.dispatch(addAfiliadoContactos(itemAfiliadoContactos));
-            store.dispatch(goTo("afiliadoDocumentacion"));
         } else {
             this.requestUpdate();
         }
@@ -224,6 +226,10 @@ export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE,
             }
 
             this.update();
+        }
+
+        if (name == AFILIADO_CONTACTO_ADD) {
+            store.dispatch(goTo("afiliadoDocumentacion"));
         }
     }
     static get properties() {

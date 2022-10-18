@@ -3,6 +3,7 @@ import { RESTRequest, RESTAdd } from "../rest/actions";
 import { grupoFamiliarFetch, afiliadosByCuilFetch } from "../fetchs";
 
 import { store } from "../store";
+import { restAfiliadoLoaded } from "../ui/actions";
 
 export const getGrupoFamiliar =
     ({ dispatch, getState }) =>
@@ -23,7 +24,7 @@ export const afiliadosByCuil =
         }
     };
 
-export const processGet =
+export const processGrupoFamiliar =
     ({ dispatch }) =>
     (next) =>
     (action) => {
@@ -39,8 +40,9 @@ export const processError =
     (next) =>
     (action) => {
         next(action);
-        /*if (action.type === GET_ERROR) {
-        }*/
+        if (action.type === GET_GRUPO_FAMILIAR_SUCCESS) {
+            dispatch(restAfiliadoLoaded());
+        }
     };
 
 export const GetById =
@@ -63,4 +65,4 @@ export const GetById =
         }
     };*/
 
-export const middleware = [getGrupoFamiliar, afiliadosByCuil, processGet, processError];
+export const middleware = [getGrupoFamiliar, afiliadosByCuil, processGrupoFamiliar, processError];

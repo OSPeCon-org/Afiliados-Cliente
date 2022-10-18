@@ -18,7 +18,7 @@ import { cambioOpcioRuta } from "../../../redux/ruta/actions";
 import { get as GetAfiliadosDatos, actualizar as addAfiliadoDatos } from "../../../redux/afiliadoDatos/actions";
 import { get as getDocumentacion } from "../../../redux/afiliadoDocumentacion/actions";
 
-import { isEmpty, opcionInvalida, invalidDni, nameInvalido, invalidCUITCUIL, invalidFecha } from "../../../libs/funciones";
+import { isEmpty, opcionInvalida, invalidDni, nameInvalido, invalidCUITCUIL, invalidFecha, opcionBooleanaInvalida } from "../../../libs/funciones";
 import { goPrev } from "../../../redux/routing/actions";
 import { getById } from "../../../redux/parentescos/actions";
 import { get, getByAfiliadoId } from "../../../redux/afiliadoDomicilios/actions";
@@ -73,7 +73,7 @@ export class afiliadoDatosScreen extends connect(
             documento: { invalid: false, isInvalid: invalidDni },
             estadoCivilId: { invalid: false, isInvalid: opcionInvalida },
             nacionalidadId: { invalid: false, isInvalid: opcionInvalida },
-            discapacitado: { invalid: false, isInvalid: opcionInvalida },
+            discapacitado: { invalid: false, isInvalid: opcionBooleanaInvalida },
         };
     }
 
@@ -235,12 +235,12 @@ export class afiliadoDatosScreen extends connect(
                         <label subtext>Requerido</label>
                     </div>
                     <div class="select" ?error=${this.validaciones.discapacitado.invalid}>
-                        <select id="discapacidad" ?disabled=${this.readOnly} .value="${this.item.discapacitado}" required @blur="${this.enlace("discapacitado")}">
+                        <select id="discapacitado" ?disabled=${this.readOnly} .value="${this.item.discapacitado}" required @blur="${this.enlace("discapacitado")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             <option value="true">Si</option>
                             <option value="false">No</option>
                         </select>
-                        <label for="discapacidad">Discapacidad</label>
+                        <label for="discapacitado">Discapacidad</label>
                         <label error>Debe seleccionar una opción</label>
                         <label subtext>Requerido</label>
                     </div>
@@ -267,6 +267,7 @@ export class afiliadoDatosScreen extends connect(
             store.dispatch(goTo("afiliadoDireccion"));
 
             const itemAfiliadoDatos = {
+                //afiliadoId: store.getState().afiliadoDatos.current.id,
                 apellido: this.item.apellido,
                 nombre: this.item.nombre,
                 tipoDocumentoId: this.item.tipoDocumentoId,
@@ -288,8 +289,6 @@ export class afiliadoDatosScreen extends connect(
              *
              */
             store.dispatch(addAfiliadoDatos(itemAfiliadoDatos));
-            //store.dispatch(getByAfiliadoId(store.getState().afiliadoDatos.current.id));
-            store.dispatch(getDocumentacion(this.item.planId, this.item.parentescoId, this.item.discapacitado));
         } else {
             this.requestUpdate();
         }

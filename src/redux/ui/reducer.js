@@ -1,6 +1,21 @@
 /** @format */
 
-import { SHOW_SPINNER, HIDE_SPINNER, SHOW_ERROR, HIDE_ERROR, SET_MEDIA, SET_MEDIA_ORIENTATION, SELECTION, STEP, SHOW_ALERT, SHOW_CONFIRM } from "./actions";
+import {
+    SHOW_SPINNER,
+    HIDE_SPINNER,
+    SHOW_ERROR,
+    HIDE_ERROR,
+    SET_MEDIA,
+    SET_MEDIA_ORIENTATION,
+    SELECTION,
+    STEP,
+    SHOW_ALERT,
+    SHOW_CONFIRM,
+    CLEAR_AFILIADO_LOADED,
+    ADD_AFILIADO_LOADED,
+    REST_AFILIADO_LOADED,
+    AFILIADO_DIRECCION_MOSTRAR,
+} from "./actions";
 
 const initialState = {
     spinner: {
@@ -36,6 +51,9 @@ const initialState = {
     steps: {
         step: 1,
     },
+    afiliadoLoaded: 0,
+    afiliadoLoadedTimeStamp: null,
+    afiliadoDireccionMostrarTimeStamp: null,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -84,6 +102,19 @@ export const reducer = (state = initialState, action) => {
             break;
         case STEP:
             newState.steps.step = action.step;
+            break;
+        case CLEAR_AFILIADO_LOADED:
+            newState.afiliadoLoaded = 0;
+            break;
+        case ADD_AFILIADO_LOADED:
+            newState.afiliadoLoaded += 1;
+            break;
+        case REST_AFILIADO_LOADED:
+            newState.afiliadoLoaded -= 1;
+            if (newState.afiliadoLoaded == 0) newState.afiliadoLoadedTimeStamp = new Date().getTime();
+            break;
+        case AFILIADO_DIRECCION_MOSTRAR:
+            newState.afiliadoDireccionMostrarTimeStamp = new Date().getTime();
             break;
     }
     return newState;

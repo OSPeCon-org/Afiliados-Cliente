@@ -19,6 +19,12 @@ export const STEP = "[ui] step";
 export const SHOW_ALERT = "[ui] show alert";
 export const SHOW_CONFIRM = "[ui] show confirm";
 
+export const CLEAR_AFILIADO_LOADED = "[ui] clear afiliado loaded";
+export const ADD_AFILIADO_LOADED = "[ui] add afiliado loaded";
+export const REST_AFILIADO_LOADED = "[ui] rest afiliado loaded";
+
+export const AFILIADO_DIRECCION_MOSTRAR = "[ui] afiliado direccion mostrar";
+
 export const showSpinner = () => ({
     type: SHOW_SPINNER,
 });
@@ -68,3 +74,9 @@ export const setStep = (step) => ({
     type: STEP,
     step: step,
 });
+
+export const clearAfiliadoLoaded = () => ({ type: CLEAR_AFILIADO_LOADED });
+export const addAfiliadoLoaded = () => ({ type: ADD_AFILIADO_LOADED });
+export const restAfiliadoLoaded = () => ({ type: REST_AFILIADO_LOADED });
+
+export const afiliadoDireccionMostrar = () => ({ type: AFILIADO_DIRECCION_MOSTRAR });

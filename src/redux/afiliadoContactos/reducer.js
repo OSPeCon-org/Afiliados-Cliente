@@ -5,6 +5,7 @@ const initialState = {
     errorTimeStamp: null,
     current: null,
     currentTimeStamp: null,
+    addTimeStamp: null,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -20,6 +21,9 @@ export const reducer = (state = initialState, action) => {
         case SET_CURRENT:
             newState.current = action.item;
             newState.currentTimeStamp = new Date().getTime();
+            break;
+        case ADD_SUCCESS:
+            newState.addTimeStamp = new Date().getTime();
             break;
     }
     return newState;

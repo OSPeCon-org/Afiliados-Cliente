@@ -3,6 +3,7 @@ import { RESTRequest } from "../rest/actions";
 
 import { afiliadosGetByPlanDocumentacionFetch } from "../fetchs";
 import { store } from "../store";
+import { restAfiliadoLoaded } from "../ui/actions";
 
 export const get =
     ({ dispatch, getState }) =>
@@ -49,9 +50,7 @@ export const processGet =
     (action) => {
         next(action);
         if (action.type === GET_SUCCESS) {
-            /*store.GetState().afiliadoDocumentacion.documentacion.filter((item) => {
-                return item.PlanId == action.planId && item.ParentescoId == action.parentescoId && item.Discapacidad == action.discapacidad;
-            });*/
+            dispatch(restAfiliadoLoaded());
         }
     };
 

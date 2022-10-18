@@ -27,8 +27,21 @@ const RUTA = "ruta.timeStamp";
 const PROVINCIAS = "provincias.timeStamp";
 const LOCALIDADES = "localidades.timeStamp";
 const CURRENT_AFILIADO = "afiliadoDomicilios.currentTimeStamp";
+const AFILIADO_LOADED = "ui.afiliadoLoadedTimeStamp";
+const AFILIADO_DOMICILIO_ADD = "afiliadoDomicilios.addTimeStamp";
+const AFILIADO_DIRECCION_MOSTRAR = "ui.afiliadoDireccionMostrarTimeStamp";
 
-export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE, PROVINCIAS, LOCALIDADES, CURRENT_AFILIADO)(LitElement) {
+export class afiliadoDireccionScreen extends connect(
+    store,
+    CURRENT_AFILIADO,
+    SCREEN,
+    MEDIA_CHANGE,
+    PROVINCIAS,
+    LOCALIDADES,
+    AFILIADO_DOMICILIO_ADD,
+    AFILIADO_LOADED,
+    AFILIADO_DIRECCION_MOSTRAR
+)(LitElement) {
     constructor() {
         super();
         this.hidden = true;
@@ -42,7 +55,7 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
             calle: { invalid: false, isInvalid: onlyLetter },
             altura: { invalid: false, isInvalid: onlyNumber },
             provincia: { invalid: false, isInvalid: opcionInvalida },
-            localidad: { invalid: false, isInvalid: opcionInvalida },
+            localidadesId: { invalid: false, isInvalid: opcionInvalida },
             codigoPostal: { invalid: false, isInvalid: onlyNumber },
         };
     }
@@ -142,8 +155,8 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                         <label error>Debe seleccionar una opción</label>
                         <label subtext>Requerido</label>
                     </div>
-                    <div class="select" ?error=${this.validaciones.localidad.invalid}>
-                        <select id="localidades" required .value=${this.item.localidad} @blur="${this.enlace("localidad")}">
+                    <div class="select" ?error=${this.validaciones.localidadesId.invalid}>
+                        <select id="localidades" required .value=${this.item.localidadesId} @blur="${this.enlace("localidadesId")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.localidades?.map((item) => {
                                 return html` <option value=${item.id}>${item.descripcion}</option> `;
@@ -172,13 +185,13 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
     }
 
     atras() {
-        store.dispatch(goHistoryPrev());
+        store.dispatch(goTo("afiliadoDatos"));
     }
 
     siguiente() {
         if (this.isValidForm()) {
             const itemAfiliadoDomicilios = {
-                afiliadoId: store.getState().afiliadoDatos.current.id,
+                afiliadoId: store.getState().afiliadoDatos.currentId,
                 calle: this.item.calle,
                 altura: this.item.altura,
                 piso: this.item.piso,
@@ -188,7 +201,6 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
             };
 
             store.dispatch(addAfiliadosDomicilios(itemAfiliadoDomicilios));
-            store.dispatch(goTo("afiliadoContacto"));
         } else {
             this.requestUpdate();
         }
@@ -234,8 +246,17 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                     store.dispatch(GetAfiliadosDatos());
                     store.dispatch(cambioOpcioRuta(OPCION_DOMICILIO));
                 }
+                //this.hidden = false;
+            }
+        }
+        if (name == AFILIADO_LOADED) {
+            const isCurrentScreen = ["afiliadoDireccion"].includes(state.screen.name);
+            if (isCurrentScreen) {
                 this.hidden = false;
             }
+        }
+        if (name == AFILIADO_DIRECCION_MOSTRAR) {
+            this.hidden = false;
         }
 
         if (name == PROVINCIAS) {
@@ -261,6 +282,10 @@ export class afiliadoDireccionScreen extends connect(store, SCREEN, MEDIA_CHANGE
                 this.forceValid();
             }
             this.update();
+        }
+
+        if (name == AFILIADO_DOMICILIO_ADD) {
+            store.dispatch(goTo("afiliadoContacto"));
         }
     }
 

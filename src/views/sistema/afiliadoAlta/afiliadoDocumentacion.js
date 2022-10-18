@@ -54,6 +54,9 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
             :host([hidden]) {
                 display: none;
             }
+            *[hidden] {
+                display: none;
+            }
             ruta-opcionescontrol {
                 width: 100vw;
             }
@@ -83,6 +86,7 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
                 <div id="datos">
                     ${this.items?.map((item) => {
                         return html`
+                            <input id="documento" type="file" hidden />
                             <div class="tarjeta-documento" tipo=${item.imagen}>
                                 <div titulo>
                                     <div>${item.titulo}</div>
@@ -94,7 +98,7 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
                                 </div>
                                 ${this.svgs[item.imagen]}
                                 <div acciones>
-                                    <button link disabled @click=${this.subirDocumento}>${item.accion2}</button>
+                                    <button link @click=${this.subirDocumento}>${item.accion2}</button>
                                     <button link action @click=${this.verDocumento}>${item.accion1}</button>
                                 </div>
                             </div>
@@ -116,7 +120,9 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
         store.dispatch(goTo("afiliadoAltaFin"));
     }
 
-    subirDocumento() {}
+    subirDocumento() {
+        this.shadowRoot.querySelector("#documento").click();
+    }
 
     verDocumento() {}
 
@@ -145,8 +151,8 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
                     imagen: "UPLOAD",
                     estado: "PENDIENTE",
                     copete: "Debe subir el documento",
-                    accion1: "ver documento",
-                    accion2: "subir documento",
+                    accion1: "VER DOCUMENTO",
+                    accion2: "SUBIR DOCUMENTO",
                 };
             });
             this.update();

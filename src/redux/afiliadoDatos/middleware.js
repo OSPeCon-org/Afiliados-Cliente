@@ -10,8 +10,11 @@ import { getAll as GetAllNacionalidades, GET_SUCCESS as GET_SUCCESS_NACIONALIDAD
 import { getAll as GetAllProvincias, GET_SUCCESS as GET_SUCCESS_PROVINCIAS } from "../provincias/actions";
 import { getAll as GetAllLocalidades, GET_SUCCESS as GET_SUCCESS_LOCALIDADES } from "../localidades/actions";
 import { store } from "../store";
+import { getGrupoFamiliar } from "../afiliados/actions";
 import { getByAfiliadoId as getByAfiliadoIdContacto } from "../afiliadoContactos/actions";
 import { getByAfiliadoId as getByAfiliadoIdDomicilio } from "../afiliadoDomicilios/actions";
+import { addAfiliadoLoaded, clearAfiliadoLoaded } from "../ui/actions";
+import { get as getAfiliadoDocumentacion } from "../afiliadoDocumentacion/actions";
 
 export const get =
     ({ dispatch, getState }) =>
@@ -83,8 +86,24 @@ export const actualizarSuccess =
         next(action);
         if (action.type === ACTUALIZAR_SUCCESS) {
             //dispatch(RESTAdd(afiliadosAddFetch, action.item, ACTUALIZAR_SUCCESS, ACTUALIZAR_ERROR, getState().autorizacion.entities.token));
-            dispatch(getByAfiliadoIdContacto(store.getState().afiliadoDatos.current.id));
-            dispatch(getByAfiliadoIdDomicilio(store.getState().afiliadoDatos.current.id));
+
+            dispatch(clearAfiliadoLoaded());
+
+            if (getState().autorizacion.entities.titulares.length == 0) {
+                getState().autorizacion.entities.titulares.push({
+                    nombre: getState().afiliadoDatos.current.nombre,
+                    apellido: getState().afiliadoDatos.current.apellido,
+                    titularId: action.payload.receive,
+                });
+                dispatch(addAfiliadoLoaded());
+                dispatch(getGrupoFamiliar(action.payload.receive));
+            }
+            dispatch(addAfiliadoLoaded());
+            dispatch(getByAfiliadoIdContacto(getState().afiliadoDatos.current.id));
+            dispatch(addAfiliadoLoaded());
+            dispatch(getByAfiliadoIdDomicilio(getState().afiliadoDatos.current.id));
+            dispatch(addAfiliadoLoaded());
+            dispatch(getAfiliadoDocumentacion(getState().afiliadoDatos.current.planId, getState().afiliadoDatos.current.parentescoId, getState().afiliadoDatos.current.discapacitado));
         }
     };
 

@@ -62,6 +62,11 @@ export const opcionInvalida = (value) => {
     if (!value == 1 || !value == 2) return true;
 };
 
+export const opcionBooleanaInvalida = (value) => {
+    if (value == null) return true;
+    return false;
+};
+
 export const isEmpty = (value) => {
     if (value == "") return true;
     if (value == 0) return true;
