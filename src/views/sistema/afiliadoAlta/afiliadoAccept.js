@@ -9,252 +9,272 @@ import { gridLayout } from "@brunomon/template-lit/src/views/css/gridLayout";
 import { isInLayout } from "../../../redux/screens/screenLayouts";
 import { button } from "@brunomon/template-lit/src/views/css/button";
 
-import { tarjetaFamilia } from "../../css/tarjetaFamilia";
 import { tarjetaPersona } from "../../css/tarjetaPersona";
-import { goTo } from "@brunomon/template-lit/src/redux/routing/actions";
+import { goTo } from "../../../redux/routing/actions";
 
-import { accept, autorizacion } from "../../../redux/autorizacion/actions";
+import { accept } from "../../../redux/autorizacion/actions";
 import { getGrupoFamiliar, setCurrent as setCurrentDatos } from "../../../redux/afiliadoDatos/actions";
 import { setCurrent as setCurrentDomicilio } from "../../../redux/afiliadoDomicilios/actions";
 import { setCurrent as setCurrentContactos } from "../../../redux/afiliadoContactos/actions";
 
+import { dialog } from "@brunomon/template-lit/src/views/css/dialog";
+import foto from "../../../../assets/image/foto.png";
+
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
 const GRUPO_FAMILIAR = "afiliados.timeStamp";
-const AUTORIZACION = "autorizacion.timeStamp";
 const AFILIADO_BY_CUIL = "afiliados.afiliadoByCuilTimeStamp";
-const ACCEPT = "afiliados.acceptTimeStamp";
+const ACCEPT = "autorizacion.acceptTimeStamp";
 
-export class afiliadoAcceptScreen extends connect(store, SCREEN, MEDIA_CHANGE, AUTORIZACION, ACCEPT, AFILIADO_BY_CUIL, GRUPO_FAMILIAR)(LitElement) {
-    constructor() {
-        super();
-        this.hidden = true;
-        this.area = "body";
-        this.currentByCuil = "";
+export class afiliadoAcceptScreen extends connect(store, SCREEN, MEDIA_CHANGE, ACCEPT, AFILIADO_BY_CUIL, GRUPO_FAMILIAR)(LitElement) {
+	constructor() {
+		super();
+		this.hidden = true;
+		this.area = "body";
+		this.currentByCuil = "";
 
-        this.svgs = { BENEF: BENEF, GRPFAM: GRPFAM };
+		this.svgs = { BENEF: BENEF, GRPFAM: GRPFAM };
+	}
 
-        //"https://app.uocra.org/credencialSindical/sinusuario.png"//
-        this.items = [];
-        /*{ id: 1, icono: "", parentesco: "Titular", imagen: "https://app.uocra.org/credencialSindical/28491226.jpg", nombre: "Juan Jose Ruiz", estado: "Afiliacion activa" },
-            { id: 1, icono: "", parentesco: "Conyuge", imagen: "https://app.uocra.org/credencialSindical/sinusuario.png", nombre: "Josefa Ruiz", estado: "Afiliacion activa" },
-            { id: 1, icono: "", parentesco: "Madre", imagen: "https://app.uocra.org/credencialSindical/17249982.jpg", nombre: "Antonia Maria", estado: "Afiliacion activa" },
-            { id: 1, icono: "", parentesco: "Hijo", imagen: "https://app.uocra.org/credencialSindical/17221332.jpg", nombre: "Lucas Ruiz", estado: "Afiliacion activa" },*/
-
-        //this.item = null;
-    }
-
-    static get styles() {
-        return css`
-            ${gridLayout}
-            ${button}
-			${tarjetaFamilia}
+	static get styles() {
+		return css`
+			${gridLayout}
+			${button}
 			${tarjetaPersona}
+            ${dialog}
             :host {
-                display: grid;
-                position: relative;
+				display: grid;
+				position: relative;
 
-                background-color: var(--aplicacion);
-            }
-            :host([hidden]) {
-                display: none;
-            }
-            #subtitulo {
-                display: grid;
-                font-family: var(--font-header-h1-family);
-                font-size: var(--font-header-h1-size);
-                font-weight: 400;
-                background-color: var(--secundario);
-                color: var(--on-secundario);
-            }
-            #subtitulo div {
-                margin: auto;
-            }
-            #cuerpo {
-                display: grid;
-                //grid-template-columns: repeat(auto-fill, minmax(12rem, 14rem));
-                grid-gap: 1rem;
-                padding: 1rem 0;
-                overflow-y: auto;
-                justify-content: center;
-                justify-items: center;
-                align-content: flex-start;
-                background-color: var(--aplicacion);
-            }
-            div[invisible] {
-                visibility: hidden;
-            }
-            *[hidden] {
-                display: none;
-            }
-        `;
-    }
+				background-color: var(--aplicacion);
+			}
+			:host([hidden]) {
+				display: none;
+			}
+			#subtitulo {
+				display: grid;
+				font-family: var(--font-header-h1-family);
+				font-size: var(--font-header-h1-size);
+				font-weight: 400;
+				background-color: var(--secundario);
+				color: var(--on-secundario);
+			}
+			#subtitulo div {
+				margin: auto;
+			}
+			#cuerpo1 {
+				display: grid;
+				grid-gap: 1rem;
+				padding: 1rem 0;
+				overflow-y: auto;
+				justify-content: center;
+				justify-items: center;
+				align-content: flex-start;
+				background-color: transparent;
+			}
+			div[invisible] {
+				visibility: hidden;
+			}
+			*[hidden] {
+				display: none;
+			}
+			dialog {
+				max-width: 80vw;
+			}
+			.tarjeta-persona {
+				border: solid 1px var(--on-aplicacion-separador);
+			}
+		`;
+	}
 
-    render() {
-        return html`
-            <div class="grid" ?hidden=${this.modo != "encontrado"}>
-                <div id="subtitulo"><div>confirmacion de identidad</div></div>
-                <div id="cuerpo">
-                    <div class="tarjeta-persona">
-                        <div titulo>
-                            <div help>${PERSON}</div>
-                            <div>${this.currentByCuil.apellido}, ${this.currentByCuil.nombre}</div>
-                        </div>
-                        <div cuerpo><img src="" /></div>
-                        <div nombre>DNI: ${this.currentByCuil.documento}</div>
-                        <div documento>FECHA NAC.:${this.currentByCuil.fechaNacimiento}</div>
-                        <button raised @click="${this.aceptar}">ACEPTAR</button>
-                    </div>
-                </div>
-            </div>
-            <div class="grid" ?hidden=${this.modo != "no-encontrado"}>
-                <div id="subtitulo"><div>No existe</div></div>
-                <button raised @click="${this.afiliarme}">AFILIARME</button>
-            </div>
-        `;
-    }
+	render() {
+		return html`
+			<dialog id="encontrado" ?hidden=${this.modo != "encontrado"}>
+				<div class="header">Confirmacion de identidad</div>
+				<div class="body">
+					<div id="cuerpo1">
+						<div class="tarjeta-persona">
+							<div titulo>
+								<div help style="width:1px"></div>
+								<div style="text-align:left">${this.currentByCuil.apellido}, ${this.currentByCuil.nombre}</div>
+							</div>
+							<div cuerpo><img src="${foto}" /></div>
+							<div nombre>DNI: ${this.currentByCuil.documento}</div>
+							<div documento>F. NAC.: ${this.formato(this.currentByCuil.fechaNacimiento)}</div>
+						</div>
+					</div>
+				</div>
+				<div class="footer column">
+					<button link @click="${this.cancel1}">
+						<div>VOLVER</div>
+					</button>
+					<button link @click="${this.aceptar}">
+						<div>ACEPTAR</div>
+					</button>
+				</div>
+			</dialog>
+			<dialog id="noencontrado" ?hidden=${this.modo != "no-encontrado"}>
+				<div class="header">CUIL NO ENCONTRADO</div>
+				<div class="body">El CUIL ingresado no se encuentra afiliado. Genera una nueva afiliacion?</div>
+				<div class="footer column">
+					<button link @click="${this.cancel2}">
+						<div>VOLVER</div>
+					</button>
+					<button link @click="${this.afiliarme}">
+						<div>SI</div>
+					</button>
+				</div>
+			</dialog>
+		`;
+	}
+	formato(fecha) {
+		let r = new Date(fecha);
+		return r.toLocaleString("fr", { year: "numeric", month: "2-digit", day: "2-digit" });
+	}
+	cancel1() {
+		this.renderRoot.querySelector("#encontrado").close();
+		this.hidden = true;
+	}
+	cancel2() {
+		this.renderRoot.querySelector("#noencontrado").close();
+		this.hidden = true;
+	}
+	aceptar() {
+		this.renderRoot.querySelector("#encontrado").close();
+		store.dispatch(accept(store.getState().afiliados.afiliadoByCuil.id));
+	}
 
-    /*return html`
-            <div id="subtitulo"><div></div></div>
-            <div id="cuerpo">
-                <div class="tarjeta-persona">
-                    <div titulo>
-                        <div help ?invisible=${item.icono == ""} @click="${this.icono}">${this.svgs[item.icono]}</div>
-                        <div>${this.currentByCuil.apellido}, ${this.currentByCuil.nombre}</div>
-                    </div>
-                    <div cuerpo><img src="${item.imagen}" /></div>
-                    <div nombre>${item.apellido}, ${item.nombre}</div>
-                    <div estado>${item.estadosAfiliacionNombre}</div>
-                    <button raised @click="${this.aceptar}" .item=${item}>ACEPTAR</button>
-                </div>
-            </div>
-        `;*/
+	afiliarme() {
+		this.renderRoot.querySelector("#noencontrado").close();
+		store.dispatch(
+			setCurrentDatos({
+				id: "",
+				apellido: "",
+				nombre: "",
+				tipoDocumentoId: "",
+				documento: "",
+				parentescoId: "",
+				cuil: "",
+				fechaNacimiento: "",
+				fecha: "",
+				planId: "",
+				sexo: "",
+				estadoCivilId: "",
+				discapacitado: 0,
+				nacionalidadId: "",
+				legacyId: 0,
+				activo: 0,
+				FechaAlta: "",
+				UsuarioAlta: "",
+				FechaUpdate: "",
+				UsuarioUpdate: "",
+				estadosAfiliacionId: "4863e7e8-b653-4433-a6c5-85585e114781",
+				TitularId: "",
+				UsuarioAfiliadosId: "",
+			})
+		);
 
-    aceptar(e) {
-        //store.dispatch(setCurrent(e.currentTarget.item));
+		store.dispatch(
+			setCurrentDomicilio({
+				id: "",
+				afiliadoId: "",
+				calle: "",
+				altura: "",
+				piso: "",
+				departamento: "",
+				localidad: "",
+				codigoPostal: "",
+				legacyId: 0,
+				activo: 0,
+				FechaAlta: "",
+				UsuarioAlta: "",
+				FechaUpdate: "",
+				UsuarioUpdate: "",
+			})
+		);
 
-        store.dispatch(accept(store.getState().afiliados.afiliadoByCuil.id));
-        store.dispatch(goTo("afiliadoMostrar"));
-    }
+		store.dispatch(
+			setCurrentContactos({
+				id: "",
+				afiliadosId: "",
+				celular: "",
+				particular: "",
+				laboral: "",
+				mail: "",
+				mail2: "",
+				legacyId: 0,
+				activo: 0,
+				FechaAlta: "",
+				UsuarioAlta: "",
+				FechaUpdate: "",
+				UsuarioUpdate: "",
+			})
+		);
 
-    afiliarme() {
-        store.dispatch(
-            setCurrentDatos({
-                parentescoId: "",
-                cuil: "",
-                planId: "",
-                apellido: "",
-                nombre: "",
-                sexo: "",
-                fechaNacimiento: "",
-                tipoDocumentoId: "",
-                documento: "",
-                estadoCivilId: "",
-                nacionalidadId: "",
-                discapacitado: "",
-                estadosAfiliacionId: "4863e7e8-b653-4433-a6c5-85585e114781",
-            })
-        );
+		store.dispatch(goTo("afiliadoDatos"));
+	}
 
-        store.dispatch(
-            setCurrentDomicilio({
-                afiliadoId: "",
-                calle: "",
-                altura: "",
-                piso: "",
-                departamento: "",
-                provincia: "",
-                localidad: "",
-                codigoPostal: "",
-            })
-        );
+	firstUpdated(changedProperties) {}
 
-        store.dispatch(
-            setCurrentContactos({
-                afiliadosId: "",
-                celular: "",
-                particular: "",
-                laboral: "",
-                mail: "",
-                mail2: "",
-            })
-        );
+	stateChanged(state, name) {
+		if (name == MEDIA_CHANGE) {
+			this.mediaSize = state.ui.media.size;
+		}
 
-        store.dispatch(goTo("afiliadoDatos"));
-    }
+		if (name == SCREEN) {
+			this.hidden = true;
+			const isCurrentScreen = ["afiliadoAccept"].includes(state.screen.name);
+			if (isInLayout(state, this.area) && isCurrentScreen) {
+				this.hidden = false;
+			}
+		}
 
-    firstUpdated(changedProperties) {}
+		if (name == AFILIADO_BY_CUIL && state.screen.name == "afiliadoPorCuil") {
+			this.hidden = false;
+			this.currentByCuil = state.afiliados.afiliadoByCuil;
+			if (this.currentByCuil.status == 404) {
+				this.modo = "no-encontrado";
+				this.renderRoot.querySelector("#noencontrado").showModal();
+			} else {
+				this.modo = "encontrado";
+				this.renderRoot.querySelector("#encontrado").showModal();
+			}
 
-    stateChanged(state, name) {
-        if (name == MEDIA_CHANGE) {
-            this.mediaSize = state.ui.media.size;
-        }
+			this.update();
+		}
+		if (name == ACCEPT && state.screen.name == "afiliadoPorCuil") {
+			store.dispatch(goTo("afiliadoMostrar"));
+		}
+	}
 
-        if (name == SCREEN) {
-            this.hidden = true;
-            const isCurrentScreen = ["afiliadoAccept"].includes(state.screen.name);
-            if (isInLayout(state, this.area) && isCurrentScreen) {
-                this.hidden = false;
-            }
-        }
-
-        /*if (name == GRUPO_FAMILIAR) {
-            this.items = state.afiliados.grupoFamiliar.map((item) => {
-                item.imagen = "https://app.uocra.org/credencialSindical/" + item.documento + ".jpg";
-                item.icono = "";
-                return item;
-            });
-            this.update();
-        }
-
-        if (name == AUTORIZACION) {
-            if (state.autorizacion.entities.titulares.length == 0) {
-                this.items = null;
-                this.update();
-            }
-        }*/
-
-        if (name == AFILIADO_BY_CUIL) {
-            this.hidden = false;
-            this.currentByCuil = state.afiliados.afiliadoByCuil;
-            if (this.currentByCuil.status == 404) {
-                this.modo = "no-encontrado";
-            } else {
-                this.modo = "encontrado";
-            }
-
-            this.update();
-        }
-    }
-
-    static get properties() {
-        return {
-            mediaSize: {
-                type: String,
-                reflect: true,
-                attribute: "media-size",
-            },
-            layout: {
-                type: String,
-                reflect: true,
-            },
-            hidden: {
-                type: Boolean,
-                reflect: true,
-            },
-            area: {
-                type: String,
-            },
-            current: {
-                type: String,
-                reflect: true,
-            },
-            modo: {
-                type: String,
-                reflect: true,
-            },
-        };
-    }
+	static get properties() {
+		return {
+			mediaSize: {
+				type: String,
+				reflect: true,
+				attribute: "media-size",
+			},
+			layout: {
+				type: String,
+				reflect: true,
+			},
+			hidden: {
+				type: Boolean,
+				reflect: true,
+			},
+			area: {
+				type: String,
+			},
+			current: {
+				type: String,
+				reflect: true,
+			},
+			modo: {
+				type: String,
+				reflect: true,
+			},
+		};
+	}
 }
 
 window.customElements.define("afiliado-accept-screen", afiliadoAcceptScreen);
