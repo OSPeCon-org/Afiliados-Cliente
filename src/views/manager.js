@@ -95,6 +95,8 @@ export class viewManager extends connect(store, MEDIA_CHANGE, SCREEN, SELECTION)
             <afiliado-alta-fin-screen id="afiliadoAltaFin" area="body"></afiliado-alta-fin-screen>
             <afiliado-PorCuil id="afiliadoPorCuil" area="body"></afiliado-PorCuil>
 
+            <confirm-control></confirm-control>
+
             <prueba-daniel id="pruebaDaniel" area="body"></prueba-daniel>
             <prueba-flor id="pruebaFlor" area="body"></prueba-flor>
             <prueba-cristian id="pruebaCristian" area="body"></prueba-cristian>

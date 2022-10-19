@@ -25,6 +25,8 @@ export const REST_AFILIADO_LOADED = "[ui] rest afiliado loaded";
 
 export const AFILIADO_DIRECCION_MOSTRAR = "[ui] afiliado direccion mostrar";
 
+export const LOGUEAR_CON_NUEVO_USUARIO = "[ui] loguear con nuevo usuario";
+
 export const showSpinner = () => ({
     type: SHOW_SPINNER,
 });
@@ -73,6 +75,10 @@ export const selection = (option) => ({
 export const setStep = (step) => ({
     type: STEP,
     step: step,
+});
+
+export const loguearConNuevoUsuario = () => ({
+    type: LOGUEAR_CON_NUEVO_USUARIO,
 });
 
 export const clearAfiliadoLoaded = () => ({ type: CLEAR_AFILIADO_LOADED });
