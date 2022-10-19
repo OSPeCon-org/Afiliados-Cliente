@@ -29,6 +29,9 @@ export const reducer = (state = initialState, action) => {
         case ACCEPT_SUCCESS:
             newState.acceptTimeStamp = new Date().getTime();
             break;
+        case AUTORIZACION_ERROR:
+            newState.errorTimeStamp = new Date().getTime();
+            break;
     }
     return newState;
 };

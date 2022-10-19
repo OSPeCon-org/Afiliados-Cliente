@@ -10,9 +10,9 @@ import { logo } from "@brunomon/template-lit/src/views/css/logo";
 import { select } from "@brunomon/template-lit/src/views/css/select";
 import { button } from "@brunomon/template-lit/src/views/css/button";
 import { MENU, RIGHT, PERSON } from "../../../assets/icons/svgs";
-import { logout } from "../../redux/autorizacion/actions";
+import { AUTORIZACION_ERROR, logout } from "../../redux/autorizacion/actions";
 import { gesturesController } from "@brunomon/template-lit/src/views/controllers/gesturesController";
-import { selection } from "../../redux/ui/actions";
+import { loguearConNuevoUsuario, LOGUEAR_CON_NUEVO_USUARIO, selection, showConfirm } from "../../redux/ui/actions";
 import { autorizacion } from "../../redux/autorizacion/actions";
 import { getGrupoFamiliar } from "../../redux/afiliados/actions";
 import { setCurrent as setCurrentDatos } from "../../redux/afiliadoDatos/actions";
@@ -23,8 +23,10 @@ const MEDIA_CHANGE = "ui.media.timeStamp";
 const SELECTION = "ui.menu.timeStamp";
 const SCREEN = "screen.timeStamp";
 const AUTORIZACION = "autorizacion.timeStamp";
+const AUTORIZACION_FALLA = "autorizacion.errorTimeStamp";
+const LOGUEAR = "ui.loguearConNuevoUsuarioTimeStamp";
 
-export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZACION, SELECTION)(LitElement) {
+export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZACION, SELECTION, AUTORIZACION_FALLA, LOGUEAR)(LitElement) {
     constructor() {
         super();
         this.area = "header";
@@ -47,11 +49,15 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
                 var origin = e.origin;
                 if (origin == "https://front.uocra.net") {
                     try {
-                        const profile = this.parseJwt(e.data);
-                        this.profile = profile["family_name"] + " " + profile["given_name"];
                         this.popUp.close();
-                        this.logueado = true;
-                        store.dispatch(autorizacion(e.data));
+                        const profile = this.parseJwt(e.data);
+                        if (profile.exp < new Date().getTime() / 1000) {
+                            store.dispatch(showConfirm("Control de Accesos", "Su permiso ha expirado, ¿ quiere actualizalo ?", loguearConNuevoUsuario(), null));
+                            return;
+                        } else {
+                            this.logueado = true;
+                            store.dispatch(autorizacion(e.data));
+                        }
                     } catch {}
                 }
             },
@@ -372,8 +378,14 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
             }
         }
         if (name == AUTORIZACION) {
-            const profile = this.parseJwt(state.autorizacion.entities.token);
-            console.log(profile);
+            const profile = this.parseJwt(state.autorizacion.tokenAutentication);
+            this.profile = profile["family_name"] + " " + profile["given_name"];
+        }
+        if (name == AUTORIZACION_FALLA) {
+            store.dispatch(showConfirm("Control de Accesos", "Acceso denegado, ¿ quiere acceder con otro usuario ?", loguearConNuevoUsuario(), null));
+        }
+        if (name == LOGUEAR) {
+            this.abrirForzado();
         }
     }
 

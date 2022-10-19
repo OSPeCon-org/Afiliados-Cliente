@@ -15,6 +15,7 @@ import {
     ADD_AFILIADO_LOADED,
     REST_AFILIADO_LOADED,
     AFILIADO_DIRECCION_MOSTRAR,
+    LOGUEAR_CON_NUEVO_USUARIO,
 } from "./actions";
 
 const initialState = {
@@ -54,6 +55,7 @@ const initialState = {
     afiliadoLoaded: 0,
     afiliadoLoadedTimeStamp: null,
     afiliadoDireccionMostrarTimeStamp: null,
+    loguearConNuevoUsuarioTimeStamp: null,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -115,6 +117,9 @@ export const reducer = (state = initialState, action) => {
             break;
         case AFILIADO_DIRECCION_MOSTRAR:
             newState.afiliadoDireccionMostrarTimeStamp = new Date().getTime();
+            break;
+        case LOGUEAR_CON_NUEVO_USUARIO:
+            newState.loguearConNuevoUsuarioTimeStamp = new Date().getTime();
             break;
     }
     return newState;
