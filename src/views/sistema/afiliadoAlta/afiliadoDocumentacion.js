@@ -98,7 +98,11 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
                                 </div>
                                 ${this.svgs[item.imagen]}
                                 <div acciones>
-                                    <button link @click=${this.subirDocumento}>${item.accion2}</button>
+                                    <button link>${item.accion2}</button>
+                                    <div class="inner-grid row">
+                                        <button link @click=${this.subirDocumentoFile}>Desde Galeria</button>
+                                        <button link @click=${this.subirDocumentoCamera}>Desde cámara</button>
+                                    </div>
                                     <button link action @click=${this.verDocumento}>${item.accion1}</button>
                                 </div>
                             </div>
@@ -120,7 +124,7 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
         store.dispatch(goTo("afiliadoAltaFin"));
     }
 
-    subirDocumento() {
+    subirDocumentoFile() {
         this.shadowRoot.querySelector("#documento").click();
     }
 

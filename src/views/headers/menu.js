@@ -273,7 +273,7 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
             store.dispatch(goTo("afiliadoPorCuil"));
         } else {
             store.dispatch(goTo("afiliadoMostrar"));
-            store.dispatch(
+            /*store.dispatch(
                 setCurrentDatos({
                     parentescoId: "",
                     cuil: "",
@@ -313,9 +313,7 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
                     mail: "",
                     mail2: "",
                 })
-            );
-
-            store.dispatch(goTo("afiliadoMostrar"));
+            );*/
         }
 
         /*var titulares = store.getState().autorizacion.entities.titulares;

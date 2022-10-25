@@ -36,6 +36,9 @@ export const invalidDni = (value) => {
 
 export const nameInvalido = (value) => {
     var name = /^[a-zA-Z ñÑ]*$/g;
+    if (name == "") {
+        return true;
+    }
     return name.test(value) ? false : true;
 };
 

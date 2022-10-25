@@ -31,6 +31,4 @@ store.dispatch(captureMedia());
 store.dispatch(goTo("splash"));
 store.dispatch(getAllDocumentacion());
 
-//store.dispatch(getById("108F11FB-9952-4FE0-A26F-F8EE4E2E9B8E"));
-
 console.log("Sirviendo datos de :" + AFILIACIONES_URL);
