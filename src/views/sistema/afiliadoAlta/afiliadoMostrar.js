@@ -16,6 +16,8 @@ import { getGrupoFamiliar, setCurrent as setCurrentDatos } from "../../../redux/
 import { setCurrent as setCurrentDomicilio, getByAfiliadoId as getAfiliadoByIdDomicilio } from "../../../redux/afiliadoDomicilios/actions";
 import { setCurrent as setCurrentContactos, getByAfiliadoId as getAfiliadoByIdContacto } from "../../../redux/afiliadoContactos/actions";
 
+import foto from "../../../../assets/image/foto.png";
+
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
 const GRUPO_FAMILIAR = "afiliados.timeStamp";
@@ -30,14 +32,7 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, 
 		this.grupoFamiliar = [];
 		this.svgs = { BENEF: BENEF, GRPFAM: GRPFAM };
 
-		//"https://app.uocra.org/credencialSindical/sinusuario.png"//
 		this.items = [];
-		/*{ id: 1, icono: "", parentesco: "Titular", imagen: "https://app.uocra.org/credencialSindical/28491226.jpg", nombre: "Juan Jose Ruiz", estado: "Afiliacion activa" },
-            { id: 1, icono: "", parentesco: "Conyuge", imagen: "https://app.uocra.org/credencialSindical/sinusuario.png", nombre: "Josefa Ruiz", estado: "Afiliacion activa" },
-            { id: 1, icono: "", parentesco: "Madre", imagen: "https://app.uocra.org/credencialSindical/17249982.jpg", nombre: "Antonia Maria", estado: "Afiliacion activa" },
-            { id: 1, icono: "", parentesco: "Hijo", imagen: "https://app.uocra.org/credencialSindical/17221332.jpg", nombre: "Lucas Ruiz", estado: "Afiliacion activa" },*/
-
-		//this.item = null;
 	}
 
 	static get styles() {
@@ -67,7 +62,7 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, 
 			#subtitulo div {
 				margin: auto;
 			}
-			#cuerpo {
+			#cuerpo1 {
 				display: grid;
 				grid-template-columns: repeat(auto-fill, minmax(12rem, 14rem));
 				grid-gap: 1rem;
@@ -102,14 +97,14 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, 
 		} else {
 			return html`
 				<div id="subtitulo"><div>Nueva solicitud de afiliacion</div></div>
-				<div id="cuerpo">
+				<div id="cuerpo1">
 					${this.items?.map((item) => {
 						return html`<div class="tarjeta-persona">
 							<div titulo>
 								<div help ?invisible=${item.icono == ""} @click="${this.icono}">${this.svgs[item.icono]}</div>
 								<div>${item.parentescoNombre}</div>
 							</div>
-							<div cuerpo><img src="" /></div>
+							<div cuerpo><img src="${foto}" /></div>
 							<div nombre>${item.apellido}, ${item.nombre}</div>
 							<div estado>${item.estadosAfiliacionNombre}</div>
 							<button raised @click="${this.mostrar}" .item=${item}>VER</button>
@@ -131,43 +126,66 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, 
 	nuevo() {
 		store.dispatch(
 			setCurrentDatos({
-				parentescoId: "",
-				cuil: "",
-				planId: "",
+				id: "",
 				apellido: "",
 				nombre: "",
-				sexo: "",
-				fechaNacimiento: "",
 				tipoDocumentoId: "",
 				documento: "",
+				parentescoId: "",
+				cuil: "",
+				fechaNacimiento: "",
+				fecha: "",
+				planId: "",
+				sexo: "",
 				estadoCivilId: "",
+				discapacitado: 0,
 				nacionalidadId: "",
-				discapacitado: "",
+				legacyId: 0,
+				activo: 0,
+				FechaAlta: "",
+				UsuarioAlta: "",
+				FechaUpdate: "",
+				UsuarioUpdate: "",
 				estadosAfiliacionId: "4863e7e8-b653-4433-a6c5-85585e114781",
+				TitularId: "",
+				UsuarioAfiliadosId: "",
 			})
 		);
 
 		store.dispatch(
 			setCurrentDomicilio({
+				id: "",
 				afiliadoId: "",
 				calle: "",
 				altura: "",
 				piso: "",
 				departamento: "",
-				provincia: "",
 				localidad: "",
 				codigoPostal: "",
+				legacyId: 0,
+				activo: 0,
+				FechaAlta: "",
+				UsuarioAlta: "",
+				FechaUpdate: "",
+				UsuarioUpdate: "",
 			})
 		);
 
 		store.dispatch(
 			setCurrentContactos({
+				id: "",
 				afiliadosId: "",
 				celular: "",
 				particular: "",
 				laboral: "",
 				mail: "",
 				mail2: "",
+				legacyId: 0,
+				activo: 0,
+				FechaAlta: "",
+				UsuarioAlta: "",
+				FechaUpdate: "",
+				UsuarioUpdate: "",
 			})
 		);
 

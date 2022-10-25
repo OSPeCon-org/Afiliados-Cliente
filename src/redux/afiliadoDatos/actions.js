@@ -13,24 +13,24 @@ export const ACTUALIZAR_ERROR = "[afiliado Datos] Actualizar error";
 export const SET_CURRENT = "[afiliado Datos] set current afiliado";
 
 export const get = () => ({
-    type: GET,
+	type: GET,
 });
 
 export const success = () => ({
-    type: SUCCESS,
+	type: SUCCESS,
 });
 
 export const getById = (id) => ({
-    type: GET_BY_ID,
-    id: id,
+	type: GET_BY_ID,
+	id: id,
 });
 
 export const actualizar = (item) => ({
-    type: ACTUALIZAR,
-    item: item,
+	type: ACTUALIZAR,
+	item: item,
 });
 
 export const setCurrent = (item) => ({
-    type: SET_CURRENT,
-    item: item,
+	type: SET_CURRENT,
+	item: item,
 });

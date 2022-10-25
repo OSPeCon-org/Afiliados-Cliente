@@ -8,68 +8,83 @@ import { store } from "../store";
 import { restAfiliadoLoaded } from "../ui/actions";
 
 export const get =
-    ({ dispatch, getState }) =>
-    (next) =>
-    (action) => {
-        next(action);
-        if (action.type === GET) {
-            dispatch(GetAllProvincias());
-            dispatch(GetAllLocalidades());
-        }
-    };
+	({ dispatch, getState }) =>
+	(next) =>
+	(action) => {
+		next(action);
+		if (action.type === GET) {
+			dispatch(GetAllProvincias());
+			dispatch(GetAllLocalidades());
+		}
+	};
 
 export const processGet =
-    ({ dispatch }) =>
-    (next) =>
-    (action) => {
-        next(action);
-        if (action.type == GET_SUCCESS_PROVINCIAS || action.type == GET_SUCCESS_LOCALIDADES) {
-            dispatch(success());
-        }
-    };
+	({ dispatch }) =>
+	(next) =>
+	(action) => {
+		next(action);
+		if (action.type == GET_SUCCESS_PROVINCIAS || action.type == GET_SUCCESS_LOCALIDADES) {
+			dispatch(success());
+		}
+	};
 
 export const processError =
-    ({ dispatch }) =>
-    (next) =>
-    (action) => {
-        next(action);
-        /*if (action.type === GET_ERROR) {
+	({ dispatch }) =>
+	(next) =>
+	(action) => {
+		next(action);
+		/*if (action.type === GET_ERROR) {
         }*/
-    };
+	};
 
 export const GetByAfiliadoId =
-    ({ dispatch, getState }) =>
-    (next) =>
-    (action) => {
-        next(action);
-        if (action.type === GET_BY_AFILIADO_ID) {
-            dispatch(RESTRequest(afiliadosDomiciliosGetByAfiliadoIdFetch, action.id, GET_BY_AFILIADO_ID_SUCCESS, GET_BY_AFILIADO_ID_ERROR, getState().autorizacion.entities.token));
-        }
-    };
+	({ dispatch, getState }) =>
+	(next) =>
+	(action) => {
+		next(action);
+		if (action.type === GET_BY_AFILIADO_ID) {
+			dispatch(RESTRequest(afiliadosDomiciliosGetByAfiliadoIdFetch, action.id, GET_BY_AFILIADO_ID_SUCCESS, GET_BY_AFILIADO_ID_ERROR, getState().autorizacion.entities.token));
+		}
+	};
 
 export const GetByAfiliadoIdSuccess =
-    ({ dispatch, getState }) =>
-    (next) =>
-    (action) => {
-        next(action);
-        if (action.type === GET_BY_AFILIADO_ID_SUCCESS) {
-            let domicilio = action.payload.receive[0];
-            if (domicilio == null) {
-                domicilio = { afiliadoId: "", calle: "", altura: "", piso: "", departamento: "", provincia: "", localidadesId: "", codigoPostal: "" };
-            }
-            dispatch(setCurrent(domicilio));
-            dispatch(restAfiliadoLoaded());
-        }
-    };
+	({ dispatch, getState }) =>
+	(next) =>
+	(action) => {
+		next(action);
+		if (action.type === GET_BY_AFILIADO_ID_SUCCESS) {
+			let domicilio = action.payload.receive[0];
+			if (domicilio == null) {
+				domicilio = {
+					id: "",
+					afiliadoId: "",
+					calle: "",
+					altura: "",
+					piso: "",
+					departamento: "",
+					localidad: "",
+					codigoPostal: "",
+					legacyId: 0,
+					activo: 0,
+					FechaAlta: "",
+					UsuarioAlta: "",
+					FechaUpdate: "",
+					UsuarioUpdate: "",
+				};
+			}
+			dispatch(setCurrent(domicilio));
+			dispatch(restAfiliadoLoaded());
+		}
+	};
 
 export const add =
-    ({ dispatch, getState }) =>
-    (next) =>
-    (action) => {
-        next(action);
-        if (action.type === ADD) {
-            dispatch(RESTAdd(afiliadosDomiciliosAddFetch, action.item, ADD_SUCCESS, ADD_ERROR, getState().autorizacion.entities.token));
-        }
-    };
+	({ dispatch, getState }) =>
+	(next) =>
+	(action) => {
+		next(action);
+		if (action.type === ADD) {
+			dispatch(RESTAdd(afiliadosDomiciliosAddFetch, action.item, ADD_SUCCESS, ADD_ERROR, getState().autorizacion.entities.token));
+		}
+	};
 
 export const middleware = [get, GetByAfiliadoId, GetByAfiliadoIdSuccess, processGet, processError, add];

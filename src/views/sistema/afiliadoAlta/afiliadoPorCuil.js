@@ -4,14 +4,13 @@ import { html, LitElement, css } from "lit";
 import { store } from "../../../redux/store";
 import { connect } from "@brunomon/helpers";
 
-import { UPLOAD, SETTINGS, OK, CANCEL, HELP } from "../../../../assets/icons/svgs.js";
+import { HELP } from "../../../../assets/icons/svgs.js";
 import { gridLayout } from "@brunomon/template-lit/src/views/css/gridLayout";
 import { isInLayout } from "../../../redux/screens/screenLayouts";
 import { button } from "@brunomon/template-lit/src/views/css/button";
 import { input } from "@brunomon/template-lit/src/views/css/input";
-import { select } from "@brunomon/template-lit/src/views/css/select";
 import { invalidCUITCUIL } from "../../../libs/funciones";
-import { afiliadosByCuil, getGrupoFamiliar } from "../../../redux/afiliados/actions";
+import { afiliadosByCuil } from "../../../redux/afiliados/actions";
 
 import { goHistoryPrev, goTo } from "@brunomon/template-lit/src/redux/routing/actions";
 import { afiliadoAcceptScreen } from "./afiliadoAccept";
@@ -37,7 +36,6 @@ export class afiliadoPorCuil extends connect(store, SCREEN, MEDIA_CHANGE)(LitEle
 			${gridLayout}
 			${button}
 			${input}
-			${select}
             :host {
 				display: grid;
 				position: relative;

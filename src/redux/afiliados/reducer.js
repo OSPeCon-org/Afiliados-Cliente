@@ -1,25 +1,27 @@
-import { GET_GRUPO_FAMILIAR, GET_GRUPO_FAMILIAR_SUCCESS, GET_GRUPO_FAMILIAR_ERROR, AFILIADO_BY_CUIL, AFILIADO_BY_CUIL_SUCCESS, AFILIADO_BY_CUIL_ERROR } from "./actions";
+import { GET_GRUPO_FAMILIAR, GET_GRUPO_FAMILIAR_SUCCESS, GET_GRUPO_FAMILIAR_ERROR, AFILIADO_BY_CUIL, AFILIADO_BY_CUIL_SUCCESS, AFILIADO_BY_CUIL_ERROR, AFILIADOS_ACCION } from "./actions";
 
 const initialState = {
-    grupoFamiliar: [],
-    timeStamp: null,
-    errorTimeStamp: null,
-    afiliadoByCuil: null,
-    afiliadoByCuilTimeStamp: null,
-    afiliadoByCuilErrorTimeStamp: null,
-    currentCuil: null,
+	grupoFamiliar: [],
+	timeStamp: null,
+	errorTimeStamp: null,
+	afiliadoByCuil: null,
+	afiliadoByCuilTimeStamp: null,
+	afiliadoByCuilErrorTimeStamp: null,
+	currentCuil: null,
+	modo: null,
+	modoTimeStamp: null,
 };
 
 export const reducer = (state = initialState, action) => {
-    const newState = {
-        ...state,
-    };
+	const newState = {
+		...state,
+	};
 
-    switch (action.type) {
-        case GET_GRUPO_FAMILIAR:
-            //newState.grupoFamiliar = [];
+	switch (action.type) {
+		case GET_GRUPO_FAMILIAR:
+			//newState.grupoFamiliar = [];
 
-            /*newState.grupoFamiliar = [
+			/*newState.grupoFamiliar = [
                 {
                     id: "adab3da4-b83e-4d46-b2b6-3b268084b191",
                     apellido: "Javier",
@@ -45,24 +47,28 @@ export const reducer = (state = initialState, action) => {
                 },
             ];*/
 
-            break;
-        case GET_GRUPO_FAMILIAR_SUCCESS:
-            newState.grupoFamiliar = action.payload.receive;
-            newState.timeStamp = new Date().getTime();
-            break;
-        case GET_GRUPO_FAMILIAR_ERROR:
-            newState.errorTimeStamp = new Date().getTime();
-            break;
-        case AFILIADO_BY_CUIL:
-            newState.currentCuil = action.cuil;
-            break;
-        case AFILIADO_BY_CUIL_SUCCESS:
-            newState.afiliadoByCuil = action.payload.receive;
-            newState.afiliadoByCuilTimeStamp = new Date().getTime();
-            break;
-        case AFILIADO_BY_CUIL_ERROR:
-            newState.afiliadoByCuilErrorTimeStamp = new Date().getTime();
-            break;
-    }
-    return newState;
+			break;
+		case GET_GRUPO_FAMILIAR_SUCCESS:
+			newState.grupoFamiliar = action.payload.receive;
+			newState.timeStamp = new Date().getTime();
+			break;
+		case GET_GRUPO_FAMILIAR_ERROR:
+			newState.errorTimeStamp = new Date().getTime();
+			break;
+		case AFILIADO_BY_CUIL:
+			newState.currentCuil = action.cuil;
+			break;
+		case AFILIADO_BY_CUIL_SUCCESS:
+			newState.afiliadoByCuil = action.payload.receive;
+			newState.afiliadoByCuilTimeStamp = new Date().getTime();
+			break;
+		case AFILIADO_BY_CUIL_ERROR:
+			newState.afiliadoByCuilErrorTimeStamp = new Date().getTime();
+			break;
+		case AFILIADOS_ACCION:
+			newState.modo = action.modo;
+			newState.modoTimeStamp = new Date().getTime();
+			break;
+	}
+	return newState;
 };
