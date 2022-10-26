@@ -47,7 +47,7 @@ export const autorizacionSuccess =
             if (titulares.length > 0) {
                 dispatch(getGrupoFamiliar(titulares[0].titularId));
             }
-            dispatch(goTo("afiliadoDocumentacion"));
+            //dispatch(goTo("afiliadoDocumentacion"));
         }
     };
 
