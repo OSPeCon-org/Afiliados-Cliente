@@ -5,6 +5,7 @@ import { store } from "../../../redux/store";
 import { connect } from "@brunomon/helpers";
 
 import { UPLOAD, SETTINGS, OK, CANCEL, HELP } from "../../../../assets/icons/svgs.js";
+import { dialog } from "@brunomon/template-lit/src/views/css/dialog";
 import { gridLayout } from "@brunomon/template-lit/src/views/css/gridLayout";
 import { isInLayout } from "../../../redux/screens/screenLayouts";
 import { button } from "@brunomon/template-lit/src/views/css/button";
@@ -28,17 +29,21 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
         this.area = "body";
         this.current = "";
         this.documentacion = [];
-        this.items = [];
-        /*  { titulo: "Documento frente", imagen: "UPLOAD", estado: "PENDIENTE", copete: "Debe subir el documento", accion1: "NUEVO DOCUMENTO", accion2: "" },
-            { titulo: "Documento dorso", imagen: "UPLOAD", estado: "PENDIENTE", copete: "Debe subir el documento", accion1: "NUEVO DOCUMENTO", accion2: "" },
-            { titulo: "Constancia de CUIL", imagen: "UPLOAD", estado: "PENDIENTE", copete: "Debe subir el documento", accion1: "VER DOCUMENTO", accion2: "" },
-            { titulo: "Formulario F154", imagen: "UPLOAD", estado: "PENDIENTE", copete: "Debe subir el documento", accion1: "NUEVO DOCUMENTO", accion2: "" },*/
+        this.items =
+            //[];
+            [
+                { titulo: "Documento frente", imagen: "UPLOAD", estado: "PENDIENTE", copete: "Debe subir el documento", accion1: "NUEVO DOCUMENTO", accion2: " VER DOCUMENTO" },
+                { titulo: "Documento dorso", imagen: "UPLOAD", estado: "PENDIENTE", copete: "Debe subir el documento", accion1: "NUEVO DOCUMENTO", accion2: "VER DOCUMENTO" },
+                { titulo: "Constancia de CUIL", imagen: "UPLOAD", estado: "PENDIENTE", copete: "Debe subir el documento", accion1: "VER DOCUMENTO", accion2: "VER DOCUMENTO" },
+                { titulo: "Formulario F154", imagen: "UPLOAD", estado: "PENDIENTE", copete: "Debe subir el documento", accion1: "NUEVO DOCUMENTO", accion2: "VER DOCUMENTO" },
+            ];
         this.svgs = { OK: OK, CANCEL: CANCEL, SETTINGS: SETTINGS, UPLOAD: UPLOAD };
     }
 
     static get styles() {
         return css`
             ${gridLayout}
+            ${dialog}
             ${button}
 			${input}
 			${select}
@@ -98,14 +103,26 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
                                 </div>
                                 ${this.svgs[item.imagen]}
                                 <div acciones>
-                                    <button link>${item.accion2}</button>
-                                    <div class="inner-grid row">
-                                        <button link @click=${this.subirDocumentoFile}>Desde Galeria</button>
-                                        <button link @click=${this.subirDocumentoCamera}>Desde cámara</button>
-                                    </div>
-                                    <button link action @click=${this.verDocumento}>${item.accion1}</button>
+                                    <button link @click="${this.subirDocumento}">${item.accion1}</button>
+                                    <button link action @click=${this.verDocumento}>${item.accion2}</button>
                                 </div>
                             </div>
+
+                            <dialog id="subidaArchivos">
+                                <div class="header">${this.titulo}</div>
+                                <div class="body">${this.mensaje}</div>
+                                <div class="footer column">
+                                    <button link @click="${this.subirDocumentoFile}">
+                                        <div>Desde Galeria</div>
+                                    </button>
+                                    <button link @click="${this.subirDocumentoCamera}">
+                                        <div>Desde cámara</div>
+                                    </button>
+                                    <button link @click="${this.volver}">
+                                        <div>Volver</div>
+                                    </button>
+                                </div>
+                            </dialog>
                         `;
                     })}
                 </div>
@@ -124,8 +141,20 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
         store.dispatch(goTo("afiliadoAltaFin"));
     }
 
+    mostrarUpdates() {}
+
     subirDocumentoFile() {
         this.shadowRoot.querySelector("#documento").click();
+    }
+
+    subirDocumentoCamera() {}
+
+    subirDocumento() {
+        this.renderRoot.querySelector("#subidaArchivos").showModal();
+    }
+
+    volver() {
+        this.renderRoot.querySelector("#subidaArchivos").close();
     }
 
     verDocumento() {}
