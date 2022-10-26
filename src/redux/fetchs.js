@@ -38,6 +38,7 @@ export const afiliadosByCuilFetch = fetchFactory(webApiAfiliaciones, "Afiliados/
 
 export const afiliadosGetByPlanDocumentacionFetch = fetchFactory(webApiAfiliaciones, "DetalleDocumentacion/GetDetalleDocumentacionByPlanParentesco");
 export const afiliadosDomiciliosAddFetch = fetchFactory(webApiAfiliaciones, "AfiliadosDomicilios/add");
+export const afiliadosDomiciliosActualizarFetch = fetchFactory(webApiAfiliaciones, "AfiliadosDomicilios/actualizar");
 export const afiliadosDomiciliosGetByAfiliadoIdFetch = fetchFactory(webApiAfiliaciones, "AfiliadosDomicilios/getByAfiliadoId");
 
 export const afiliadosContactosAddFetch = fetchFactory(webApiAfiliaciones, "AfiliadosContactos/add");

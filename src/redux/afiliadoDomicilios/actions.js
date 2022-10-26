@@ -9,27 +9,36 @@ export const ADD = "[afiliado Domicilios] ADD";
 export const ADD_SUCCESS = "[afiliado Domicilios] ADD success";
 export const ADD_ERROR = "[afiliado Domicilios] ADD error";
 
+export const ACTUALIZAR = "[afiliado Domicilios] ACTUALIZAR";
+export const ACTUALIZAR_SUCCESS = "[afiliado Domicilios] ACTUALIZAR success";
+export const ACTUALIZAR_ERROR = "[afiliado Domicilios] ACTUALIZAR error";
+
 export const SET_CURRENT = "[afiliado Domicilios] set current afiliado";
 
 export const get = () => ({
-    type: GET,
+	type: GET,
 });
 
 export const getByAfiliadoId = (id) => ({
-    type: GET_BY_AFILIADO_ID,
-    id: id,
+	type: GET_BY_AFILIADO_ID,
+	id: id,
 });
 
 export const success = () => ({
-    type: SUCCESS,
+	type: SUCCESS,
 });
 
 export const add = (item) => ({
-    type: ADD,
-    item: item,
+	type: ADD,
+	item: item,
+});
+
+export const actualizar = (item) => ({
+	type: ACTUALIZAR,
+	item: item,
 });
 
 export const setCurrent = (item) => ({
-    type: SET_CURRENT,
-    item: item,
+	type: SET_CURRENT,
+	item: item,
 });

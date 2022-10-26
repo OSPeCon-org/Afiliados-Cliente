@@ -1,7 +1,20 @@
-import { GET, GET_BY_AFILIADO_ID, GET_BY_AFILIADO_ID_SUCCESS, GET_BY_AFILIADO_ID_ERROR, success, ADD, ADD_SUCCESS, ADD_ERROR, setCurrent } from "./actions";
+import {
+	GET,
+	GET_BY_AFILIADO_ID,
+	GET_BY_AFILIADO_ID_SUCCESS,
+	GET_BY_AFILIADO_ID_ERROR,
+	success,
+	ADD,
+	ADD_SUCCESS,
+	ADD_ERROR,
+	setCurrent,
+	ACTUALIZAR,
+	ACTUALIZAR_SUCCESS,
+	ACTUALIZAR_ERROR,
+} from "./actions";
 import { RESTRequest, RESTAdd } from "../rest/actions";
 
-import { afiliadosDomiciliosAddFetch, afiliadosDomiciliosGetByAfiliadoIdFetch } from "../fetchs";
+import { afiliadosDomiciliosAddFetch, afiliadosDomiciliosGetByAfiliadoIdFetch, afiliadosDomiciliosActualizarFetch } from "../fetchs";
 import { getAll as GetAllProvincias, GET_SUCCESS as GET_SUCCESS_PROVINCIAS } from "../provincias/actions";
 import { getAll as GetAllLocalidades, GET_SUCCESS as GET_SUCCESS_LOCALIDADES } from "../localidades/actions";
 import { store } from "../store";
@@ -87,4 +100,14 @@ export const add =
 		}
 	};
 
-export const middleware = [get, GetByAfiliadoId, GetByAfiliadoIdSuccess, processGet, processError, add];
+export const actualizar =
+	({ dispatch, getState }) =>
+	(next) =>
+	(action) => {
+		next(action);
+		if (action.type === ACTUALIZAR) {
+			dispatch(RESTAdd(afiliadosDomiciliosActualizarFetch, action.item, ACTUALIZAR_SUCCESS, ACTUALIZAR_ERROR, getState().autorizacion.entities.token));
+		}
+	};
+
+export const middleware = [get, GetByAfiliadoId, GetByAfiliadoIdSuccess, processGet, processError, add, actualizar];

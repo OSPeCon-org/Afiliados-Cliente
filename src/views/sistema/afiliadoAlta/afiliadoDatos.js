@@ -239,8 +239,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
 
 	siguiente() {
 		if (this.isValidForm()) {
-			const itemAfiliadoDatos = {
-				afilialdoId: store.getState().afiliadoDatos.current.id,
+			let itemAfiliadoDatos = {
 				apellido: this.item.apellido,
 				nombre: this.item.nombre,
 				tipoDocumentoId: this.item.tipoDocumentoId,
@@ -255,7 +254,19 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
 				discapacitado: this.item.discapacitado,
 				nacionalidadId: this.item.nacionalidadId,
 				estadosAfiliacionId: "4863E7E8-B653-4433-A6C5-85585E114781",
+				id: "00000000-0000-0000-0000-000000000000",
+				titularId: "00000000-0000-0000-0000-000000000000",
 			};
+			if (store.getState().afiliadoDatos.current.id && store.getState().afiliadoDatos.current.id.length > 0) {
+				itemAfiliadoDatos.id = store.getState().afiliadoDatos.current.id;
+			}
+			let gf = store.getState().afiliados.grupoFamiliar;
+			if (gf && gf.length > 0) {
+				itemAfiliadoDatos.titularId = gf[0].titularId;
+			}
+			//if (store.getState().afiliadoDatos.current.TitularId && store.getState().afiliadoDatos.current.TitularId.length > 0) {
+			//	itemAfiliadoDatos.titularId = store.getState().afiliadoDatos.current.TitularId;
+			//}
 			store.dispatch(actualizarAfiliadoDatos(itemAfiliadoDatos));
 		} else {
 			this.requestUpdate();

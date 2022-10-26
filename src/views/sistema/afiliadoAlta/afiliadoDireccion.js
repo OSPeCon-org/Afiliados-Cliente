@@ -14,7 +14,7 @@ import { select } from "@brunomon/template-lit/src/views/css/select";
 import { OPCION_DOMICILIO, RutaOpcionesControl } from "../../componentes/rutaOpciones";
 import { goTo, goHistoryPrev } from "@brunomon/template-lit/src/redux/routing/actions";
 import { get as GetAfiliadosDatos } from "../../../redux/afiliadoDatos/actions";
-import { add as addAfiliadosDomicilios } from "../../../redux/afiliadoDomicilios/actions";
+import { actualizar as actualizarDomicilio } from "../../../redux/afiliadoDomicilios/actions";
 import { cambioOpcioRuta } from "../../../redux/ruta/actions";
 import { setCurrent as setCurrentDomicilio } from "../../../redux/afiliadoDomicilios/actions";
 
@@ -28,9 +28,10 @@ const PROVINCIAS = "provincias.timeStamp";
 const LOCALIDADES = "localidades.timeStamp";
 const CURRENT_AFILIADO = "afiliadoDomicilios.currentTimeStamp";
 const AFILIADO_LOADED = "ui.afiliadoLoadedTimeStamp";
-const AFILIADO_DOMICILIO_ADD = "afiliadoDomicilios.addTimeStamp";
 const AFILIADO_DIRECCION_MOSTRAR = "ui.afiliadoDireccionMostrarTimeStamp";
 const AFILIADOS_ACCION = "afiliados.modoTimeStamp";
+const AFILIADO_DIRECCION_ACTUALIZAR_SUCCESS = "afiliadoDomicilios.actualizarTimeStamp";
+const AFILIADO_DIRECCION_ACTUALIZAR_ERROR = "afiliadoDomicilios.actualizarTimeStampError";
 
 export class afiliadoDireccionScreen extends connect(
 	store,
@@ -39,7 +40,8 @@ export class afiliadoDireccionScreen extends connect(
 	MEDIA_CHANGE,
 	PROVINCIAS,
 	LOCALIDADES,
-	AFILIADO_DOMICILIO_ADD,
+	AFILIADO_DIRECCION_ACTUALIZAR_SUCCESS,
+	AFILIADO_DIRECCION_ACTUALIZAR_ERROR,
 	AFILIADO_LOADED,
 	AFILIADO_DIRECCION_MOSTRAR,
 	AFILIADOS_ACCION
@@ -201,8 +203,7 @@ export class afiliadoDireccionScreen extends connect(
 				localidadesId: this.item.localidadesId,
 				codigoPostal: this.item.codigoPostal,
 			};
-
-			store.dispatch(addAfiliadosDomicilios(itemAfiliadoDomicilios));
+			store.dispatch(actualizarDomicilio(itemAfiliadoDomicilios));
 		} else {
 			this.requestUpdate();
 		}
@@ -282,7 +283,7 @@ export class afiliadoDireccionScreen extends connect(
 			this.update();
 		}
 
-		if (name == AFILIADO_DOMICILIO_ADD) {
+		if (name == AFILIADO_DIRECCION_ACTUALIZAR_SUCCESS) {
 			store.dispatch(goTo("afiliadoContacto"));
 		}
 	}
