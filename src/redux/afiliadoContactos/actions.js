@@ -9,6 +9,10 @@ export const ADD = "[afiliado Contactos] ADD";
 export const ADD_SUCCESS = "[afiliado Contactos] ADD success";
 export const ADD_ERROR = "[afiliado Contactos] ADD error";
 
+export const ACTUALIZAR = "[afiliado Contactos] ACTUALIZAR";
+export const ACTUALIZAR_SUCCESS = "[afiliado Contactos] ACTUALIZAR success";
+export const ACTUALIZAR_ERROR = "[afiliado Contactos] ACTUALIZAR error";
+
 export const SET_CURRENT = "[afiliado Contactos] set current afiliado";
 
 export const get = () => ({
@@ -26,6 +30,11 @@ export const success = () => ({
 
 export const add = (item) => ({
     type: ADD,
+    item: item,
+});
+
+export const actualizar = (item) => ({
+    type: ACTUALIZAR,
     item: item,
 });
 

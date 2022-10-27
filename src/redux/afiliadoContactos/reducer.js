@@ -1,4 +1,4 @@
-import { GET, SUCCESS, ADD, ADD_SUCCESS, ADD_ERROR, SET_CURRENT } from "./actions";
+import { GET, SUCCESS, ADD, ADD_SUCCESS, ADD_ERROR, SET_CURRENT, ACTUALIZAR, ACTUALIZAR_SUCCESS, ACTUALIZAR_ERROR } from "./actions";
 
 const initialState = {
     timeStamp: null,
@@ -6,6 +6,8 @@ const initialState = {
     current: null,
     currentTimeStamp: null,
     addTimeStamp: null,
+    actualizarTimeStamp: null,
+    actualizarTimeStampError: null,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -24,6 +26,12 @@ export const reducer = (state = initialState, action) => {
             break;
         case ADD_SUCCESS:
             newState.addTimeStamp = new Date().getTime();
+            break;
+        case ACTUALIZAR_SUCCESS:
+            newState.actualizarTimeStamp = new Date().getTime();
+            break;
+        case ACTUALIZAR_ERROR:
+            newState.actualizarTimeStampError = new Date().getTime();
             break;
     }
     return newState;

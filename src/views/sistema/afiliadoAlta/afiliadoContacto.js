@@ -15,7 +15,7 @@ import { OPCION_CONTACTO, OPCION_DATOS, OPCION_DOMICILIO, RutaOpcionesControl } 
 import { goHistoryPrev, goTo } from "@brunomon/template-lit/src/redux/routing/actions";
 import { cambioOpcioRuta } from "../../../redux/ruta/actions";
 
-import { add as addAfiliadoContactos } from "../../../redux/afiliadoContactos/actions";
+import { actualizar as actualizarContacto } from "../../../redux/afiliadoContactos/actions";
 import { isEmpty, opcionInvalida, mailInvalid } from "../../../libs/funciones";
 import { afiliadoDireccionMostrar } from "../../../redux/ui/actions";
 
@@ -23,8 +23,18 @@ const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
 const CURRENT_AFILIADO = "afiliadoContactos.currentTimeStamp";
 const AFILIADO_CONTACTO_ADD = "afiliadoContactos.addTimeStamp";
+const AFILIADO_CONTACTO_ACTUALIZAR_SUCCESS = "afiliadoContactos.actualizarTimeStamp";
+const AFILIADO_CONTACTO_ACTUALIZAR_ERROR = "afiliadoContactos.actualizarTimeStampError";
 
-export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE, AFILIADO_CONTACTO_ADD, CURRENT_AFILIADO)(LitElement) {
+export class afiliadoContactoScreen extends connect(
+    store,
+    SCREEN,
+    MEDIA_CHANGE,
+    AFILIADO_CONTACTO_ADD,
+    CURRENT_AFILIADO,
+    AFILIADO_CONTACTO_ACTUALIZAR_SUCCESS,
+    AFILIADO_CONTACTO_ACTUALIZAR_ERROR
+)(LitElement) {
     constructor() {
         super();
         this.hidden = true;
@@ -151,15 +161,15 @@ export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE,
     siguiente() {
         if (this.isValidForm()) {
             const itemAfiliadoContactos = {
-                afiliadosId: store.getState().afiliadoDatos.current.id,
+                afiliadosId: store.getState().afiliadoDatos.currentId,
                 celular: this.item.celular,
                 particular: this.item.particular,
                 laboral: this.item.laboral,
-                mail: this.item.mail,
-                mail2: this.item.mail2,
+                mail: { mail: this.item.mail },
+                mail2: { mail2: this.item.mail2 },
             };
 
-            store.dispatch(addAfiliadoContactos(itemAfiliadoContactos));
+            store.dispatch(actualizarContacto(itemAfiliadoContactos));
         } else {
             this.requestUpdate();
         }
@@ -228,7 +238,7 @@ export class afiliadoContactoScreen extends connect(store, SCREEN, MEDIA_CHANGE,
             this.update();
         }
 
-        if (name == AFILIADO_CONTACTO_ADD) {
+        if (name == AFILIADO_CONTACTO_ACTUALIZAR_SUCCESS) {
             store.dispatch(goTo("afiliadoDocumentacion"));
         }
     }

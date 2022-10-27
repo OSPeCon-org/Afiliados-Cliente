@@ -8,8 +8,8 @@ let webApi = SERVICE_URL + "/api";
 let webApiAfiliaciones = AFILIACIONES_URL + "/api/v1";
 
 const expedienteOdataFactory = ODataFetchFactory({
-	fetch: fetch,
-	domain: webApiExpedientes,
+    fetch: fetch,
+    domain: webApiExpedientes,
 });
 
 export const autorizacionFetch = fetchFactory(webApiAfiliaciones, "Autorizacion");
@@ -42,4 +42,5 @@ export const afiliadosDomiciliosActualizarFetch = fetchFactory(webApiAfiliacione
 export const afiliadosDomiciliosGetByAfiliadoIdFetch = fetchFactory(webApiAfiliaciones, "AfiliadosDomicilios/getByAfiliadoId");
 
 export const afiliadosContactosAddFetch = fetchFactory(webApiAfiliaciones, "AfiliadosContactos/add");
+export const afiliadosContactosActualizarFetch = fetchFactory(webApiAfiliaciones, "AfiliadosContactos/actualizar");
 export const afiliadosContactosGetByAfiliadoIdFetch = fetchFactory(webApiAfiliaciones, "AfiliadosContactos/getByAfiliadoId");

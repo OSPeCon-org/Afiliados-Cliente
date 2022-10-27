@@ -1,7 +1,20 @@
-import { GET, GET_BY_AFILIADO_ID, GET_BY_AFILIADO_ID_SUCCESS, GET_BY_AFILIADO_ID_ERROR, success, ADD, ADD_SUCCESS, ADD_ERROR, setCurrent } from "./actions";
+import {
+    GET,
+    GET_BY_AFILIADO_ID,
+    GET_BY_AFILIADO_ID_SUCCESS,
+    GET_BY_AFILIADO_ID_ERROR,
+    success,
+    ADD,
+    ADD_SUCCESS,
+    ADD_ERROR,
+    setCurrent,
+    ACTUALIZAR,
+    ACTUALIZAR_SUCCESS,
+    ACTUALIZAR_ERROR,
+} from "./actions";
 import { RESTRequest, RESTAdd } from "../rest/actions";
 
-import { afiliadosContactosAddFetch, afiliadosContactosGetByAfiliadoIdFetch } from "../fetchs";
+import { afiliadosContactosActualizarFetch, afiliadosContactosAddFetch, afiliadosContactosGetByAfiliadoIdFetch } from "../fetchs";
 import { store } from "../store";
 import { restAfiliadoLoaded } from "../ui/actions";
 
@@ -63,4 +76,14 @@ export const add =
         }
     };
 
-export const middleware = [get, GetByAfiliadoId, GetByAfiliadoIdSuccess, processGet, processError, add];
+export const actualizar =
+    ({ dispatch, getState }) =>
+    (next) =>
+    (action) => {
+        next(action);
+        if (action.type === ACTUALIZAR) {
+            dispatch(RESTAdd(afiliadosContactosActualizarFetch, action.item, ACTUALIZAR_SUCCESS, ACTUALIZAR_ERROR, getState().autorizacion.entities.token));
+        }
+    };
+
+export const middleware = [get, GetByAfiliadoId, GetByAfiliadoIdSuccess, processGet, processError, add, actualizar];
