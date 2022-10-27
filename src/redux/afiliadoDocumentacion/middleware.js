@@ -1,9 +1,10 @@
-import { GET, GET_SUCCESS, GET_ERROR } from "./actions";
+import { GET, GET_SUCCESS, GET_ERROR, ADD_DOCUMENTACION, ADD_DOCUMENTACION_SUCCES, ADD_DOCUMENTACION_ERROR } from "./actions";
 import { RESTRequest } from "../rest/actions";
 
-import { afiliadosGetByPlanDocumentacionFetch } from "../fetchs";
+import { addDocumentacionFetch, afiliadosGetByPlanDocumentacionFetch } from "../fetchs";
 import { store } from "../store";
 import { restAfiliadoLoaded } from "../ui/actions";
+import { Store } from "@material-ui/icons";
 
 export const get =
     ({ dispatch, getState }) =>
@@ -63,4 +64,14 @@ export const processError =
         }
     };
 
-export const middleware = [get, processGet, processError];
+export const addDocumentacion =
+    ({ dispatch, getState }) =>
+    (next) =>
+    (action) => {
+        next(action);
+        if (action.type === ADD_DOCUMENTACION) {
+            dispatch(RESTAdd(addDocumentacionFetch, action.item, ADD_DOCUMENTACION_SUCCES, ADD_DOCUMENTACION_ERROR, getState().autorizacion.entities.token));
+        }
+    };
+
+export const middleware = [get, addDocumentacion, processGet, processError];

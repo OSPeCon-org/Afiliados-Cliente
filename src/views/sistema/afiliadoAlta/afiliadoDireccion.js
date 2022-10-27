@@ -52,13 +52,13 @@ export class afiliadoDireccionScreen extends connect(
         this.area = "body";
         this.current = "";
         this.item = {};
-        (this.provincias = null), (this.localidades = null), (this.svgs = { BENEF: BENEF, GRPFAM: GRPFAM });
+        (this.provinciaId = null), (this.localidadesId = null), (this.svgs = { BENEF: BENEF, GRPFAM: GRPFAM });
         this.readonly = false;
 
         this.validaciones = {
             calle: { invalid: false, isInvalid: onlyLetter },
             altura: { invalid: false, isInvalid: onlyNumber },
-            provincias: { invalid: false, isInvalid: opcionInvalida },
+            provinciaId: { invalid: false, isInvalid: opcionInvalida },
             localidadesId: { invalid: false, isInvalid: opcionInvalida },
             codigoPostal: { invalid: false, isInvalid: onlyNumber },
         };
@@ -148,8 +148,8 @@ export class afiliadoDireccionScreen extends connect(
                 </div>
                 <div class="linea"></div>
                 <div class="grupo">
-                    <div class="select" ?error=${this.validaciones.provincias.invalid}>
-                        <select id="provincias" required .value=${this.item.provincias} @blur="${this.enlace("provincias")}">
+                    <div class="select" ?error=${this.validaciones.provinciaId.invalid}>
+                        <select id="provincias" required .value=${this.item.provinciaId} @blur="${this.enlace("provinciaId")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.provincias?.map((item) => {
                                 return html` <option value=${item.id}>${item.descripcion}</option> `;

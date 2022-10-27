@@ -18,6 +18,8 @@ import { goHistoryPrev, goTo } from "@brunomon/template-lit/src/redux/routing/ac
 import { cambioOpcioRuta } from "../../../redux/ruta/actions";
 import { state } from "lit-element";
 
+import { fotoScreen } from "../../componentes/fotoScreen";
+
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
 const AFILIADO_DOCUMENTACION = "afiliadoDocumentacion.timeStamp";
@@ -109,20 +111,23 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
                             </div>
 
                             <dialog id="subidaArchivos">
-                                <div class="header">${this.titulo}</div>
-                                <div class="body">${this.mensaje}</div>
                                 <div class="footer column">
-                                    <button link @click="${this.subirDocumentoFile}">
-                                        <div>Desde Galeria</div>
-                                    </button>
-                                    <button link @click="${this.subirDocumentoCamera}">
-                                        <div>Desde cámara</div>
-                                    </button>
-                                    <button link @click="${this.volver}">
-                                        <div>Volver</div>
-                                    </button>
+                                    <div class="inner-grid row">
+                                        <button link @click="${this.subirDocumentoFile}">
+                                            <div>Desde Galeria</div>
+                                        </button>
+                                        <button link @click="${this.subirDocumentoCamera}">
+                                            <div>Desde cámara</div>
+                                        </button>
+
+                                        <button link @click="${this.volver}">
+                                            <div flat action style="text-align: end;" class="align-self-start">Volver</div>
+                                        </button>
+                                    </div>
                                 </div>
                             </dialog>
+
+                            <foto-screen id="foto" hidden></foto-screen>
                         `;
                     })}
                 </div>
@@ -133,6 +138,13 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
             </div>
         `;
     }
+
+    /*  <div class="photo inner-grid column center align-end">
+                                <img id="imagen" src= />
+                                <video id="video" autoplay="" playsinline=""></video>
+                                <canvas id="canvas" hidden></canvas>
+                                <button id="btnPhoto" class="BtnCaptura" @click=${this.capturarImagen}>X</button>
+                            </div>*/
 
     atras() {
         store.dispatch(goHistoryPrev());
@@ -147,7 +159,13 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
         this.shadowRoot.querySelector("#documento").click();
     }
 
-    subirDocumentoCamera() {}
+    subirDocumentoCamera(e) {
+        let foto = this.shadowRoot.querySelector("#foto");
+        //foto.iddetalle = e.currentTarget.iddetalle;
+        foto.iddetalle = "e.currentTarget.iddetalle";
+        foto.hidden = false;
+        this.volver();
+    }
 
     subirDocumento() {
         this.renderRoot.querySelector("#subidaArchivos").showModal();
@@ -158,6 +176,8 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
     }
 
     verDocumento() {}
+
+    capturarImagen() {}
 
     help(titulo) {}
     firstUpdated(changedProperties) {}
@@ -184,8 +204,8 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
                     imagen: "UPLOAD",
                     estado: "PENDIENTE",
                     copete: "Debe subir el documento",
-                    accion1: "VER DOCUMENTO",
-                    accion2: "SUBIR DOCUMENTO",
+                    accion1: "SUBIR DOCUMENTO",
+                    accion2: "VER DOCUMENTO",
                 };
             });
             this.update();

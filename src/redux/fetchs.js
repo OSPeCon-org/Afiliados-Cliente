@@ -30,6 +30,7 @@ export const planesByIdFetch = fetchFactory(webApiAfiliaciones, "Planes");
 export const provinciasGetAllFetch = fetchFactory(webApiAfiliaciones, "Provincias/all");
 export const tipoDocumentoGetAllFetch = fetchFactory(webApiAfiliaciones, "TipoDocumento/all");
 export const getAllDocumentacionFetch = fetchFactory(webApiAfiliaciones, "Documentacion/all");
+export const addDocumentacionFetch = fetchFactory(webApiAfiliaciones, "AfiliadosDocumentacion/add");
 
 export const grupoFamiliarFetch = fetchFactory(webApiAfiliaciones, "Afiliados/grupoFamiliar");
 export const afiliadosActualizarFetch = fetchFactory(webApiAfiliaciones, "Afiliados/actualizar");
