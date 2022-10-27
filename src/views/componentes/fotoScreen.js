@@ -2,6 +2,7 @@
 
 import { html, LitElement, css } from "lit";
 
+import { CANCEL, SAVE, CAMERA } from "../../../assets/icons/svgs";
 import { store } from "../../redux/store";
 import { connect } from "@brunomon/helpers";
 import { goTo, goHistoryPrev } from "../../redux/routing/actions";
@@ -58,34 +59,35 @@ export class fotoScreen extends connect(store, ACEPTAR_MSGBOX, MEDIA_CHANGE, SCR
             #cuerpo {
                 position: relative;
                 display: grid;
-                grid-template-rows: repeat(4, auto);
+                grid-template-rows: repeat(3, auto);
                 grid-gap: 0.5rem;
-                width: 90vw;
-                height: 75vh;
-                background-color: var(--color-primario);
+                width: min-content;
+                height: min-content;
+                background-color: var(--primario);
                 place-items: center;
                 justify-self: center;
+                align-self: center;
                 margin-top: 2rem;
                 border-radius: 1rem;
                 align-content: flex-start;
                 padding-top: 1rem;
                 box-shadow: 2px 2px 12px white;
                 overflow-y: auto;
+                padding: 1rem;
             }
             #botonera {
                 display: grid;
-                grid-template-columns: 37vw 37vw;
-                border: solid 1px var(--color-fondo);
+                grid-template-columns: 100px 100px;
+                border: solid 1px var(--on-primario);
                 border-radius: 0.5rem;
                 justify-items: center;
             }
             #botonera-grabar {
                 display: grid;
-                grid-template-columns: 37vw 37vw;
-                border: solid 1px var(--color-fondo);
+                grid-template-columns: 100px 100px;
+                border: solid 1px var(--on-primario);
                 border-radius: 0.5rem;
                 justify-items: center;
-                margin-bottom: 2rem;
             }
             #x {
                 height: 1.4rem;
@@ -101,6 +103,12 @@ export class fotoScreen extends connect(store, ACEPTAR_MSGBOX, MEDIA_CHANGE, SCR
             }
             *[hidden] {
                 display: none !important;
+            }
+            #titulo_sacar,
+            #titulo_guardar {
+                font-size: 1.2rem;
+                font-weight: 600;
+                color: var(--on-primario);
             }
         `;
     }
@@ -122,15 +130,17 @@ export class fotoScreen extends connect(store, ACEPTAR_MSGBOX, MEDIA_CHANGE, SCR
     render() {
         return html`
             <div id="cuerpo">
+                <div id="titulo_sacar">Sacar foto</div>
                 <video id="video" width="300" height="300" autoplay muted playsinline style="border-radius: 1rem;"></video>
                 <div id="botonera">
-                    <div id="click-close" @click="${this.volver}">CLOSE</div>
-                    <div id="click-photo" @click="${this.camaraFoto}">CIRCULO</div>
+                    <div id="click-close" @click="${this.volver}">${CANCEL}</div>
+                    <div id="click-photo" @click="${this.camaraFoto}">${CAMERA}</div>
                 </div>
+                <div id="titulo_guardar" ?hidden=${this.foto.length == 0}>Guardar foto</div>
                 <canvas id="canvas" width="300" height="300" ?hidden=${this.foto.length == 0} style="border-radius: 1rem;"></canvas>
                 <div id="botonera-grabar" ?hidden=${this.foto.length == 0}>
-                    <div id="click-close" @click="${this.cerrar}">CLOSE</div>
-                    <div id="click-rotar" @click="${this.grabar}">TILDE</div>
+                    <div id="click-close" @click="${this.cerrar}">${CANCEL}</div>
+                    <div id="click-rotar" @click="${this.grabar}">${SAVE}</div>
                 </div>
             </div>
         `;
@@ -141,12 +151,22 @@ export class fotoScreen extends connect(store, ACEPTAR_MSGBOX, MEDIA_CHANGE, SCR
             IdDetalle: this.iddetalle,
             Foto: this.foto,
         };
-        store.dispatch(addDetalleImagenes(imagen, null));
-    }
-    cerrar() {
+        //store.dispatch(addDetalleImagenes(imagen, null));
+        this.shadowRoot.querySelector("#video").hidden = false;
+        this.shadowRoot.querySelector("#titulo_sacar").hidden = false;
+        this.shadowRoot.querySelector("#botonera").hidden = false;
         this.foto = "";
         this.update();
     }
+
+    cerrar() {
+        this.foto = "";
+        this.shadowRoot.querySelector("#video").hidden = false;
+        this.shadowRoot.querySelector("#titulo_sacar").hidden = false;
+        this.shadowRoot.querySelector("#botonera").hidden = false;
+        this.update();
+    }
+
     //async camaraStar() {
     //	this.stream = await navigator.mediaDevices.getUserMedia(this.constraints);
     //	this._video.srcObject = this.stream;
@@ -176,6 +196,11 @@ export class fotoScreen extends connect(store, ACEPTAR_MSGBOX, MEDIA_CHANGE, SCR
         let image_data_url = this._canvas.toDataURL("image/jpeg");
         this.foto = image_data_url;
         console.log(image_data_url);
+        if (this.foto.length > 0) {
+            this.shadowRoot.querySelector("#video").hidden = true;
+            this.shadowRoot.querySelector("#titulo_sacar").hidden = true;
+            this.shadowRoot.querySelector("#botonera").hidden = true;
+        }
         this.update();
     }
     stateChanged(state, name) {
