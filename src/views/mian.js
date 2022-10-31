@@ -9,6 +9,8 @@ import { gridLayout } from "@brunomon/template-lit/src/views/css/gridLayout";
 import { isInLayout } from "../redux/screens/screenLayouts";
 import { button } from "@brunomon/template-lit/src/views/css/button";
 
+import { SubirDocumentoControl } from "./componentes/subirDocumento";
+
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
 
@@ -35,7 +37,32 @@ export class mainScreen extends connect(store, SCREEN, MEDIA_CHANGE)(LitElement)
 	}
 
 	render() {
-		return html``;
+		return html`
+			<!-- <button link @click="${this.bo}">
+				<div>subir</div>
+			</button>
+			<subir-documento-control
+				id="subir"
+				titulo="Subir documento"
+				botonPc="DESDE MI PC"
+				botonCamara="DE MI CAMARA"
+				botonVolver="VOLVER"
+				onCamara=${this.subirDocumentoCamera}
+			></subir-documento-control> -->
+		`;
+	}
+
+	subir() {
+		this.shadowRoot.querySelector("#foto").hidden = false;
+	}
+	bo() {
+		this.shadowRoot.querySelector("#subir").hidden = false;
+	}
+	subirDocumentoCamera() {
+		let foto = this.shadowRoot.querySelector("#foto");
+		//foto.iddetalle = e.currentTarget.iddetalle;
+		foto.hidden = false;
+		this.volver();
 	}
 
 	firstUpdated(changedProperties) {}
