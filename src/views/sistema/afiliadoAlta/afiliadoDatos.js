@@ -38,6 +38,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
         this.estadosCiviles = null;
         this.nacionalidades = null;
         this.readonly = false;
+        this.hijoMenor = false;
         this.altaTitular = false;
 
         this.validaciones = {
@@ -114,7 +115,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
             <div id="cuerpo" class="grid row">
                 <div class="grupo">
                     <div class="select" ?error=${this.validaciones.parentescoId.invalid}>
-                        <select ?disabled=${this.readOnly || this.altaTitular} id="parentescos" .value="${this.item.parentescoId}" required @blur="${this.enlace("parentescoId")}">
+                        <select ?disabled=${this.readOnly || this.altaTitular} id="parentescos" .value="${this.item.parentescoId}" required @blur="${this.enlaceConHijoMenor("parentescoId")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.parentescos?.map((item) => {
                                 return html` <option value=${item.id} ?selected=${this.item.parentescoId == item.id}>${item.descripcion}</option> `;
@@ -193,7 +194,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                 <div class="linea"></div>
                 <div class="grupo">
                     <div class="select" ?error=${this.validaciones.estadoCivilId.invalid}>
-                        <select id="estadosCiviles" ?disabled=${this.readOnly} .value="${this.item.estadoCivilId}" required @blur="${this.enlace("estadoCivilId")}">
+                        <select id="estadosCiviles" ?disabled=${this.readOnly || this.hijoMenor} .value="${this.item.estadoCivilId}" required @blur="${this.enlace("estadoCivilId")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.estadosCiviles?.map((item) => {
                                 return html` <option value=${item.id}>${item.descripcion}</option> `;
@@ -292,6 +293,13 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
         return (e) => this.updateProperty(e, field);
     }
 
+    enlaceConHijoMenor(field) {
+        return (e) => {
+            this.updateProperty(e, field);
+            this.validHijoMenor(e);
+        };
+    }
+
     updateProperty(e, field) {
         this.item[field] = e.currentTarget.value;
         if (this.validaciones[field]) {
@@ -299,9 +307,24 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
         }
 
         this.requestUpdate();
+        console.log("update property" + field);
     }
 
-    firstUpdated(changedProperties) {}
+    firstUpdated(changedProperties) {
+        // this.shadowRoot.querySelector("#parentescos").addEventListener("blur", this.hijoMenor);
+    }
+
+    validHijoMenor(e) {
+        this.hijoMenor = false;
+        if (
+            e.currentTarget.value.toUpperCase() == "0438E919-4C5B-461F-9E5D-CE58D2524F4F" ||
+            e.currentTarget.value.toUpperCase() == "71F3CF79-79DB-471D-512F-08DABDB21728" ||
+            e.currentTarget.value.toUpperCase() == "8C0374A9-473D-4238-84EA-9C9C74A46655"
+        ) {
+            this.item.estadoCivilId = "58AD0561-D9F3-4373-9099-B7233C18A901".toLowerCase();
+            this.hijoMenor = true;
+        }
+    }
 
     stateChanged(state, name, e) {
         let hiddenAnterior = this.hidden;
@@ -356,6 +379,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                 currentDatos.cuil = "";
                 currentDatos.parentescoId = "";
                 this.parentescos = state.parentescos.entities.filter((item) => {
+                    console.log(this.currentDatos);
                     if (item.id != "e4389c83-310c-4399-b5fa-9ab06a00eb23") return item;
                 });
             }

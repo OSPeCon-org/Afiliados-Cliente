@@ -83,18 +83,15 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
             :host(:not([logueado])) *[solo-logueado] {
                 display: none;
             }
-
             #titulo {
                 color: var(--on-primario);
                 cursor: pointer;
                 font-size: 2vh;
             }
-
             .menuItem {
                 color: var(--on-secundario);
                 cursor: pointer;
             }
-
             div[oculto] {
                 display: none;
             }
@@ -108,12 +105,10 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
                 justify-content: end;
                 padding: 0;
             }
-
             :host([media-size="large"]) .menu-button,
             :host([media-size="large"]) #velo {
                 display: none;
             }
-
             #velo {
                 position: fixed;
                 top: 0;
@@ -203,6 +198,16 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
             #acceso[logueado]:hover .popup {
                 display: grid;
             }
+            :host([media-size="small"]) #acceso[logueado] .popup {
+                display: grid;
+                background-color: var(--secundario);
+            }
+            :host([media-size="small"]) #acceso[logueado] .popup button {
+                color: var(--on-primario);
+                font-size: 0.8rem;
+                text-align: start;
+                padding: 0rem 0rem;
+            }
         `;
     }
     render() {
@@ -273,54 +278,7 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
             store.dispatch(goTo("afiliadoPorCuil"));
         } else {
             store.dispatch(goTo("afiliadoMostrar"));
-            /*store.dispatch(
-                setCurrentDatos({
-                    parentescoId: "",
-                    cuil: "",
-                    planId: "",
-                    apellido: "",
-                    nombre: "",
-                    sexo: "",
-                    fechaNacimiento: "",
-                    tipoDocumentoId: "",
-                    documento: "",
-                    estadoCivilId: "",
-                    nacionalidadId: "",
-                    discapacitado: "",
-                    estadosAfiliacionId: "4863e7e8-b653-4433-a6c5-85585e114781",
-                })
-            );
-
-            store.dispatch(
-                setCurrentDomicilio({
-                    afiliadoId: "",
-                    calle: "",
-                    altura: "",
-                    piso: "",
-                    departamento: "",
-                    provincia: "",
-                    localidad: "",
-                    codigoPostal: "",
-                })
-            );
-
-            store.dispatch(
-                setCurrentContactos({
-                    afiliadosId: "",
-                    celular: "",
-                    particular: "",
-                    laboral: "",
-                    mail: "",
-                    mail2: "",
-                })
-            );*/
         }
-
-        /*var titulares = store.getState().autorizacion.entities.titulares;
-        if (titulares.length == 0) {
-            store.dispatch(goTo("afiliadoPorCuil"));
-        }
-        store.dispatch(goTo("afiliadoMostrar"));*/
 
         store.dispatch(selection(e.currentTarget.option));
     }
