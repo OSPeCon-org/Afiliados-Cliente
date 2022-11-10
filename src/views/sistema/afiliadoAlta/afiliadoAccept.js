@@ -149,27 +149,6 @@ export class afiliadoAcceptScreen extends connect(store, SCREEN, MEDIA_CHANGE, A
     afiliarme() {
         this.renderRoot.querySelector("#noencontrado").close();
 
-        /* 	store.dispatch(afiliadoAccion("alta titular"));
-
-		store.dispatch(
-			setCurrentContactos({
-				id: "",
-				afiliadosId: "",
-				celular: "",
-				particular: "",
-				laboral: "",
-				mail: "",
-				mail2: "",
-				legacyId: 0,
-				activo: 0,
-				FechaAlta: "",
-				UsuarioAlta: "",
-				FechaUpdate: "",
-				UsuarioUpdate: "",
-			})
-		);
-
-		store.dispatch(goTo("afiliadoDatos")); */
         store.dispatch(altaDeTitular());
     }
 

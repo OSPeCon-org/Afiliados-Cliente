@@ -357,6 +357,7 @@ export class afiliadoDatosScreen extends connect(
         }
         if (name == ALTA_TITULAR) {
             this.esTitular = true;
+            this.hijoMenor = false;
         }
         if (name == ALTA_FAMILIAR) {
             this.esTitular = false;
@@ -389,7 +390,13 @@ export class afiliadoDatosScreen extends connect(
             this.estadosCiviles = state.estadosCiviles.entities;
             this.tipoDocumento = state.tipoDocumento.entities;
             this.planes = state.planes.entities;
-            this.parentescos = state.parentescos.entities;
+            if (this.esTitular == false) {
+                this.parentescos = state.parentescos.entities.filter((item) => {
+                    return item.id != "E4389C83-310C-4399-B5FA-9AB06A00EB23".toLowerCase();
+                });
+            } else {
+                this.parentescos = state.parentescos.entities;
+            }
             this.update();
         }
         if (name == AFILIADO_ACTUALLIZAR_SUCCESS) {
