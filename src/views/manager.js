@@ -28,6 +28,7 @@ import { pruebaFlor } from "./prueba/pruebaFlor";
 import { pruebaCristian } from "./prueba/pruebaCristian";
 import { SpinnerControl } from "./componentes/spinner";
 import { pruebaTarjetaDocumento } from "./componentes/pruebaTarjetaDocumento";
+import { AlertControl } from "./componentes/alert";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -96,6 +97,7 @@ export class viewManager extends connect(store, MEDIA_CHANGE, SCREEN, SELECTION)
             <afiliado-PorCuil id="afiliadoPorCuil" area="body"></afiliado-PorCuil>
 
             <confirm-control></confirm-control>
+            <alert-control></alert-control>
 
             <prueba-daniel id="pruebaDaniel" area="body"></prueba-daniel>
             <prueba-flor id="pruebaFlor" area="body"></prueba-flor>

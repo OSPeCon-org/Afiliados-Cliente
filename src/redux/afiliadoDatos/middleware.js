@@ -13,7 +13,7 @@ import { store } from "../store";
 import { getGrupoFamiliar } from "../afiliados/actions";
 import { getByAfiliadoId as getByAfiliadoIdContacto } from "../afiliadoContactos/actions";
 import { getByAfiliadoId as getByAfiliadoIdDomicilio } from "../afiliadoDomicilios/actions";
-import { addAfiliadoLoaded, clearAfiliadoLoaded } from "../ui/actions";
+import { addAfiliadoLoaded, clearAfiliadoLoaded, showAlert, showError } from "../ui/actions";
 import { get as getAfiliadoDocumentacion } from "../afiliadoDocumentacion/actions";
 
 export const get =
@@ -108,4 +108,13 @@ export const actualizarSuccess =
         }
     };
 
-export const middleware = [get, processGet, processError, actualizar, actualizarSuccess];
+export const actualizarError =
+    ({ dispatch, getState }) =>
+    (next) =>
+    (action) => {
+        next(action);
+        if (action.type === ACTUALIZAR_ERROR) {
+            dispatch(showAlert("ATENCIÓN", action.payload.receive));
+        }
+    };
+export const middleware = [get, processGet, processError, actualizar, actualizarSuccess, actualizarError];

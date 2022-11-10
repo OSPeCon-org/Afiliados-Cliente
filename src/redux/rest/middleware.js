@@ -72,7 +72,7 @@ export const middleware =
                                     id: id,
                                     body: body,
                                 },
-                                receive: error,
+                                receive: data.Message,
                             },
                         });
                     }
@@ -118,7 +118,7 @@ export const middleware =
                                     id: id,
                                     body: body,
                                 },
-                                receive: error,
+                                receive: data.Message,
                             },
                         });
                     }
@@ -164,7 +164,7 @@ export const middleware =
                                     id: id,
                                     body: body,
                                 },
-                                receive: error,
+                                receive: data.Message,
                             },
                         });
                     }
@@ -207,7 +207,7 @@ export const middleware =
                                     id: id,
                                     body: body,
                                 },
-                                receive: error,
+                                receive: data.Message,
                             },
                         });
                     }

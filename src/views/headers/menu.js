@@ -277,6 +277,7 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
         if (store.getState().autorizacion.entities.titulares.length == 0) {
             store.dispatch(goTo("afiliadoPorCuil"));
         } else {
+            store.dispatch(getGrupoFamiliar(store.getState().autorizacion.entities.titulares[0].titularId));
             store.dispatch(goTo("afiliadoMostrar"));
         }
 
