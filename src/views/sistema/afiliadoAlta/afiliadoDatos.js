@@ -21,7 +21,6 @@ const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
 const AFILIADO_DATOS_SUCCESS = "afiliadoDatos.timeStamp"; //Carga de todos los combos
 const CURRENT_AFILIADO = "afiliadoDatos.currentTimeStamp";
-// const AFILIADOS_ACCION = "afiliados.modoTimeStamp";
 const AFILIADO_ACTUALLIZAR_SUCCESS = "afiliadoDatos.actualizarTimeStamp";
 const ALTA_TITULAR = "uiAfiliados.titularTimeStamp";
 const ALTA_FAMILIAR = "uiAfiliados.familiarTimeStamp";
@@ -278,9 +277,7 @@ export class afiliadoDatosScreen extends connect(
             if (gf && gf.length > 0) {
                 itemAfiliadoDatos.titularId = gf[0].titularId;
             }
-            //if (store.getState().afiliadoDatos.current.TitularId && store.getState().afiliadoDatos.current.TitularId.length > 0) {
-            //	itemAfiliadoDatos.titularId = store.getState().afiliadoDatos.current.TitularId;
-            //}
+
             store.dispatch(actualizarAfiliadoDatos(itemAfiliadoDatos));
         } else {
             this.requestUpdate();
