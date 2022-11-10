@@ -17,6 +17,7 @@ import { setCurrent as setCurrentDomicilio, getByAfiliadoId as getAfiliadoByIdDo
 import { setCurrent as setCurrentContactos, getByAfiliadoId as getAfiliadoByIdContacto } from "../../../redux/afiliadoContactos/actions";
 
 import foto from "../../../../assets/image/foto.png";
+import { altaDeFamiliar, altaDeTitular, verAfiliado } from "../../../redux/uiAfiliados/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -90,7 +91,7 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, 
                             <div>Titular</div>
                         </div>
                         <div cuerpo>Dar de alta al titular del grupo familiar</div>
-                        <button raised @click="${this.nuevo}">AGREGAR</button>
+                        <button raised @click="${this.nuevoTitular}">AGREGAR</button>
                     </div>
                 </div>
             `;
@@ -116,88 +117,22 @@ export class afiliadoMostrarScreen extends connect(store, SCREEN, MEDIA_CHANGE, 
                             <div>Grupo Familiar</div>
                         </div>
                         <div cuerpo>Dar de alta un nuevo integante del grupo familiar</div>
-                        <button raised @click="${this.nuevo}">AGREGAR</button>
+                        <button raised @click="${this.nuevoFamiliar}">AGREGAR</button>
                     </div>
                 </div>
             `;
         }
     }
 
-    nuevo() {
-        store.dispatch(
-            setCurrentDatos({
-                id: "",
-                apellido: "",
-                nombre: "",
-                tipoDocumentoId: "",
-                documento: "",
-                parentescoId: "",
-                cuil: "",
-                fechaNacimiento: "",
-                fecha: "",
-                planId: "",
-                sexo: "",
-                estadoCivilId: "",
-                discapacitado: 0,
-                nacionalidadId: "",
-                legacyId: 0,
-                activo: 0,
-                FechaAlta: "",
-                UsuarioAlta: "",
-                FechaUpdate: "",
-                UsuarioUpdate: "",
-                estadosAfiliacionId: "4863e7e8-b653-4433-a6c5-85585e114781",
-                TitularId: "",
-                UsuarioAfiliadosId: "",
-            })
-        );
-
-        store.dispatch(
-            setCurrentDomicilio({
-                id: "",
-                afiliadoId: "",
-                calle: "",
-                altura: "",
-                piso: "",
-                departamento: "",
-                localidad: "",
-                codigoPostal: "",
-                legacyId: 0,
-                activo: 0,
-                FechaAlta: "",
-                UsuarioAlta: "",
-                FechaUpdate: "",
-                UsuarioUpdate: "",
-            })
-        );
-
-        store.dispatch(
-            setCurrentContactos({
-                id: "",
-                afiliadosId: "",
-                celular: "",
-                particular: "",
-                laboral: "",
-                mail: "",
-                mail2: "",
-                legacyId: 0,
-                activo: 0,
-                FechaAlta: "",
-                UsuarioAlta: "",
-                FechaUpdate: "",
-                UsuarioUpdate: "",
-            })
-        );
-
-        store.dispatch(goTo("afiliadoDatos"));
+    nuevoTitular() {
+        store.dispatch(altaDeTitular());
+    }
+    nuevoFamiliar() {
+        store.dispatch(altaDeFamiliar());
     }
 
     mostrar(e) {
-        store.dispatch(setCurrentDatos(e.currentTarget.item));
-        store.dispatch(getAfiliadoByIdDomicilio(e.currentTarget.item.id));
-        store.dispatch(getAfiliadoByIdContacto(e.currentTarget.item.id));
-
-        store.dispatch(goTo("afiliadoDatos"));
+        store.dispatch(verAfiliado(e.currentTarget.item));
     }
 
     firstUpdated(changedProperties) {}

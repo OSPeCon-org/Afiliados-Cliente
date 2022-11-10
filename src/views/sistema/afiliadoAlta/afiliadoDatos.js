@@ -21,10 +21,23 @@ const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
 const AFILIADO_DATOS_SUCCESS = "afiliadoDatos.timeStamp"; //Carga de todos los combos
 const CURRENT_AFILIADO = "afiliadoDatos.currentTimeStamp";
-const AFILIADOS_ACCION = "afiliados.modoTimeStamp";
+// const AFILIADOS_ACCION = "afiliados.modoTimeStamp";
 const AFILIADO_ACTUALLIZAR_SUCCESS = "afiliadoDatos.actualizarTimeStamp";
+const ALTA_TITULAR = "uiAfiliados.titularTimeStamp";
+const ALTA_FAMILIAR = "uiAfiliados.familiarTimeStamp";
+const VER_AFILIADO = "uiAfiliados.verAfiliadoTimeStamp";
 
-export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AFILIADO_DATOS_SUCCESS, CURRENT_AFILIADO, AFILIADOS_ACCION, AFILIADO_ACTUALLIZAR_SUCCESS)(LitElement) {
+export class afiliadoDatosScreen extends connect(
+    store,
+    SCREEN,
+    MEDIA_CHANGE,
+    AFILIADO_DATOS_SUCCESS,
+    CURRENT_AFILIADO,
+    AFILIADO_ACTUALLIZAR_SUCCESS,
+    ALTA_TITULAR,
+    ALTA_FAMILIAR,
+    VER_AFILIADO
+)(LitElement) {
     constructor() {
         super();
         this.hidden = true;
@@ -39,7 +52,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
         this.nacionalidades = null;
         this.readonly = false;
         this.hijoMenor = false;
-        this.altaTitular = false;
+        this.esTitular = false;
 
         this.validaciones = {
             parentescoId: { invalid: false, isInvalid: isEmpty },
@@ -115,7 +128,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
             <div id="cuerpo" class="grid row">
                 <div class="grupo">
                     <div class="select" ?error=${this.validaciones.parentescoId.invalid}>
-                        <select ?disabled=${this.readOnly || this.altaTitular} id="parentescos" .value="${this.item.parentescoId}" required @blur="${this.enlaceConHijoMenor("parentescoId")}">
+                        <select ?disabled=${this.readOnly || this.esTitular} id="parentescos" .value="${this.item.parentescoId}" required @blur="${this.enlaceConHijoMenor("parentescoId")}">
                             <option value="" disabled selected>Selecciona una opción</option>
                             ${this.parentescos?.map((item) => {
                                 return html` <option value=${item.id} ?selected=${this.item.parentescoId == item.id}>${item.descripcion}</option> `;
@@ -126,7 +139,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                         <label subtext>Requerido</label>
                     </div>
                     <div class="input" ?error=${this.validaciones.cuil.invalid}>
-                        <input id="cuil" ?disabled=${this.readOnly || this.altaTitular} .value=${this.item.cuil} @blur="${this.enlace("cuil")}" />
+                        <input id="cuil" ?disabled=${this.readOnly || this.esTitular} .value=${this.item.cuil} @blur="${this.enlace("cuil")}" />
                         <label for="cuil">CUIL</label>
                         <label error>Debe ingresar numero de CUIL válido</label>
                         <label subtext>Requerido</label>
@@ -342,49 +355,14 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                 this.hidden = false;
             }
         }
-
-        if (name == AFILIADOS_ACCION) {
-            let currentDatos = {};
-            if (store.getState().afiliados.modo == "alta titular") {
-                this.altaTitular = true;
-                currentDatos = {
-                    id: "",
-                    apellido: "",
-                    nombre: "",
-                    tipoDocumentoId: "",
-                    documento: "",
-                    parentescoId: "e4389c83-310c-4399-b5fa-9ab06a00eb23",
-                    cuil: store.getState().afiliados.currentCuil,
-                    fechaNacimiento: "",
-                    fecha: "",
-                    planId: "",
-                    sexo: "",
-                    estadoCivilId: "",
-                    discapacitado: "",
-                    nacionalidadId: "",
-                    legacyId: 0,
-                    activo: 0,
-                    FechaAlta: "",
-                    UsuarioAlta: "",
-                    FechaUpdate: "",
-                    UsuarioUpdate: "",
-                    estadosAfiliacionId: "4863e7e8-b653-4433-a6c5-85585e114781",
-                    TitularId: "",
-                    UsuarioAfiliadosId: "",
-                };
-            }
-
-            if (state.afiliados.modo == "alta familiar") {
-                this.altaTitular = false;
-                currentDatos.cuil = "";
-                currentDatos.parentescoId = "";
-                this.parentescos = state.parentescos.entities.filter((item) => {
-                    console.log(this.currentDatos);
-                    if (item.id != "e4389c83-310c-4399-b5fa-9ab06a00eb23") return item;
-                });
-            }
-
-            store.dispatch(setCurrentAfiliadoDatos(currentDatos));
+        if (name == ALTA_TITULAR) {
+            this.esTitular = true;
+        }
+        if (name == ALTA_FAMILIAR) {
+            this.esTitular = false;
+        }
+        if (name == VER_AFILIADO) {
+            this.esTitular = state.uiAfiliados.esTitular;
         }
 
         if (name == CURRENT_AFILIADO) {
@@ -397,7 +375,6 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                 this.readOnly = false;
             } else {
                 this.readOnly = true;
-                this.altaTitular = false;
             }
             if (this.item.id) {
                 this.isValidForm();
@@ -446,7 +423,7 @@ export class afiliadoDatosScreen extends connect(store, SCREEN, MEDIA_CHANGE, AF
                 type: Boolean,
                 reflect: true,
             },
-            altaTitular: {
+            esTitular: {
                 type: Boolean,
                 reflect: true,
             },

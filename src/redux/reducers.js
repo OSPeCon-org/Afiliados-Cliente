@@ -19,6 +19,7 @@ import { reducer as afiliadoDocumentacionREducer } from "./afiliadoDocumentacion
 import { reducer as afiliadoContactosREducer } from "./afiliadoContactos/reducer";
 import { reducer as afiliadosReducer } from "./afiliados/reducer";
 import { reducer as documentacionReducer } from "./documentacion/reducer";
+import { reducer as uiAfiliadosReducer } from "./uiAfiliados/reducer";
 
 export const rootReducer = (state = {}, action) => {
     const presentacionesEstadosRed = state.presentacionesEstados;
@@ -42,5 +43,6 @@ export const rootReducer = (state = {}, action) => {
         provincias: provinciasREducer(state.provincias, action),
         localidades: localidadesREducer(state.localidades, action),
         documentacion: documentacionReducer(state.documentacion, action),
+        uiAfiliados: uiAfiliadosReducer(state.uiAfiliados, action),
     };
 };

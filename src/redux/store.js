@@ -22,6 +22,7 @@ import { middleware as afiliadoDomicilios } from "./afiliadoDomicilios/middlewar
 import { middleware as provincias } from "./provincias/middleware";
 import { middleware as localidades } from "./localidades/middleware";
 import { middleware as documentacion } from "./documentacion/middleware";
+import { middleware as uiAfiliados } from "./uiAfiliados/middleware";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -44,6 +45,7 @@ let mdw = [
     ...provincias,
     ...localidades,
     ...documentacion,
+    ...uiAfiliados,
 ];
 
 if (process.env.NODE_ENV !== "production") {
