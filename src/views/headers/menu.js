@@ -18,6 +18,7 @@ import { getGrupoFamiliar } from "../../redux/afiliados/actions";
 import { setCurrent as setCurrentDatos } from "../../redux/afiliadoDatos/actions";
 import { setCurrent as setCurrentDomicilio } from "../../redux/afiliadoDomicilios/actions";
 import { setCurrent as setCurrentContactos } from "../../redux/afiliadoContactos/actions";
+import cruz from "../../../assets/image/cruz.png";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SELECTION = "ui.menu.timeStamp";
@@ -83,6 +84,13 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
             :host(:not([logueado])) *[solo-logueado] {
                 display: none;
             }
+            #imagen {
+                color: red;
+                width: 2rem;
+                height: 2rem;
+                background-repeat: no-repeat;
+                background-size: 2rem 2rem;
+            }
             #titulo {
                 color: var(--on-primario);
                 cursor: pointer;
@@ -118,7 +126,6 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
                 background-color: var(--velo);
                 z-index: 90;
             }
-
             .menu-button {
                 cursor: pointer;
                 justify-self: end;
@@ -215,7 +222,7 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
             <div id="velo" @click=${this.toggleMenu}></div>
             <div class="grid column" style="padding: 0 1rem;">
                 <div class="inner-grid column start">
-                    <div class="logo"></div>
+                    <div id="imagen" style="background-image:url(${cruz})"></div>
                     <div id="titulo" @click="${this.click}" .option=${"main"}>${__DESCRIPTION__}</div>
                     <div id="version">${__VERSION__}</div>
                 </div>

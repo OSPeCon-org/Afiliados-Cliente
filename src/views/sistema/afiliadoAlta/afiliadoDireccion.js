@@ -52,7 +52,11 @@ export class afiliadoDireccionScreen extends connect(
         this.area = "body";
         this.current = "";
         this.item = {};
-        (this.provinciaId = null), (this.localidadesId = null), (this.svgs = { BENEF: BENEF, GRPFAM: GRPFAM });
+
+        this.provinciaId = "";
+        this.localidadesId = "";
+
+        this.svgs = { BENEF: BENEF, GRPFAM: GRPFAM };
         this.readonly = false;
 
         this.validaciones = {
@@ -201,6 +205,7 @@ export class afiliadoDireccionScreen extends connect(
                 piso: this.item.piso,
                 departamento: this.item.departamento,
                 localidadesId: this.item.localidadesId,
+                //provinciaId ?
                 codigoPostal: this.item.codigoPostal,
             };
             store.dispatch(actualizarDomicilio(itemAfiliadoDomicilios));
@@ -248,7 +253,10 @@ export class afiliadoDireccionScreen extends connect(
                 if (hiddenAnterior) {
                     store.dispatch(cambioOpcioRuta(OPCION_DOMICILIO));
                     this.item = state.afiliadoDomicilios.current;
+                    console.log(this.item);
+                    console.log();
                 }
+                this.update();
                 //this.hidden = false;
             }
         }
