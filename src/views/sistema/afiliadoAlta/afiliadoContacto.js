@@ -146,6 +146,12 @@ export class afiliadoContactoScreen extends connect(
                     <button flat @click="${this.atras}">ANTERIOR</button>
                     <button raised @click="${this.siguiente}">SIGUIENTE</button>
                 </div>
+                <span
+                    tabindex="0"
+                    @focus="${(_) => {
+                        this.shadowRoot.querySelector("#telefonoCelular").focus();
+                    }}"
+                ></span>
             </div>
         `;
     }
@@ -223,6 +229,9 @@ export class afiliadoContactoScreen extends connect(
             if (isInLayout(state, this.area) && isCurrentScreen) {
                 this.hidden = false;
                 store.dispatch(cambioOpcioRuta(OPCION_CONTACTO));
+                setTimeout(() => {
+                    this.shadowRoot.querySelector("#telefonoCelular").focus();
+                }, 300);
             }
         }
 

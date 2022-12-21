@@ -22,7 +22,7 @@ import { add as addImagen } from "../../../redux/afiliadoDocumentacion/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
-const AFILIADO_DOCUMENTACION = "afiliadoDocumentacion.timeStamp";
+const AFILIADO_DOCUMENTACION = "afiliadoDocumentacion.documentacionByIdTimeStamp";
 const ADD_DOCUMENTACION_SUCCESS = "afiliadoDocumentacion.addTimeStamp";
 
 export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CHANGE, AFILIADO_DOCUMENTACION, ADD_DOCUMENTACION_SUCCESS)(LitElement) {
@@ -32,15 +32,24 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
         this.area = "body";
         this.current = "";
         this.documentacion = [];
-        this.items =
-            //[];
-            [
+        this.documentacionAfiliado = [];
+
+        this.items = [];
+        /*[
                 { titulo: "Documento frente", imagen: "UPLOAD", estado: "PENDIENTE", copete: "Debe subir el documento", accion1: "NUEVO DOCUMENTO", accion2: " VER DOCUMENTO" },
                 { titulo: "Documento dorso", imagen: "UPLOAD", estado: "PENDIENTE", copete: "Debe subir el documento", accion1: "NUEVO DOCUMENTO", accion2: "VER DOCUMENTO" },
                 { titulo: "Constancia de CUIL", imagen: "UPLOAD", estado: "PENDIENTE", copete: "Debe subir el documento", accion1: "VER DOCUMENTO", accion2: "VER DOCUMENTO" },
                 { titulo: "Formulario F154", imagen: "UPLOAD", estado: "PENDIENTE", copete: "Debe subir el documento", accion1: "NUEVO DOCUMENTO", accion2: "VER DOCUMENTO" },
-            ];
-        this.svgs = { OK: OK, CANCEL: CANCEL, SETTINGS: SETTINGS, UPLOAD: UPLOAD };
+            ];*/
+        //this.svgs = { OK: OK, CANCEL: CANCEL, SETTINGS: SETTINGS, UPLOAD: UPLOAD };
+        // this.estados = { 0: "PENDIENTE", 1: "APROBADO", 2: "RECHAZADO", 3: "EN PROCESO" };
+
+        this.svgs = {
+            0: { tipo: "UPLOAD", estado: "PENDIENTE", imagen: UPLOAD, copete: "Debe subir el documento", accion1: "NUEVO DOCUMENTO", accion2: "" },
+            1: { tipo: "OK", estado: "APROBADO", imagen: OK, copete: "", accion1: "", accion2: " VER DOCUMENTO" },
+            2: { tipo: "CANCEL", estado: "RECHAZADO", imagen: CANCEL, copete: "Debe subir el documento", accion1: "", accion2: "VER DOCUMENTO" },
+            3: { tipo: "SETTINGS", estado: "EN PROCESO", imagen: SETTINGS, copete: "", accion1: "", accion2: " VER DOCUMENTO" },
+        };
     }
 
     static get styles() {
@@ -91,23 +100,23 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
         return html`
             <ruta-opcionescontrol></ruta-opcionescontrol>
             <div id="cuerpo">
+                <input id="documento" type="file" accept="image/*,.pdf" hidden @change=${this.setFile} />
                 <div id="datos">
                     ${this.items?.map((item) => {
                         return html`
-                            <input id="documento" type="file" accept="image/*,.pdf" .itemId=${item.id} hidden @change=${this.setFile} />
-                            <div class="tarjeta-documento" tipo=${item.imagen}>
+                            <div class="tarjeta-documento" tipo=${this.svgs[item.estado].tipo}>
                                 <div titulo>
                                     <div>${item.titulo}</div>
                                     <div help @click="${this.help}">${HELP}</div>
                                 </div>
                                 <div estado>
-                                    <div>${item.estado}</div>
-                                    <div copete>${item.copete}</div>
+                                    <div>${this.svgs[item.estado].estado}</div>
+                                    <div copete>${this.svgs[item.estado].copete}</div>
                                 </div>
-                                ${this.svgs[item.imagen]}
+                                ${this.svgs[item.estado].imagen}
                                 <div acciones>
-                                    <button link @click="${this.subirDocumento}">${item.accion1}</button>
-                                    <button link action @click=${this.verDocumento}>${item.accion2}</button>
+                                    <button id="subirDocumento" link @click="${this.subirDocumento}" .itemId=${item}>${this.svgs[item.estado].accion1}</button>
+                                    <button link action @click=${this.verDocumento} .itemId=${item}>${this.svgs[item.estado].accion2}</button>
                                 </div>
                             </div>
 
@@ -136,6 +145,12 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
                     <button flat @click="${this.atras}">ANTERIOR</button>
                     <button raised @click="${this.siguiente}">SIGUIENTE</button>
                 </div>
+                <span
+                    tabindex="0"
+                    @focus="${(_) => {
+                        this.shadowRoot.querySelector("#subirDocumento").focus();
+                    }}"
+                ></span>
             </div>
         `;
     }
@@ -168,6 +183,7 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
     }
 
     subirDocumento(e) {
+        this.shadowRoot.querySelector("#documento").itemId = e.currentTarget.itemId;
         this.renderRoot.querySelector("#subidaArchivos").showModal();
     }
 
@@ -175,7 +191,9 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
         this.renderRoot.querySelector("#subidaArchivos").close();
     }
 
-    verDocumento() {}
+    verDocumento(e) {
+        window.open(e.currentTarget.itemId.url);
+    }
 
     capturarImagen() {}
 
@@ -183,11 +201,12 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
         let fileContent = await this.getFileContentAsync(file);
         fileContent = fileContent.split(",")[1];
 
+        console.log(id);
         let itemImagen = {
             afiliadoId: store.getState().afiliadoDatos.current.id,
             detalleDocumentacionId: id,
             imagen: fileContent,
-            tipo: file.type.split("/")[1],
+            tipo: file.type,
         };
 
         store.dispatch(addImagen(itemImagen));
@@ -201,7 +220,7 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
             return false;
         }
 
-        this.guardarImagen(file, e.currentTarget.itemId);
+        this.guardarImagen(file, e.currentTarget.itemId.detalleDocumentacionId);
 
         e.currentTarget.value = null;
         this.update();
@@ -229,21 +248,22 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
             if (isInLayout(state, this.area) && isCurrentScreen) {
                 this.hidden = false;
                 store.dispatch(cambioOpcioRuta(OPCION_DOCUM));
+                setTimeout(() => {
+                    this.shadowRoot.querySelector("#subirDocumento").focus();
+                }, 300);
             }
         }
 
         if (name == AFILIADO_DOCUMENTACION) {
-            this.documentacion = state.afiliadoDocumentacion.documentacion;
+            this.documentacionAfiliado = state.afiliadoDocumentacion.documentacionById;
 
-            this.items = this.documentacion.map((item) => {
+            this.items = this.documentacionAfiliado.map((item) => {
                 return {
                     id: item.id,
-                    titulo: item.documentacionNombre,
-                    imagen: "UPLOAD",
-                    estado: "PENDIENTE",
-                    copete: "Debe subir el documento",
-                    accion1: "SUBIR DOCUMENTO",
-                    accion2: "VER DOCUMENTO",
+                    titulo: item.documentacion,
+                    detalleDocumentacionId: item.detalleDocumentacionId,
+                    url: item.url,
+                    estado: item.estado,
                 };
             });
             this.update();

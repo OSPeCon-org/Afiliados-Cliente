@@ -188,6 +188,12 @@ export class afiliadoDireccionScreen extends connect(
                     <button flat @click="${this.atras}">ANTERIOR</button>
                     <button raised @click="${this.siguiente}">SIGUIENTE</button>
                 </div>
+                <span
+                    tabindex="0"
+                    @focus="${(_) => {
+                        this.shadowRoot.querySelector("#calle").focus();
+                    }}"
+                ></span>
             </div>
         `;
     }
@@ -253,8 +259,9 @@ export class afiliadoDireccionScreen extends connect(
                 if (hiddenAnterior) {
                     store.dispatch(cambioOpcioRuta(OPCION_DOMICILIO));
                     this.item = state.afiliadoDomicilios.current;
-                    console.log(this.item);
-                    console.log();
+                    setTimeout(() => {
+                        this.shadowRoot.querySelector("#calle").focus();
+                    }, 300);
                 }
                 this.update();
                 //this.hidden = false;

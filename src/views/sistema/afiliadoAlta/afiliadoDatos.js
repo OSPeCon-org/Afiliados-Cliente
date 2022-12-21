@@ -21,7 +21,7 @@ const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
 const AFILIADO_DATOS_SUCCESS = "afiliadoDatos.timeStamp"; //Carga de todos los combos
 const CURRENT_AFILIADO = "afiliadoDatos.currentTimeStamp";
-const AFILIADO_ACTUALLIZAR_SUCCESS = "afiliadoDatos.actualizarTimeStamp";
+const AFILIADO_ACTUALIZAR_SUCCESS = "afiliadoDatos.actualizarTimeStamp";
 const ALTA_TITULAR = "uiAfiliados.titularTimeStamp";
 const ALTA_FAMILIAR = "uiAfiliados.familiarTimeStamp";
 const VER_AFILIADO = "uiAfiliados.verAfiliadoTimeStamp";
@@ -32,7 +32,7 @@ export class afiliadoDatosScreen extends connect(
     MEDIA_CHANGE,
     AFILIADO_DATOS_SUCCESS,
     CURRENT_AFILIADO,
-    AFILIADO_ACTUALLIZAR_SUCCESS,
+    AFILIADO_ACTUALIZAR_SUCCESS,
     ALTA_TITULAR,
     ALTA_FAMILIAR,
     VER_AFILIADO
@@ -242,6 +242,12 @@ export class afiliadoDatosScreen extends connect(
                     <button flat @click="${this.atras}">CANCELAR</button>
                     <button raised @click="${this.siguiente}">SIGUIENTE</button>
                 </div>
+                <span
+                    tabindex="0"
+                    @focus="${(_) => {
+                        this.shadowRoot.querySelector("#planes").focus();
+                    }}"
+                ></span>
             </div>
         `;
     }
@@ -348,6 +354,15 @@ export class afiliadoDatosScreen extends connect(
                         store.dispatch(GetAfiliadosDatos());
                     }
                     store.dispatch(cambioOpcioRuta(OPCION_DATOS));
+                    if (state.uiAfiliados.esTitular) {
+                        setTimeout(() => {
+                            this.shadowRoot.querySelector("#planes").focus();
+                        }, 300);
+                    } else {
+                        setTimeout(() => {
+                            this.shadowRoot.querySelector("#parentescos").focus();
+                        }, 300);
+                    }
                 }
                 this.hidden = false;
             }
@@ -396,7 +411,7 @@ export class afiliadoDatosScreen extends connect(
             }
             this.update();
         }
-        if (name == AFILIADO_ACTUALLIZAR_SUCCESS) {
+        if (name == AFILIADO_ACTUALIZAR_SUCCESS) {
             store.dispatch(goTo("afiliadoDireccion"));
         }
     }

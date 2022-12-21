@@ -14,7 +14,7 @@ import { getGrupoFamiliar } from "../afiliados/actions";
 import { getByAfiliadoId as getByAfiliadoIdContacto } from "../afiliadoContactos/actions";
 import { getByAfiliadoId as getByAfiliadoIdDomicilio } from "../afiliadoDomicilios/actions";
 import { addAfiliadoLoaded, clearAfiliadoLoaded, showAlert, showError } from "../ui/actions";
-import { get as getAfiliadoDocumentacion, getDocumentacionById } from "../afiliadoDocumentacion/actions";
+import { get as getAfiliadoDocumentacion, getDocumentaciongetByAfiliadoId } from "../afiliadoDocumentacion/actions";
 
 export const get =
     ({ dispatch, getState }) =>
@@ -104,9 +104,7 @@ export const actualizarSuccess =
             dispatch(addAfiliadoLoaded());
             dispatch(getByAfiliadoIdDomicilio(getState().afiliadoDatos.current.id));
             dispatch(addAfiliadoLoaded());
-            dispatch(getAfiliadoDocumentacion(getState().afiliadoDatos.current.planId, getState().afiliadoDatos.current.parentescoId, getState().afiliadoDatos.current.discapacitado));
-            dispatch(addAfiliadoLoaded());
-            dispatch(getDocumentacionById(getState().afiliadoDatos.current.id));
+            dispatch(getDocumentaciongetByAfiliadoId(getState().afiliadoDatos.current.id));
         }
     };
 

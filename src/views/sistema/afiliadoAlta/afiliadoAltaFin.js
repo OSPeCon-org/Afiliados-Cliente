@@ -73,7 +73,7 @@ export class afiliadoAltaFinScreen extends connect(store, SCREEN, MEDIA_CHANGE)(
             <div id="titulo"><div>La registracion a finalizado</div></div>
             <div id="cuerpo" class="grid row">
                 <img src="${manoOk}" />
-                <button raised @click="${this.siguiente}">VOLVER</button>
+                <button id="volver" raised @click="${this.siguiente}">VOLVER</button>
             </div>
         `;
     }
@@ -92,6 +92,9 @@ export class afiliadoAltaFinScreen extends connect(store, SCREEN, MEDIA_CHANGE)(
             const isCurrentScreen = ["afiliadoAltaFin"].includes(state.screen.name);
             if (isInLayout(state, this.area) && isCurrentScreen) {
                 this.hidden = false;
+                setTimeout(() => {
+                    this.shadowRoot.querySelector("#volver").focus();
+                }, 300);
             }
         }
     }
