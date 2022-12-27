@@ -19,6 +19,7 @@ import { cambioOpcioRuta } from "../../../redux/ruta/actions";
 
 import { fotoScreen } from "../../componentes/fotoScreen";
 import { add as addImagen } from "../../../redux/afiliadoDocumentacion/actions";
+import { showAlert } from "../../../redux/ui/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -155,17 +156,13 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
         `;
     }
 
-    /*  <div class="photo inner-grid column center align-end">
-                                <img id="imagen" src= />
-                                <video id="video" autoplay="" playsinline=""></video>
-                                <canvas id="canvas" hidden></canvas>
-                                <button id="btnPhoto" class="BtnCaptura" @click=${this.capturarImagen}>X</button>
-                            </div>*/
-
     atras() {
         store.dispatch(goHistoryPrev());
     }
     siguiente() {
+        this.documentacionAfiliado.map((item) => {
+            if (item.estado == 0) store.dispatch(showAlert("ATENCIÓN", "Para finalizar el proceso de afiliacion debe cargar toda la documentacion requerida"));
+        });
         store.dispatch(goTo("afiliadoAltaFin"));
     }
 
@@ -195,13 +192,10 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
         window.open(e.currentTarget.itemId.url);
     }
 
-    capturarImagen() {}
-
     async guardarImagen(file, id) {
         let fileContent = await this.getFileContentAsync(file);
         fileContent = fileContent.split(",")[1];
 
-        console.log(id);
         let itemImagen = {
             afiliadoId: store.getState().afiliadoDatos.current.id,
             detalleDocumentacionId: id,
@@ -270,6 +264,7 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
         }
 
         if (name == ADD_DOCUMENTACION_SUCCESS) {
+            store.dispatch(showAlert("", "Su documentación se cargo correctamente"));
             this.renderRoot.querySelector("#subidaArchivos").close();
         }
     }

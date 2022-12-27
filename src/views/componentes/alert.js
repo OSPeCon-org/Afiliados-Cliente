@@ -5,6 +5,7 @@ import { store } from "../../redux/store";
 import { connect } from "@brunomon/helpers/connect";
 import { dialog } from "@brunomon/template-lit/src/views/css/dialog";
 import { button } from "@brunomon/template-lit/src/views/css/button";
+
 const SHOW = "ui.alert.timeStamp";
 
 export class AlertControl extends connect(store, SHOW)(LitElement) {
@@ -26,10 +27,16 @@ export class AlertControl extends connect(store, SHOW)(LitElement) {
             <div class="header">${this.titulo}</div>
             <div class="body">${this.mensaje}</div>
             <div class="footer">
-                <button link @click="${this.cerrar}">
+                <button link id="cerrar" @click="${this.cerrar}">
                     <div>OK</div>
                 </button>
             </div>
+            <span
+                tabindex="0"
+                @focus="${(_) => {
+                    this.shadowRoot.querySelector("#cerrar").focus();
+                }}"
+            ></span>
         </dialog>`;
     }
 
@@ -39,6 +46,9 @@ export class AlertControl extends connect(store, SHOW)(LitElement) {
             this.mensaje = state.ui.alert.mensaje;
             this.renderRoot.querySelector("dialog").showModal();
             this.hidden = false;
+            setTimeout(() => {
+                this.shadowRoot.querySelector("#cerrar").focus();
+            }, 300);
         }
     }
     cerrar() {

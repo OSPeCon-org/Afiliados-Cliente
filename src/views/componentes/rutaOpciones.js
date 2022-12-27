@@ -30,6 +30,7 @@ export class RutaOpcionesControl extends connect(store, SCREEN, MEDIA_CHANGE, SH
         return css`
             ${gridLayout}
             :host {
+                place-self: start;
             }
             :host[hidden] {
                 display: none;
