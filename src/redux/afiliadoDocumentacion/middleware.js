@@ -11,6 +11,7 @@ import {
     GET_DOCUMENTACION_BY_ID,
     GET_DOCUMENTACION_BY_ID_SUCCESS,
     GET_DOCUMENTACION_BY_ID_ERROR,
+    CURRENT_DETALLE_DOCUMENTACION,
 } from "./actions";
 import { RESTRequest, RESTAdd } from "../rest/actions";
 
@@ -85,4 +86,12 @@ export const getDocumentacionByIdSuccess =
         }
     };
 
-export const middleware = [addDocumentacion, addDocumentacionSuccess, getDocumentaciongetByAfiliadoId, getDocumentacionById, getDocumentacionByIdSuccess];
+export const detalleDocumentacionId =
+    ({ dispatch, getState }) =>
+    (next) =>
+    (action) => {
+        next(action);
+        if (action.type === CURRENT_DETALLE_DOCUMENTACION) {
+        }
+    };
+export const middleware = [addDocumentacion, addDocumentacionSuccess, getDocumentaciongetByAfiliadoId, getDocumentacionById, getDocumentacionByIdSuccess, detalleDocumentacionId];

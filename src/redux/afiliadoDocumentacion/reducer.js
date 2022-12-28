@@ -7,6 +7,7 @@ import {
     GET_DOCUMENTACION_AFILIADO_BY_ID_ERROR,
     GET_DOCUMENTACION_BY_ID_SUCCESS,
     GET_DOCUMENTACION_BY_ID_ERROR,
+    CURRENT_DETALLE_DOCUMENTACION,
 } from "./actions";
 
 const initialState = {
@@ -15,6 +16,8 @@ const initialState = {
     documentacionById: null,
     documentacionByIdTimeStamp: null,
     documentacionByIdTimeStampError: null,
+    detalleDocumentacionId: null,
+    detalleDocumentacionIdTimeStamp: null,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -35,6 +38,10 @@ export const reducer = (state = initialState, action) => {
             break;
         case GET_DOCUMENTACION_AFILIADO_BY_ID_ERROR:
             newState.documentacionByIdTimeStampError = new Date().getTime();
+            break;
+        case CURRENT_DETALLE_DOCUMENTACION:
+            newState.detalleDocumentacionId = action.detalleDocumentacionId;
+            newState.detalleDocumentacionIdTimeStamp = new Date().getTime();
             break;
     }
     return newState;

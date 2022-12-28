@@ -18,7 +18,7 @@ import { getGrupoFamiliar } from "../../redux/afiliados/actions";
 import { setCurrent as setCurrentDatos } from "../../redux/afiliadoDatos/actions";
 import { setCurrent as setCurrentDomicilio } from "../../redux/afiliadoDomicilios/actions";
 import { setCurrent as setCurrentContactos } from "../../redux/afiliadoContactos/actions";
-import cruz from "../../../assets/image/cruz.png";
+import logoCruz from "../../../assets/image/logoCruz.png";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SELECTION = "ui.menu.timeStamp";
@@ -222,7 +222,7 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
             <div id="velo" @click=${this.toggleMenu}></div>
             <div class="grid column" style="padding: 0 1rem;">
                 <div class="inner-grid column start">
-                    <div id="imagen" style="background-image:url(${cruz})"></div>
+                    <div id="imagen" style="background-image:url(${logoCruz})"></div>
                     <div id="titulo" @click="${this.click}" .option=${"main"}>${__DESCRIPTION__}</div>
                     <div id="version">${__VERSION__}</div>
                 </div>

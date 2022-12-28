@@ -15,9 +15,9 @@ import { add as addImagen } from "../../redux/afiliadoDocumentacion/actions";
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
 const ACEPTAR_MSGBOX = "ui.msgbox.aceptarTimeStamp";
-const SHOW_CONFIRM = "ui.confirm.timeStamp";
+const ADD_DOCUMENTACION_SUCCESS = "afiliadoDocumentacion.addTimeStamp";
 
-export class fotoScreen extends connect(store, ACEPTAR_MSGBOX, MEDIA_CHANGE, SCREEN, SHOW_CONFIRM)(LitElement) {
+export class fotoScreen extends connect(store, ACEPTAR_MSGBOX, MEDIA_CHANGE, SCREEN, ADD_DOCUMENTACION_SUCCESS)(LitElement) {
     constructor() {
         super();
         this.hidden = true;
@@ -149,20 +149,15 @@ export class fotoScreen extends connect(store, ACEPTAR_MSGBOX, MEDIA_CHANGE, SCR
     }
 
     grabar() {
-        /*let imagen = {
-            fotonombre: this.fotonombre,
-            Foto: this.foto,
-        };
-        store.dispatch(addDetalleImagenes(imagen, null));*/
-        store.dispatch(showConfirm("GUARDAR", "Seguro de guardar la foto?."));
+        //store.dispatch(showConfirm("GUARDAR", "Seguro de guardar la foto?"));
         let fotoContent = this.foto.split(",")[1];
-        console.log(fotoContent.type);
+        let fotoType = this.foto.split(",")[0].split(":")[1].split(";")[0];
 
         let itemImagen = {
             afiliadoId: store.getState().afiliadoDatos.current.id,
-            //detalleDocumentacionId: id,
+            detalleDocumentacionId: store.getState().afiliadoDocumentacion.detalleDocumentacionId,
             imagen: fotoContent,
-            tipo: fotoContent.type,
+            tipo: fotoType,
         };
 
         store.dispatch(addImagen(itemImagen));
@@ -201,7 +196,7 @@ export class fotoScreen extends connect(store, ACEPTAR_MSGBOX, MEDIA_CHANGE, SCR
         this._canvas.getContext("2d").drawImage(this._video, 0, 0, this._canvas.width, this._canvas.height);
         let image_data_url = this._canvas.toDataURL("image/jpeg");
         this.foto = image_data_url;
-        console.log(image_data_url);
+
         if (this.foto.length > 0) {
             this.shadowRoot.querySelector("#div_foto").hidden = true;
         }
@@ -218,16 +213,8 @@ export class fotoScreen extends connect(store, ACEPTAR_MSGBOX, MEDIA_CHANGE, SCR
             if (isInLayout(state, this.area) && isCurrentScreen) this.hidden = false;
         }
 
-        /*if (name == ACEPTAR_MSGBOX && state.ui.msgbox.aceptarAccion == "GUARDAR") {
-            let imagen = {
-                fotonombre: this.fotonombre,
-                Foto: this.foto,
-            };
-            store.dispatch(addDetalleImagenes(imagen, null));
-        }*/
-
-        if (name == SHOW_CONFIRM) {
-            //store.dispatch(this.grabar());
+        if (name == ADD_DOCUMENTACION_SUCCESS) {
+            this.hidden = true;
         }
     }
 

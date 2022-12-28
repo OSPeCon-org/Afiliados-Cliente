@@ -10,6 +10,8 @@ export const ADD_DOCUMENTACION = "[afiliados documentacion] ADD";
 export const ADD_DOCUMENTACION_SUCCESS = "[afiliados documentacion] ADD documentacion success";
 export const ADD_DOCUMENTACION_ERROR = "[afiliados documentacion] ADD documentacion error";
 
+export const CURRENT_DETALLE_DOCUMENTACION = "[afiliados documentacion] Current detalle documentacion";
+
 export const getDocumentaciongetByAfiliadoId = (afiliadoId) => ({
     type: GET_DOCUMENTACION_AFILIADO_BY_ID,
     afiliadoId: afiliadoId,
@@ -23,4 +25,9 @@ export const getDocumentacionById = (id) => ({
 export const add = (item) => ({
     type: ADD_DOCUMENTACION,
     item: item,
+});
+
+export const currentDetalleDocumentacionId = (detalleDocumentacionId) => ({
+    type: CURRENT_DETALLE_DOCUMENTACION,
+    detalleDocumentacionId: detalleDocumentacionId,
 });
