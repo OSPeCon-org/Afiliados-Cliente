@@ -18,7 +18,7 @@ import { goHistoryPrev, goTo } from "@brunomon/template-lit/src/redux/routing/ac
 import { cambioOpcioRuta } from "../../../redux/ruta/actions";
 
 import { fotoScreen } from "../../componentes/fotoScreen";
-import { add as addImagen } from "../../../redux/afiliadoDocumentacion/actions";
+import { add as addImagen, currentDetalleDocumentacionId } from "../../../redux/afiliadoDocumentacion/actions";
 import { showAlert } from "../../../redux/ui/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
@@ -36,14 +36,6 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
         this.documentacionAfiliado = [];
 
         this.items = [];
-        /*[
-                { titulo: "Documento frente", imagen: "UPLOAD", estado: "PENDIENTE", copete: "Debe subir el documento", accion1: "NUEVO DOCUMENTO", accion2: " VER DOCUMENTO" },
-                { titulo: "Documento dorso", imagen: "UPLOAD", estado: "PENDIENTE", copete: "Debe subir el documento", accion1: "NUEVO DOCUMENTO", accion2: "VER DOCUMENTO" },
-                { titulo: "Constancia de CUIL", imagen: "UPLOAD", estado: "PENDIENTE", copete: "Debe subir el documento", accion1: "VER DOCUMENTO", accion2: "VER DOCUMENTO" },
-                { titulo: "Formulario F154", imagen: "UPLOAD", estado: "PENDIENTE", copete: "Debe subir el documento", accion1: "NUEVO DOCUMENTO", accion2: "VER DOCUMENTO" },
-            ];*/
-        //this.svgs = { OK: OK, CANCEL: CANCEL, SETTINGS: SETTINGS, UPLOAD: UPLOAD };
-        // this.estados = { 0: "PENDIENTE", 1: "APROBADO", 2: "RECHAZADO", 3: "EN PROCESO" };
 
         this.svgs = {
             0: { tipo: "UPLOAD", estado: "PENDIENTE", imagen: UPLOAD, copete: "Debe subir el documento", accion1: "NUEVO DOCUMENTO", accion2: "" },
@@ -161,7 +153,7 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
     }
     siguiente() {
         this.documentacionAfiliado.map((item) => {
-            if (item.estado == 0) store.dispatch(showAlert("ATENCIÓN", "Para finalizar el proceso de afiliacion debe cargar toda la documentacion requerida"));
+            if (item.estado == 0) store.dispatch(showAlert("ATENCIÓN", "Para finalizar el proceso de afiliación debe cargar toda la documentación requerida"));
         });
         store.dispatch(goTo("afiliadoAltaFin"));
     }
@@ -182,6 +174,8 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
     subirDocumento(e) {
         this.shadowRoot.querySelector("#documento").itemId = e.currentTarget.itemId;
         this.renderRoot.querySelector("#subidaArchivos").showModal();
+
+        store.dispatch(currentDetalleDocumentacionId(e.currentTarget.itemId.detalleDocumentacionId));
     }
 
     volver() {
