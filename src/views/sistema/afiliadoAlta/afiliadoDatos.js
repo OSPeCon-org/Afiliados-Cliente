@@ -13,6 +13,7 @@ import { select } from "@brunomon/template-lit/src/views/css/select";
 import { OPCION_DATOS, RutaOpcionesControl } from "../../componentes/rutaOpciones";
 import { goHistoryPrev, goTo } from "@brunomon/template-lit/src/redux/routing/actions";
 
+import { getGrupoFamiliar } from "../../../redux/afiliados/actions";
 import { cambioOpcioRuta } from "../../../redux/ruta/actions";
 import { get as GetAfiliadosDatos, actualizar as actualizarAfiliadoDatos, setCurrent as setCurrentAfiliadoDatos } from "../../../redux/afiliadoDatos/actions";
 import { isEmpty, opcionInvalida, invalidDni, nameInvalido, invalidCUITCUIL, invalidFecha, opcionBooleanaInvalida } from "../../../libs/funciones";
@@ -253,7 +254,8 @@ export class afiliadoDatosScreen extends connect(
     }
 
     atras() {
-        store.dispatch(goHistoryPrev());
+        store.dispatch(getGrupoFamiliar(store.getState().autorizacion.entities.titulares[0].titularId));
+        store.dispatch(goTo("afiliadoMostrar"));
     }
 
     siguiente() {
@@ -323,7 +325,7 @@ export class afiliadoDatosScreen extends connect(
         }
 
         this.requestUpdate();
-        console.log("update property" + field);
+        //console.log("update property" + field);
     }
 
     firstUpdated(changedProperties) {
