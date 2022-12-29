@@ -21,8 +21,8 @@ module.exports = merge(common, {
     plugins: [
         new webpack.DefinePlugin({
             SERVICE_URL: JSON.stringify("http://localhost/promocionsocial"),
-            //AFILIACIONES_URL: JSON.stringify("https://afiliaciones.api.uocra.net"),
-            AFILIACIONES_URL: JSON.stringify("http://localhost:5000"),
+            AFILIACIONES_URL: JSON.stringify("https://afiliaciones.api.uocra.net"),
+            //AFILIACIONES_URL: JSON.stringify("http://localhost:5000"),
         }),
     ],
 });
