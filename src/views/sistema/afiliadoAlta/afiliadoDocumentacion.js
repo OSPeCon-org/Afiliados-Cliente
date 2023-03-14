@@ -39,9 +39,9 @@ export class afiliadoDocumentacionScreen extends connect(store, SCREEN, MEDIA_CH
 
         this.svgs = {
             0: { tipo: "UPLOAD", estado: "PENDIENTE", imagen: UPLOAD, copete: "Debe subir el documento", accion1: "NUEVO DOCUMENTO", accion2: "" },
-            1: { tipo: "OK", estado: "APROBADO", imagen: OK, copete: "", accion1: "", accion2: " VER DOCUMENTO" },
-            2: { tipo: "CANCEL", estado: "RECHAZADO", imagen: CANCEL, copete: "Debe subir el documento", accion1: "", accion2: "VER DOCUMENTO" },
-            3: { tipo: "SETTINGS", estado: "EN PROCESO", imagen: SETTINGS, copete: "", accion1: "", accion2: " VER DOCUMENTO" },
+            1: { tipo: "OK", estado: "APROBADO", imagen: OK, copete: "", accion1: "NUEVO DOCUMENTO", accion2: " VER DOCUMENTO" },
+            2: { tipo: "CANCEL", estado: "RECHAZADO", imagen: CANCEL, copete: "Debe subir el documento", accion1: "NUEVO DOCUMENTO", accion2: "VER DOCUMENTO" },
+            3: { tipo: "SETTINGS", estado: "EN PROCESO", imagen: SETTINGS, copete: "", accion1: "NUEVO DOCUMENTO", accion2: " VER DOCUMENTO" },
         };
     }
 

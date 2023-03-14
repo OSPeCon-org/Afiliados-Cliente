@@ -19,7 +19,6 @@ import { setCurrent as setCurrentContactos } from "../../../redux/afiliadoContac
 
 import { dialog } from "@brunomon/template-lit/src/views/css/dialog";
 import foto from "../../../../assets/image/foto.png";
-import { afiliadoAccion } from "../../../redux/afiliados/actions";
 import { altaDeTitular } from "../../../redux/uiAfiliados/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";

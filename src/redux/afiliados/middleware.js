@@ -1,6 +1,6 @@
 /** @format */
 
-import { GET_GRUPO_FAMILIAR, GET_GRUPO_FAMILIAR_SUCCESS, GET_GRUPO_FAMILIAR_ERROR, AFILIADO_BY_CUIL, AFILIADO_BY_CUIL_SUCCESS, AFILIADO_BY_CUIL_ERROR, AFILIADOS_ACCION } from "./actions";
+import { GET_GRUPO_FAMILIAR, GET_GRUPO_FAMILIAR_SUCCESS, GET_GRUPO_FAMILIAR_ERROR, AFILIADO_BY_CUIL, AFILIADO_BY_CUIL_SUCCESS, AFILIADO_BY_CUIL_ERROR } from "./actions";
 import { RESTRequest, RESTAdd } from "../rest/actions";
 import { grupoFamiliarFetch, afiliadosByCuilFetch } from "../fetchs";
 

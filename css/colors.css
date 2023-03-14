@@ -16,7 +16,7 @@ html {
     --terciario-10: rgba(198, 155, 0, 1);
     --on-terciario: rgba(66, 66, 66, 1);
     --on-terciario-bajada: rgba(0, 0, 0, 0.6);
-    --ok: rgba(168, 235, 16, 1);
+    --ok-acept: rgba(168, 235, 16, 1);
     --error: #b00020;
     --aplicacion: rgba(224, 224, 224, 1);
     --on-aplicacion: rgba(0, 0, 0, 0.87);

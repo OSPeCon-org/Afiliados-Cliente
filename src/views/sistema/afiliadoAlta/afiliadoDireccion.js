@@ -18,7 +18,7 @@ import { actualizar as actualizarDomicilio } from "../../../redux/afiliadoDomici
 import { cambioOpcioRuta } from "../../../redux/ruta/actions";
 import { setCurrent as setCurrentDomicilio } from "../../../redux/afiliadoDomicilios/actions";
 
-import { isEmpty, opcionInvalida, onlyLetter, onlyNumber } from "../../../libs/funciones";
+import { isEmpty, opcionInvalida, onlyLetter, onlyNumber, letterNumber } from "../../../libs/funciones";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -60,7 +60,7 @@ export class afiliadoDireccionScreen extends connect(
         this.readonly = false;
 
         this.validaciones = {
-            calle: { invalid: false, isInvalid: onlyLetter },
+            calle: { invalid: false, isInvalid: letterNumber },
             altura: { invalid: false, isInvalid: onlyNumber },
             provinciaId: { invalid: false, isInvalid: opcionInvalida },
             localidadesId: { invalid: false, isInvalid: opcionInvalida },

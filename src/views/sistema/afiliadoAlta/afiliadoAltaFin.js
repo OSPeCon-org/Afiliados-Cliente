@@ -4,7 +4,7 @@ import { html, LitElement, css } from "lit";
 import { store } from "../../../redux/store";
 import { connect } from "@brunomon/helpers";
 
-import { UPLOAD, SETTINGS, OK, CANCEL, HELP } from "../../../../assets/icons/svgs.js";
+import { UPLOAD, SETTINGS, OKFIGMA, CANCEL, HELP } from "../../../../assets/icons/svgs.js";
 import { gridLayout } from "@brunomon/template-lit/src/views/css/gridLayout";
 import { isInLayout } from "../../../redux/screens/screenLayouts";
 import { button } from "@brunomon/template-lit/src/views/css/button";
@@ -50,8 +50,9 @@ export class afiliadoAltaFinScreen extends connect(store, SCREEN, MEDIA_CHANGE)(
             }
             #titulo {
                 display: grid;
-                height: 2.4rem;
+                height: 3rem;
                 width: 100vw;
+                text-align: center;
                 font-family: var(--font-header-h1-family);
                 font-size: var(--font-header-h1-size);
                 font-weight: 400;
@@ -70,16 +71,21 @@ export class afiliadoAltaFinScreen extends connect(store, SCREEN, MEDIA_CHANGE)(
     render() {
         return html`
             <ruta-opcionescontrol></ruta-opcionescontrol>
-            <div id="titulo"><div>La registracion a finalizado</div></div>
+            <div id="titulo">
+                <div class="inner-grid">
+                    El registro a finalizado y la afiliación se cargo correctamente,<br />
+                    deberá esperar 15 días.
+                </div>
+            </div>
             <div id="cuerpo" class="grid row">
                 <img src="${manoOk}" />
-                <button id="volver" raised @click="${this.siguiente}">VOLVER</button>
+                <button id="volver" raised @click="${this.volver}">VOLVER</button>
             </div>
         `;
     }
-
-    siguiente() {
-        store.dispatch(goTo("main"));
+    //<div class="svgA">${OKFIGMA}</div>
+    volver() {
+        store.dispatch(goTo("afiliadoMostrar"));
     }
     firstUpdated(changedProperties) {}
 

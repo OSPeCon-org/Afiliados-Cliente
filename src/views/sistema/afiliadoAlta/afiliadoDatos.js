@@ -175,6 +175,7 @@ export class afiliadoDatosScreen extends connect(
                             <option value="" disabled selected>Selecciona una opción</option>
                             <option value="Femenino" ?selected=${this.item.sexo?.toUpperCase() == "FEMENINO"}>Femenino</option>
                             <option value="Masculino" ?selected=${this.item.sexo?.toUpperCase() == "MASCULINO"}>Masculino</option>
+                            <option value="otro" ?selected=${this.item.sexo?.toUpperCase() == "OTROS"}>Otros</option>
                         </select>
                         <label for="sexo">Sexo</label>
                         <label error>Debe seleccionar una opción</label>
@@ -234,7 +235,7 @@ export class afiliadoDatosScreen extends connect(
                             <option value="true">Si</option>
                             <option value="false">No</option>
                         </select>
-                        <label for="discapacitado">Discapacidad</label>
+                        <label for="discapacitado">Poseé certificado de discapacidad?</label>
                         <label error>Debe seleccionar una opción</label>
                         <label subtext>Requerido</label>
                     </div>

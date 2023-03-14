@@ -7,6 +7,7 @@ export const fetchFactory = (url, entity) => {
         return {
             "Content-Type": "application/json",
             Authorization: "Bearer " + token,
+            "Access-Control-Allow-Origin": "*",
         };
     };
 

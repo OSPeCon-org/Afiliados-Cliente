@@ -40,7 +40,7 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
         //this.selectedOption[this.defaultOption] = true;
 
         const gestures = new gesturesController(this, this.gestos);
-        this.profile = "ACCEDER";
+        this.profile = "INGRESAR";
         this.popUp = null;
         this.logueado = false;
 
@@ -241,7 +241,7 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
                     </button>
                     <div class="grid popup">
                         <button flat="" action="" @click=${this.abrirForzado}>
-                            <div>Acceder con otro usuario</div>
+                            <div>Ingresar con otro usuario</div>
                         </button>
                         <button flat="" action="" @click=${this.salir}>
                             <div>Salir</div>
@@ -250,7 +250,7 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
                 </div>
             </div>
         `;
-    } /*<button link ?selected="${this.selectedOption[0]}" @click=${this.nuevaAfiliacion} solo-logueado>Nueva Afiliacion</button>*/
+    }
     isSelected(e) {
         return true;
     }
@@ -313,7 +313,7 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
     }
 
     abrir(e) {
-        if (this.profile == "ACCEDER") {
+        if (this.profile == "INGRESAR") {
             this.popUp = window.open("https://front.uocra.net/auth/index.html", "_blank", "top=0,left=0,width=" + window.innerWidth / 2 + ",height=" + window.innerHeight, true);
         }
     }
@@ -323,7 +323,7 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, AUTORIZA
     }
 
     salir() {
-        this.profile = "ACCEDER";
+        this.profile = "INGRESAR";
         this.logueado = false;
         store.dispatch(goTo("main"));
     }

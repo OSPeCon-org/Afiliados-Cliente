@@ -75,7 +75,7 @@ export class afiliadoPorCuil extends connect(store, SCREEN, MEDIA_CHANGE)(LitEle
                 <div class="input" ?error=${this.validaciones.cuil.invalid}>
                     <input id="cuil" .value=${this.cuil} @blur="${this.enlace("cuil")}" />
                     <label for="cuil">CUIL</label>
-                    <label error>Debe ingresar numero de CUIL válido</label>
+                    <label error>Debe ingresar numero de CUIL válido (NO usar puntos)</label>
                     <label subtext>Requerido</label>
                 </div>
                 <button raised @click="${this.buscar}">BUSCAR</button>
